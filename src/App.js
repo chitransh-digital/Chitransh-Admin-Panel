@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
-import LoginPage from "./Pages/LoginPage";
+import LoginPage from "./Pages/Login/LoginPage";
 
 function App() {
 

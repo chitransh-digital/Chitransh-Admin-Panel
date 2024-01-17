@@ -1,11 +1,9 @@
-import ListItem from "../../Components/ListItem";
 import React, { useEffect, useState } from "react";
-import AppointmentContent from "../../Components/AppointmentContent";
+import FeedItemContent from "./FeedItemContent";
 import { getFeeds } from "../../utils/feedsApi";
-import FeedView from "../Feeds/FeedView";
+import FeedView from "./FeedView";
 
 const Appointments = () => {
-  const color = ["#00FF29", "#FFA800", "#FF008A"];
   const [feed, setFeed] = useState([]);
   const [feedVariant, setFeedVariant] = useState(true);
   const [displayFeed, setDisplayFeed] = useState({});
@@ -23,6 +21,11 @@ const Appointments = () => {
     return <div>Loading...</div>;
   }
 
+  const clickHandler = (item) => {
+    setFeedVariant((prev) => !prev);
+    setDisplayFeed(item);
+  };
+
   if (feedVariant) {
     return (
       <div className="w-full">
@@ -36,15 +39,12 @@ const Appointments = () => {
             <li>Author</li>
           </ul>
           {feed.map((item, idx) => (
-            <ListItem
-              color={color}
-              idx={idx}
-              setFeedVariant={setFeedVariant}
-              setDisplayFeed={setDisplayFeed}
-              item={item}
+            <div
+              onClick={() => clickHandler(item)}
+              className="w-full cursor-pointer border-black border-[0.5px] h-[5rem] hover:h-[8rem] rounded-lg relative overflow-hidden px-5 py-3 sm:pt-3 transition-all ease-in-out my-2"
             >
-              <AppointmentContent item={item} />
-            </ListItem>
+              <FeedItemContent key={idx} item={item} />
+            </div>
           ))}
         </div>
       </div>

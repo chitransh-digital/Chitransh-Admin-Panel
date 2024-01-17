@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "../Components/Navbar";
+import Navbar from "../../Components/Navbar";
 import { TextField } from "@mui/material";
-import { useUserState } from "../store/store";
+import { useUserState } from "../../store/store";
 import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {

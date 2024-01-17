@@ -1,6 +1,6 @@
 import React from "react";
 
-const AppointmentContent = ({ item }) => {
+const FeedItemContent = ({ item }) => {
   const { author, timestamp, title } = item;
   return (
     <>
@@ -41,4 +41,4 @@ const AppointmentContent = ({ item }) => {
   );
 };
 
-export default AppointmentContent;
+export default FeedItemContent;

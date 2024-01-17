@@ -1,10 +1,6 @@
 import React from "react";
 
 const ListItem = (props) => {
-  const css = `absolute w-2 top-0 bottom-0 left-0 bg-[${
-    props.color[props.idx % 3]
-  }]`;
-
   const clickHandler = () => {
     props.setFeedVariant((prev) => !prev);
     props.setDisplayFeed(props.item);

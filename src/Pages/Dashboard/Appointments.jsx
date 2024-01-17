@@ -1,7 +1,7 @@
 import ListItem from "../../Components/ListItem";
 import React, { useEffect, useState } from "react";
 import AppointmentContent from "../../Components/AppointmentContent";
-import { getFeeds } from "../../utils/api";
+import { getFeeds } from "../../utils/feedsApi";
 import FeedView from "../Feeds/FeedView";
 
 const Appointments = () => {

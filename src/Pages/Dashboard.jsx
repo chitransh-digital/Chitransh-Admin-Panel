@@ -2,14 +2,16 @@ import { useLocation } from "react-router-dom";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import Appointments from "./Dashboard/Appointments";
+import Default from "./Default";
+import JobsListView from "./Jobs/JobsListView";
 
 const Dashboard = () => {
 
   const { pathname } = useLocation()
   let content
-  if (pathname === "/") content = <Appointments />
+  if (pathname === "/") content = <Default />
   else if (pathname === "/feeds") content = <Appointments/>
-  else if (pathname === "/jobs") content = <Appointments />
+  else if (pathname === "/jobs") content = <JobsListView />
   else if (pathname === "/family") content = <Appointments />
   else if (pathname === "/business") content = <Appointments />
   else if (pathname === "/users") content = <Appointments />

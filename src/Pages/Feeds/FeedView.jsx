@@ -1,6 +1,6 @@
 import React from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { removeFeed, setFeedVisible } from "../../utils/api";
+import { removeFeed, setFeedVisible } from "../../utils/feedsApi";
 
 const FeedView = ({ setFeedVariant, displayFeed }) => {
   const { title, author, timestamp, location, images, body, id } = displayFeed;
@@ -10,17 +10,19 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
   };
 
   const deleteHandler = async () => {
-    alert("Are you sure you want to remove this feed?");
-    await removeFeed(id);
-    setFeedVariant((prev) => !prev);
-    // window.location.reload();  
+    if (window.confirm("Are you sure you want to remove this feed?")) {
+      await removeFeed(id);
+      setFeedVariant((prev) => !prev);
+      window.location.reload();
+    }
   };
 
   const approveHandler = async () => {
-    alert("Are you sure you want to approve this feed?");
-    await setFeedVisible(id);
-    setFeedVariant((prev) => !prev);
-    window.location.reload();
+    if (window.confirm("Are you sure you want to approve this feed?")) {
+      await setFeedVisible(id);
+      setFeedVariant((prev) => !prev);
+      window.location.reload();
+    }
   };
 
   return (
@@ -31,6 +33,19 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
       </p>
       <p className="text-3xl pl-5">{title}</p>
       <p className="pl-5">by {author}</p>
+      <div className="m-5 flex flex-wrap">
+        {images.map((image) => {
+          return (
+            <div class="w-64 h-64 overflow-hidden rounded-xl mr-6">
+              <img
+                src={image}
+                alt="network issue"
+                class="object-cover w-full h-full"
+              />
+            </div>
+          );
+        })}
+      </div>
       <p className="pr-20 pl-5 my-5">{body}</p>
       <p className="pl-5">{location}</p>
       <p className="pl-5">{JSON.stringify(timestamp)}</p>

@@ -23,6 +23,9 @@ const Sidebar = () => {
         <Link to="/users">
           <li className={location.pathname === "/users" ? css : ""}>Users</li>
         </Link>
+        <Link to="/notification">
+          <li className={location.pathname === "/notification" ? css : ""}>Notification</li>
+        </Link>
       </ul>
     </div>
   );

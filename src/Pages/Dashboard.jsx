@@ -2,18 +2,18 @@ import { useLocation } from "react-router-dom";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import Appointments from "./Feeds/FeedListView";
-import Default from "./Default";
 import JobsListView from "./Jobs/JobsListView";
+import NotificationView from "./Notification/NotificationView";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
-  let content;
-  if (pathname === "/") content = <Default />;
-  else if (pathname === "/feeds") content = <Appointments />;
+  let content = null;
+  if (pathname === "/feeds") content = <Appointments />;
   else if (pathname === "/jobs") content = <JobsListView />;
-  else if (pathname === "/family") content = <Appointments />;
-  else if (pathname === "/business") content = <Appointments />;
-  else if (pathname === "/users") content = <Appointments />;
+  else if (pathname === "/notification") content = <NotificationView />;
+  // else if (pathname === "/family") content = <FamilyView />;
+  // else if (pathname === "/business") content = <Appointments />;
+  // else if (pathname === "/users") content = <Appointments />;
 
   return (
     <>
@@ -24,7 +24,15 @@ const Dashboard = () => {
             <Sidebar />
           </div>
           <div className="bg-white min-h-[90vh] md:w-[80%] lg:w-[70%] w-full px-4 pb-24">
-            {content}
+            {content === null ? (
+              <center className="pt-[10rem]">
+                <div className="text-[2rem] font-bold">
+                  Welcome to the Admin Dashboard!
+                </div>
+              </center>
+            ) : (
+              content
+            )}
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ const JobsListContent = ({ item }) => {
       <p className="flex flex-wrap w-[40rem]">
         Requirements:
         {requirements.map((item, idx) => (
-          <span key={idx} className="ml-3 text-md font-bold mx-1">
+          <span className="ml-3 text-md font-bold mx-1">
             {item}
           </span>
         ))}

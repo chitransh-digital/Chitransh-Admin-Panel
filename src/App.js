@@ -1,18 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/Login/LoginPage";
 
+
 function App() {
 
-  // const { isLoggedIn, setIsLoggedIn } = useUserState()
   const [isLoggedIn, setIsLoggedIn] = useState(true)
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwt")
-    if (token) setIsLoggedIn()
-  }, [])
-
 
   return (
     <div>
@@ -23,6 +17,7 @@ function App() {
           <Route path="/family" element={<Dashboard />} />
           <Route path="/business" element={<Dashboard />} />
           <Route path="/users" element={<Dashboard />} />
+          <Route path="/notification" element={<Dashboard />} />
           <Route path="/login" element={isLoggedIn ? <Navigate replace to="/" /> : <LoginPage />} />
         </Routes>
     </div>

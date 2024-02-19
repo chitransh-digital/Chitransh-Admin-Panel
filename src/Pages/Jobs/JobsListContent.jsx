@@ -10,9 +10,10 @@ const JobsListContent = ({ item }) => {
     location,
     salary,
     requirements,
-    id
+    id,
+    externalLink,
   } = item;
-  
+
   const rejectHandler = async () => {
     if (window.confirm("Are you sure you want to remove this job?")) {
       await removeJob(id);
@@ -28,10 +29,12 @@ const JobsListContent = ({ item }) => {
   };
 
   return (
-    <div className="w-full cursor-pointer border-black border-[0.5px] rounded-lg relative overflow-hidden px-5 hover:py-4 py-3 sm:pt-3 transition-all ease-in-out my-2">
+    <div className="w-full cursor-pointer border-black border-[0.5px] rounded-lg relative overflow-hidden px-5 py-3 sm:pt-3 transition-all ease-in-out my-2">
       <div className="flex justify-between">
         <div>
-          <p className="text-3xl font-bold">{jobTitle}</p>
+          <a href={externalLink} target="blank">
+            <p className="text-3xl font-bold underline hover:text-blue-500">{jobTitle}</p>
+          </a>
           <p className="max-w-[60rem] my-3">{jobDescription}</p>
         </div>
         <div>
@@ -44,9 +47,7 @@ const JobsListContent = ({ item }) => {
       <p className="flex flex-wrap w-[40rem]">
         Requirements:
         {requirements.map((item, idx) => (
-          <span className="ml-3 text-md font-bold mx-1">
-            {item}
-          </span>
+          <span className="ml-3 text-md font-bold mx-1">{item}</span>
         ))}
       </p>
       <div className="flex justify-between">

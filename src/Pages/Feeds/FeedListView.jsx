@@ -41,7 +41,7 @@ const Appointments = () => {
           {feed.map((item, idx) => (
             <div
               onClick={() => clickHandler(item)}
-              className="w-full cursor-pointer border-black border-[0.5px] h-[5rem] hover:h-[8rem] rounded-lg relative overflow-hidden px-5 py-3 sm:pt-3 transition-all ease-in-out my-2"
+              className="w-full cursor-pointer border-black border-[0.5px] h-[5rem] hover:h-[7rem] rounded-lg relative overflow-hidden px-5 py-3 sm:pt-3 transition-all ease-in-out my-2"
             >
               <FeedItemContent key={idx} item={item} />
             </div>

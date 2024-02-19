@@ -65,29 +65,3 @@ export const setFeedVisible = async (feedId) => {
     throw error;
   }
 };
-
-export const sendNotification = async () => {
-  const serverKey = 'YOUR_FIREBASE_SERVER_KEY';
-  const notificationData = {
-    to: '/topics/notify',
-    notification: {
-      title: 'Your Notification Title',
-      body: 'Your Notification Body',
-    },
-  };
-
-  try {
-    const response = await fetch('https://fcm.googleapis.com/fcm/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `key=${serverKey}`,
-      },
-      body: JSON.stringify(notificationData),
-    });
-
-    console.log('Notification sent successfully:', response);
-  } catch (error) {
-    console.error('Error sending notification:', error);
-  }
-};

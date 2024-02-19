@@ -39,7 +39,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
             <div class="w-64 h-64 overflow-hidden rounded-xl mr-6">
               <img
                 src={image}
-                alt="network issue"
+                alt=""
                 class="object-cover w-full h-full"
               />
             </div>

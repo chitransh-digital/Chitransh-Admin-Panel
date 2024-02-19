@@ -1,6 +1,7 @@
 import {
   collection,
   getDocs,
+  addDoc,
   query,
   where,
   doc,
@@ -21,6 +22,16 @@ export const getJobs = async () => {
     return newData;
   } catch (error) {
     console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const createJob = async (jobData) => {
+  try {
+    const docRef = await addDoc(collection(db, "JOBS"), jobData);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error creating job:", error);
     throw error;
   }
 };

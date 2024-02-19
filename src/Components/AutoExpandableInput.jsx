@@ -6,7 +6,7 @@ function updateTextAreaSize(textArea) {
   textArea.style.height = `${textArea.scrollHeight}px`;
 }
 
-export const AutoExpandableForm = ({ inputValue, setInputValue }) => {
+export const AutoExpandableForm = ({ id, text, inputValue, setInputValue }) => {
   const textAreaRef = useRef();
 
   const inputRef = useCallback((textArea) => {
@@ -18,19 +18,16 @@ export const AutoExpandableForm = ({ inputValue, setInputValue }) => {
     updateTextAreaSize(textAreaRef.current);
   }, [inputValue]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 border-b px-4 py-2">
+    <form className="flex flex-col gap-2 px-4 py-2">
       <div className="flex gap-4">
         <textarea
+          id={id}
           ref={inputRef}
           onChange={(e) => setInputValue(e.target.value)}
           style={{ height: 0 }}
           className="text-md flex-grow resize-none overflow-hidden p-4 outline-none"
-          placeholder="Write notification content..."
+          placeholder={text}
         />
       </div>
     </form>

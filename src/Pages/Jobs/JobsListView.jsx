@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getJobs } from "../../utils/jobsApi";
+import { getJobs } from "../../Api/jobsApi";
 import JobsListContent from "./JobsListContent";
 import { Link } from "react-router-dom";
 

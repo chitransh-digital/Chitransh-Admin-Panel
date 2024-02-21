@@ -1,5 +1,5 @@
 import React from "react";
-import { removeJob, setJobVisible } from "../../utils/jobsApi";
+import { removeJob, setJobVisible } from "../../Api/jobsApi";
 
 const JobsListContent = ({ item }) => {
   const {
@@ -33,7 +33,9 @@ const JobsListContent = ({ item }) => {
       <div className="flex justify-between">
         <div>
           <a href={externalLink} target="blank">
-            <p className="text-3xl font-bold underline hover:text-blue-500">{jobTitle}</p>
+            <p className="text-3xl font-bold underline hover:text-blue-500">
+              {jobTitle}
+            </p>
           </a>
           <p className="max-w-[60rem] my-3">{jobDescription}</p>
         </div>

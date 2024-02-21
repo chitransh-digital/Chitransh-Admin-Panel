@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AutoExpandableForm from "../../Components/AutoExpandableInput";
-import { sendNotification } from "../../utils/notificationApi";
+import { sendNotification } from "../../Api/notificationApi";
 
 const NotificationView = () => {
   const [notificationHeading, setNotificationHeading] = useState("");
@@ -21,11 +21,10 @@ const NotificationView = () => {
         body: notificationBody,
       };
 
-      const data = await sendNotification(notification);
-      document.getElementById("text-area-1").value="";
-      document.getElementById("text-area-2").value="";
+      await sendNotification(notification);
+      document.getElementById("text-area-1").value = "";
+      document.getElementById("text-area-2").value = "";
       setIsLoading((perv) => false);
-      console.log(data);
     }
   };
 

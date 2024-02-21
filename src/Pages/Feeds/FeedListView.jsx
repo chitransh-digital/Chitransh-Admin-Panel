@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FeedItemContent from "./FeedItemContent";
-import { getFeeds } from "../../utils/feedsApi";
+import { getFeeds } from "../../Api/feedsApi";
 import FeedView from "./FeedView";
 
 const Appointments = () => {

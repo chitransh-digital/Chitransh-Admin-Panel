@@ -1,6 +1,6 @@
 import React from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { removeFeed, setFeedVisible } from "../../utils/feedsApi";
+import { removeFeed, setFeedVisible } from "../../Api/feedsApi";
 
 const FeedView = ({ setFeedVariant, displayFeed }) => {
   const { title, author, timestamp, location, images, body, id } = displayFeed;
@@ -37,11 +37,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
         {images.map((image) => {
           return (
             <div class="w-64 h-64 overflow-hidden rounded-xl mr-6">
-              <img
-                src={image}
-                alt=""
-                class="object-cover w-full h-full"
-              />
+              <img src={image} alt="" class="object-cover w-full h-full" />
             </div>
           );
         })}
@@ -59,7 +55,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
         onClick={deleteHandler}
         className="mt-8 ml-5 w-32 py-4 border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"
       >
-        Reject
+        Delete
       </button>
     </div>
   );

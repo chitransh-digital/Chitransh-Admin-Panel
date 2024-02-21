@@ -28,10 +28,33 @@ export const getJobs = async () => {
 
 export const createJob = async (jobData) => {
   try {
-    const docRef = await addDoc(collection(db, "JOBS"), jobData);
+    const payload = {
+      ...jobData,
+      requirements: jobData.requirements.split(",").map((item) => item.trim()),
+      salary: parseInt(jobData.salary),
+    };
+    const docRef = await addDoc(collection(db, "JOBS"), payload);
     return docRef.id;
   } catch (error) {
     console.error("Error creating job:", error);
+    throw error;
+  }
+};
+
+export const updateJob = async (jobId, updatedJobData) => {
+  try {
+    const payload = {
+      ...updatedJobData,
+      requirements: updatedJobData.requirements
+        .split(",")
+        .map((item) => item.trim()),
+      salary: parseInt(updatedJobData.salary),
+    };
+    const jobRef = doc(db, "JOBS", jobId);
+    await updateDoc(jobRef, payload);
+    return jobId;
+  } catch (error) {
+    console.error("Error updating job:", error);
     throw error;
   }
 };

@@ -1,5 +1,6 @@
 import React from "react";
-import { removeJob, setJobVisible } from "../../Api/jobsApi";
+import { removeJob } from "../../Api/jobsApi";
+import { Link } from "react-router-dom";
 
 const JobsListContent = ({ item }) => {
   const {
@@ -17,13 +18,6 @@ const JobsListContent = ({ item }) => {
   const rejectHandler = async () => {
     if (window.confirm("Are you sure you want to remove this job?")) {
       await removeJob(id);
-      window.location.reload();
-    }
-  };
-
-  const approveHandler = async () => {
-    if (window.confirm("Are you sure you want to approve this job?")) {
-      await setJobVisible(id);
       window.location.reload();
     }
   };
@@ -58,17 +52,29 @@ const JobsListContent = ({ item }) => {
           <span className="text-2xl font-bold">Rs. {salary}</span>
         </p>
         <div className="text-right">
-          <button
-            onClick={approveHandler}
-            className="mt-8 ml-5 w-32 py-4 border-green-600 border-2 hover:bg-green-600 rounded-md text-green-600 hover:text-white font-bold transition-all ease-in-out"
+          <Link
+            to="/updateJob"
+            state={{
+              businessName,
+              contact,
+              jobDescription,
+              jobTitle,
+              location,
+              salary,
+              requirements,
+              id,
+              externalLink,
+            }}
           >
-            Approve
-          </button>
+            <button className="mt-8 ml-5 w-32 py-4 border-green-600 border-2 hover:bg-green-600 rounded-md text-green-600 hover:text-white font-bold transition-all ease-in-out">
+              Edit
+            </button>
+          </Link>
           <button
             onClick={rejectHandler}
             className="mt-8 ml-5 w-32 py-4 border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"
           >
-            Reject
+            Delete
           </button>
         </div>
       </div>

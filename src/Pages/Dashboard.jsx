@@ -5,6 +5,7 @@ import Appointments from "./Feeds/FeedListView";
 import JobsListView from "./Jobs/JobsListView";
 import NotificationView from "./Notification/NotificationView";
 import JobsCreateForm from "./Jobs/JobsCreateForm";
+import JobsUpdateForm from "./Jobs/JobsUpdateForm";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
@@ -12,6 +13,7 @@ const Dashboard = () => {
   if (pathname === "/feeds") content = <Appointments />;
   else if (pathname === "/jobs") content = <JobsListView />;
   else if (pathname === "/createJobs") content = <JobsCreateForm />;
+  else if (pathname === "/updateJob") content = <JobsUpdateForm />;
   else if (pathname === "/notification") content = <NotificationView />;
   // else if (pathname === "/family") content = <FamilyView />;
   // else if (pathname === "/business") content = <Appointments />;

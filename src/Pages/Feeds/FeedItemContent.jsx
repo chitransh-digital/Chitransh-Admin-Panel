@@ -2,6 +2,10 @@ import React from "react";
 
 const FeedItemContent = ({ item }) => {
   const { author, timestamp, title } = item;
+  const date = new Date(timestamp.seconds * 1000);
+  const dateString = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+  const timeString = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
   return (
     <>
       <ul className="h-[70%] sm:h-full flex flex-row justify-between visby text-[1rem] lg:text-[1.15rem] pr-[10px] transition-all ease-in-out">
@@ -16,8 +20,8 @@ const FeedItemContent = ({ item }) => {
         <li className="sm:w-[20%] w-full hidden sm:block">
           <div>
             <center className="flex sm:block">
-              <p>{JSON.stringify(timestamp)}</p>
-              <p className="text-[0.9rem] text-[#949393]">4 : 30 pm</p>
+              <p>{dateString}</p>
+              <p className="text-[0.9rem] text-[#949393]">{timeString}</p>
             </center>
           </div>
         </li>

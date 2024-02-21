@@ -26,8 +26,8 @@ const JobsListView = () => {
           <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
             Jobs
           </p>
-          <Link to="/createJobs">
-            <button className="my-8 w-[128px] h-[51px] font-bold transition-all ease-in-out border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white block">
+          <Link to="/createJob">
+            <button className="my-2 w-[128px] h-[51px] font-bold transition-all ease-in-out border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white block">
               Create Job
             </button>
           </Link>

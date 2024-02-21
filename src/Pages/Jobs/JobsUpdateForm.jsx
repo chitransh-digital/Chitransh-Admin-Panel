@@ -71,7 +71,7 @@ const JobsUpdateForm = () => {
     <div className="w-full">
       <div className="w-full mt-10">
         <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
-          Create Job
+          Update Job
         </p>
       </div>
       <div className="mt-10 ml-5">

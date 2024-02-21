@@ -1,12 +1,9 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import { useUserState } from "../store/store";
 
 const Header = () => {
-  const { unsetIsLoggedIn } = useUserState();
   const logoutHandler = () => {
     localStorage.removeItem("jwt");
-    unsetIsLoggedIn();
   };
 
   return (

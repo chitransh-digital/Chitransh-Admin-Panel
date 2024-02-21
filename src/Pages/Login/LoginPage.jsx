@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "../../Components/Navbar";
 import { TextField } from "@mui/material";
-import { useUserState } from "../../store/store";
 import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const { isLoggedIn, setIsLoggedIn } = useUserState();
 
   const [state, setState] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -35,7 +33,7 @@ const LoginPage = () => {
     // }
   };
 
-  if (isLoggedIn) {
+  if (true) {
     return <Navigate replace to="/" />;
   } else if (loading) {
     return (

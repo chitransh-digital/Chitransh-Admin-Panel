@@ -66,7 +66,7 @@ const JobsListContent = ({ item }) => {
               externalLink,
             }}
           >
-            <button className="mt-8 ml-5 w-32 py-4 border-green-600 border-2 hover:bg-green-600 rounded-md text-green-600 hover:text-white font-bold transition-all ease-in-out">
+            <button className="mt-8 ml-5 w-32 py-4 border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">
               Edit
             </button>
           </Link>

@@ -13,8 +13,10 @@ function App() {
         <Routes>
           <Route path="/" element={isLoggedIn ? <Dashboard /> : <LoginPage />} />
           <Route path="/feeds" element={<Dashboard />} />
+          <Route path="/createFeed" element={<Dashboard />} />
+          <Route path="/updateFeed" element={<Dashboard />} />
           <Route path="/jobs" element={<Dashboard />} />
-          <Route path="/createJobs" element={<Dashboard />} />
+          <Route path="/createJob" element={<Dashboard />} />
           <Route path="/updateJob" element={<Dashboard />} />
           <Route path="/family" element={<Dashboard />} />
           <Route path="/business" element={<Dashboard />} />

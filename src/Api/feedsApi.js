@@ -7,9 +7,17 @@ import {
   deleteDoc,
   updateDoc,
   getDoc,
+  addDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  deleteObject,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 const storage = getStorage();
 
@@ -24,6 +32,40 @@ export const getFeeds = async () => {
     return newData;
   } catch (error) {
     console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const uploadImage = async (file) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, `feed_images/${file.name}`);
+  const snapshot = await uploadBytes(imageRef, file);
+  const downloadURL = await getDownloadURL(imageRef);
+  return downloadURL;
+};
+
+export const createFeed = async (feedData) => {
+  try {
+    const payload = {
+      ...feedData,
+      timestamp: serverTimestamp(),
+      visible: false,
+    };
+    const docRef = await addDoc(collection(db, "FEEDS"), payload);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error creating feed:", error);
+    throw error;
+  }
+}
+
+export const updateFeed = async (feedId, newData) => {
+  try {
+    const feedRef = doc(db, "FEEDS", feedId);
+    newData.timestamp = serverTimestamp();
+    await updateDoc(feedRef, newData);
+  } catch (error) {
+    console.error("Error updating feed:", error);
     throw error;
   }
 };

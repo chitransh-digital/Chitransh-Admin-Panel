@@ -1,9 +1,13 @@
 import React from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { removeFeed, setFeedVisible } from "../../Api/feedsApi";
+import { removeFeed } from "../../Api/feedsApi";
+import { Link } from "react-router-dom";
 
 const FeedView = ({ setFeedVariant, displayFeed }) => {
   const { title, author, timestamp, location, images, body, id } = displayFeed;
+  const date = new Date(timestamp.seconds * 1000);
+  const dateString = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+  const timeString = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 
   const clickHandler = () => {
     setFeedVariant((prev) => !prev);
@@ -12,14 +16,6 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
   const deleteHandler = async () => {
     if (window.confirm("Are you sure you want to remove this feed?")) {
       await removeFeed(id);
-      setFeedVariant((prev) => !prev);
-      window.location.reload();
-    }
-  };
-
-  const approveHandler = async () => {
-    if (window.confirm("Are you sure you want to approve this feed?")) {
-      await setFeedVisible(id);
       setFeedVariant((prev) => !prev);
       window.location.reload();
     }
@@ -44,13 +40,24 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
       </div>
       <p className="pr-20 pl-5 my-5">{body}</p>
       <p className="pl-5">{location}</p>
-      <p className="pl-5">{JSON.stringify(timestamp)}</p>
-      <button
-        onClick={approveHandler}
-        className="mt-8 ml-5 w-32 py-4 border-green-600 border-2 hover:bg-green-600 rounded-md text-green-600 hover:text-white font-bold transition-all ease-in-out"
+      <p className="pl-5">{dateString}</p>
+      <p className="pl-5">{timeString}</p>
+      <Link
+        to="/updateFeed"
+        state={{
+          id,
+          title,
+          author,
+          location,
+          body,
+        }}
       >
-        Approve
-      </button>
+        <button
+          className="mt-8 ml-5 w-32 py-4 border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out"
+        >
+          Edit
+        </button>
+      </Link>
       <button
         onClick={deleteHandler}
         className="mt-8 ml-5 w-32 py-4 border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"

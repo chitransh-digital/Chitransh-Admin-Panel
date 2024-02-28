@@ -5,12 +5,10 @@ import { uploadImage, updateFeed } from "../../Api/feedsApi";
 const FeedUpdateForm = () => {
   const navigate = useNavigate();
   const reactLocation = useLocation();
+  const { id, title, author, location, body } = reactLocation.state;
 
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
-
-  const { id, title, author, location, body } = reactLocation.state;
-
   const [feed, setFeed] = useState({
     title,
     author,

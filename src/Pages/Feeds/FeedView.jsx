@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { removeFeed } from "../../Api/feedsApi";
 import { Link } from "react-router-dom";
+import { sendImageNotification } from "../../Api/notificationApi";
 
 const FeedView = ({ setFeedVariant, displayFeed }) => {
   const { title, author, timestamp, location, images, body, id } = displayFeed;
   const date = new Date(timestamp.seconds * 1000);
-  const dateString = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-  const timeString = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  const dateString = date.toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  const timeString = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const normalButton =
+    "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
+  const loadingButton =
+    "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
   const clickHandler = () => {
     setFeedVariant((prev) => !prev);
@@ -18,6 +34,14 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
       await removeFeed(id);
       setFeedVariant((prev) => !prev);
       window.location.reload();
+    }
+  };
+
+  const notifyHandler = async () => {
+    if (window.confirm("Are you sure you want to send notification for this feed?")) {
+      setIsLoading((prev) => true);
+      await sendImageNotification({ title, images });
+      setIsLoading((prev) => false);
     }
   };
 
@@ -42,28 +66,36 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
       <p className="pl-5">{location}</p>
       <p className="pl-5">{dateString}</p>
       <p className="pl-5">{timeString}</p>
-      <Link
-        to="/updateFeed"
-        state={{
-          id,
-          title,
-          author,
-          location,
-          body,
-        }}
-      >
+      <div className="flex">
         <button
-          className="mt-8 ml-5 w-32 py-4 border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out"
+          onClick={isLoading ? () => {} : notifyHandler}
+          className={`mx-1 mt-8 w-[128px] h-[51px] font-bold transition-all ease-in-out ${
+            isLoading ? loadingButton : normalButton
+          }`}
         >
-          Edit
+          {!isLoading ? "Notify" : <div id="lds-dual-ring" />}
         </button>
-      </Link>
-      <button
-        onClick={deleteHandler}
-        className="mt-8 ml-5 w-32 py-4 border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"
-      >
-        Delete
-      </button>
+        <Link
+          to="/updateFeed"
+          state={{
+            id,
+            title,
+            author,
+            location,
+            body,
+          }}
+        >
+          <button className="mx-1 mt-8 w-[128px] h-[51px] border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">
+            Edit
+          </button>
+        </Link>
+        <button
+          onClick={deleteHandler}
+          className="mx-1 mt-8 w-[128px] h-[51px] border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

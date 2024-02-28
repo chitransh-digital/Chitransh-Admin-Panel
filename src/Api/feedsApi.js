@@ -39,7 +39,7 @@ export const getFeeds = async () => {
 export const uploadImage = async (file) => {
   const storage = getStorage();
   const imageRef = ref(storage, `feed_images/${file.name}`);
-  const snapshot = await uploadBytes(imageRef, file);
+  await uploadBytes(imageRef, file);
   const downloadURL = await getDownloadURL(imageRef);
   return downloadURL;
 };

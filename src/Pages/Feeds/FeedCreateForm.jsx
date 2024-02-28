@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-// import { buildNotificationPayload } from "../../Utils/buildNotificationPayload";
-// import { sendNotification } from "../../Api/notificationApi";
 import { useNavigate } from "react-router-dom";
 import { createFeed, uploadImage } from "../../Api/feedsApi";
 
 const FeedCreateForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [feed, setFeed] = useState({
     title: "",
     author: "",
@@ -25,10 +22,6 @@ const FeedCreateForm = () => {
   const handleChange = (input) => (e) => {
     e.preventDefault();
     setFeed((prev) => ({ ...prev, [input]: e.target.value }));
-  };
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
   };
 
   const createClickHandler = async () => {
@@ -81,17 +74,6 @@ const FeedCreateForm = () => {
 
         <p className="text-xl mb-2 mt-5">Select Image</p>
         <input onChange={handleImageUpload} type="file"></input>
-
-        <div className="mt-10">
-          <input
-            className="mr-2"
-            type="checkbox"
-            id="booleanCheckbox"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor="booleanCheckbox">Notify users about this feed</label>
-        </div>
 
         <button
           onClick={isLoading ? () => {} : createClickHandler}

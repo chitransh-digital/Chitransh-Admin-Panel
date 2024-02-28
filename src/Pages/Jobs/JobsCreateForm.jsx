@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { createJob } from "../../Api/jobsApi";
-import { buildNotificationPayload } from "../../Utils/buildNotificationPayload";
-import { sendNotification } from "../../Api/notificationApi";
 import { useNavigate } from "react-router-dom";
 
 const JobsCreateForm = () => {
@@ -19,16 +17,11 @@ const JobsCreateForm = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
   const loadingButton =
     "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
 
   const handleChange = (input) => (e) => {
     e.preventDefault();
@@ -38,16 +31,7 @@ const JobsCreateForm = () => {
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to create this job?")) {
       setIsLoading((prev) => true);
-      if (isChecked) {
-        const notification = buildNotificationPayload("JOB", job);
-        try {
-          await Promise.all([createJob(job), sendNotification(notification)]);
-        } catch (error) {
-          console.error("Error creating job:", error);
-        }
-      } else {
-        await createJob(job);
-      }
+      await createJob(job);
       navigate("/jobs");
     }
   };
@@ -111,17 +95,6 @@ const JobsCreateForm = () => {
           onChange={handleChange("externalLink")}
           className=" border-black border-[1px] p-2 w-[40rem]"
         ></input>
-
-        <div className="mt-5">
-          <input
-            className="mr-2"
-            type="checkbox"
-            id="booleanCheckbox"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor="booleanCheckbox">Notify users about this job</label>
-        </div>
 
         <button
           onClick={isLoading ? () => {} : createClickHandler}

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { removeJob } from "../../Api/jobsApi";
 import { Link } from "react-router-dom";
+import { buildNotificationPayload } from "../../Utils/buildNotificationPayload";
+import { sendNotification } from "../../Api/notificationApi";
 
 const JobsListContent = ({ item }) => {
   const {
@@ -14,6 +16,28 @@ const JobsListContent = ({ item }) => {
     id,
     externalLink,
   } = item;
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const normalButton =
+    "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
+  const loadingButton =
+    "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
+
+  const notifyHandler = async () => {
+    if (
+      window.confirm("Are you sure you want to send notification for this job?")
+    ) {
+      setIsLoading((prev) => true);
+      const notification = buildNotificationPayload("JOB", item);
+      try {
+        await sendNotification(notification);
+      } catch (error) {
+        console.error("Error sending notification:", error);
+      }
+      setIsLoading((prev) => false);
+    }
+  };
 
   const rejectHandler = async () => {
     if (window.confirm("Are you sure you want to remove this job?")) {
@@ -51,7 +75,15 @@ const JobsListContent = ({ item }) => {
           <span className="mr-3">Salary:</span>
           <span className="text-2xl font-bold">Rs. {salary}</span>
         </p>
-        <div className="text-right">
+        <div className="text-right flex">
+          <button
+            onClick={isLoading ? () => {} : notifyHandler}
+            className={`mx-1 mt-8 w-[128px] h-[51px] font-bold transition-all ease-in-out ${
+              isLoading ? loadingButton : normalButton
+            }`}
+          >
+            {!isLoading ? "Notify" : <div id="lds-dual-ring" />}
+          </button>
           <Link
             to="/updateJob"
             state={{
@@ -66,13 +98,13 @@ const JobsListContent = ({ item }) => {
               externalLink,
             }}
           >
-            <button className="mt-8 ml-5 w-32 py-4 border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">
+            <button className="mx-1 mt-8 w-[128px] h-[51px] border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">
               Edit
             </button>
           </Link>
           <button
             onClick={rejectHandler}
-            className="mt-8 ml-5 w-32 py-4 border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"
+            className="mx-1 mt-8 w-[128px] h-[51px] border-red-600 border-2 hover:bg-red-600 rounded-md text-red-600 hover:text-white font-bold transition-all ease-in-out"
           >
             Delete
           </button>

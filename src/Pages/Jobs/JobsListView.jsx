@@ -4,6 +4,7 @@ import JobsListContent from "./JobsListContent";
 import { Link } from "react-router-dom";
 
 const JobsListView = () => {
+  const [reload, setReload] = useState(false); 
   const [jobs, setJobs] = useState([]);
 
   const fetchJobs = async () => {
@@ -13,7 +14,7 @@ const JobsListView = () => {
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [reload]);
 
   if (jobs.length === 0) {
     return <div>Loading...</div>;
@@ -37,7 +38,7 @@ const JobsListView = () => {
           <li>Contact</li>
         </ul>
         {jobs.map((item, idx) => (
-          <JobsListContent item={item} key={idx} />
+          <JobsListContent item={item} reload={reload} setReload={setReload} key={idx} />
         ))}
       </div>
     </div>

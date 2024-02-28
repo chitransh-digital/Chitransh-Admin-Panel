@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { removeFeed } from "../../Api/feedsApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { sendImageNotification } from "../../Api/notificationApi";
 
 const FeedView = ({ setFeedVariant, displayFeed }) => {
+  const navigate = useNavigate();
   const { title, author, timestamp, location, images, body, id } = displayFeed;
   const date = new Date(timestamp.seconds * 1000);
   const dateString = date.toLocaleDateString("en-US", {
@@ -33,7 +34,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
     if (window.confirm("Are you sure you want to remove this feed?")) {
       await removeFeed(id);
       setFeedVariant((prev) => !prev);
-      window.location.reload();
+      navigate("/feeds");
     }
   };
 

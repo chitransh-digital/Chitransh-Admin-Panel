@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { buildNotificationPayload } from "../../Utils/buildNotificationPayload";
 import { sendNotification } from "../../Api/notificationApi";
 
-const JobsListContent = ({ item }) => {
+const JobsListContent = ({ item, reload, setReload }) => {
   const {
     businessName,
     contact,
@@ -42,7 +42,7 @@ const JobsListContent = ({ item }) => {
   const rejectHandler = async () => {
     if (window.confirm("Are you sure you want to remove this job?")) {
       await removeJob(id);
-      window.location.reload();
+      setReload(reload ? false : true);
     }
   };
 

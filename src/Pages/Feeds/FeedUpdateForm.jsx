@@ -27,7 +27,7 @@ const FeedUpdateForm = () => {
   };
 
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this feed?")) {
+    if (window.confirm("Are you sure you want to edit this feed?")) {
       setIsLoading((prev) => true);
       if (image !== null) {
         const imageUrl = await uploadImage(image);
@@ -87,7 +87,7 @@ const FeedUpdateForm = () => {
             isLoading ? loadingButton : normalButton
           }`}
         >
-          {!isLoading ? "Create" : <div id="lds-dual-ring" />}
+          {!isLoading ? "Update" : <div id="lds-dual-ring" />}
         </button>
       </div>
     </div>

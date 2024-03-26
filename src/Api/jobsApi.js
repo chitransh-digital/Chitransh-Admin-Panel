@@ -1,19 +1,9 @@
-import {
-  collection,
-  getDocs,
-  addDoc,
-  query,
-  where,
-  doc,
-  deleteDoc,
-  updateDoc,
-  getDoc,
-} from "firebase/firestore";
-import { db } from "../firebase";
-
 export const getJobs = async () => {
   try {
-    const data = await fetch ("http://localhost:5000/job/getAll");
+    const data = await fetch ("http://localhost:5000/job/getAll", {
+      method: "GET",
+      credentials: "include",
+    });
     const jobs = await data.json();
     return jobs.jobs;
   } catch (err) {
@@ -30,6 +20,7 @@ export const createJob = async (jobData) => {
     };
     const job = await fetch("http://localhost:5000/job/add", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -53,6 +44,7 @@ export const updateJob = async (jobId, updatedJobData) => {
     };
     const job = await fetch(`http://localhost:5000/job/update/${jobId}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -69,21 +61,11 @@ export const removeJob = async (jobId) => {
   try {
     const job = await fetch(`http://localhost:5000/job/delete/${jobId}`, {
       method: "DELETE",
+      credentials: "include",
     });
     return job;
   } catch (error) {
     console.error("Error removing document and associated images:", error);
-    throw error;
-  }
-};
-
-export const setJobVisible = async (jobId) => {
-  try {
-    const jobRef = doc(db, "JOBS", jobId);
-    await updateDoc(jobRef, {
-      visible: true,
-    });
-  } catch (error) {
     throw error;
   }
 };

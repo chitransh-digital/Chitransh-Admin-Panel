@@ -5,8 +5,7 @@ import LoginPage from "./Pages/Login/LoginPage";
 
 
 function App() {
-  // eslint-disable-next-line
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn] = useState(!false);
 
   return (
     <div>

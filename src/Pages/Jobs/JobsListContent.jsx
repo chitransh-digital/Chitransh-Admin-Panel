@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { removeJob } from "../../Api/jobsApi";
 import { Link } from "react-router-dom";
-import { buildNotificationPayload } from "../../Utils/buildNotificationPayload";
+import {
+  buildNotificationPayload,
+  convertHoursToFormat,
+} from "../../Utils/notificationUtils";
 import { sendNotification } from "../../Api/notificationApi";
 
 const JobsListContent = ({ item, reload, setReload }) => {
@@ -31,10 +34,19 @@ const JobsListContent = ({ item, reload, setReload }) => {
       setIsLoading((prev) => true);
       const notification = buildNotificationPayload("JOB", item);
       try {
-        await sendNotification(notification);
+        const notificationResponse = await sendNotification(notification);
+        // check if notification already sent within last 24 hours.
+        if (notificationResponse.cooldown) {
+          alert(
+            `Notification already sent!\nPlease wait for ${convertHoursToFormat(
+              notificationResponse.cooldown
+            )} to resend.`
+          );
+        }
       } catch (error) {
         console.error("Error sending notification:", error);
       }
+
       setIsLoading((prev) => false);
     }
   };

@@ -8,6 +8,7 @@ import JobsCreateForm from "./Jobs/JobsCreateForm";
 import JobsUpdateForm from "./Jobs/JobsUpdateForm";
 import FeedCreateForm from "./Feeds/FeedCreateForm";
 import FeedUpdateForm from "./Feeds/FeedUpdateForm";
+import UserCreateForm from "./Users/UserCreateForm";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
@@ -19,9 +20,9 @@ const Dashboard = () => {
   else if (pathname === "/createJob") content = <JobsCreateForm />;
   else if (pathname === "/updateJob") content = <JobsUpdateForm />;
   else if (pathname === "/notification") content = <NotificationView />;
+  else if (pathname === "/users") content = <UserCreateForm />;
   // else if (pathname === "/family") content = <FamilyView />;
   // else if (pathname === "/business") content = <Appointments />;
-  // else if (pathname === "/users") content = <Appointments />;
 
   return (
     <>

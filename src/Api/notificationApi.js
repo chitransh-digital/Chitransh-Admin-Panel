@@ -1,12 +1,13 @@
 export const sendNotification = async (data) => {
   try {
-    await fetch("https://community-app-notify.onrender.com/send", {
+    const response = await fetch("http://localhost:5000/notification/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
+    return response.json();
   } catch (error) {
     console.error(error);
   }
@@ -15,7 +16,7 @@ export const sendNotification = async (data) => {
 export const sendImageNotification = async (body) => {
   const { title, images } = body;
   try {
-    await fetch("https://community-app-notify.onrender.com/send-image", {
+    await fetch("http://localhost:5000/notification/send-image", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

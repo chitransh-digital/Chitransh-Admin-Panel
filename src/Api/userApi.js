@@ -1,20 +1,15 @@
-import {
-  addDoc,
-  collection,
-  doc,
-} from "firebase/firestore";
-import { db } from "../firebase";
-
-export const createFamily = async (memberData) => {
-  addDoc(collection(db, "FAMILY"), {})
-    .then(async (docRef) => {
-      const familyId = memberData.familyId;
-      await addDoc(
-        collection(doc(db, "FAMILY", familyId), "MEMBER"),
-        memberData
-      );
-    })
-    .catch((error) => {
-      console.error("Error creating family:", error);
+export const createUser = async (data) => {
+  try {
+    const response = await fetch("http://localhost:5000/member/add", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     });
+    return response.json();
+  } catch (err) {
+    console.error("Error creating user:", err);
+  }
 };

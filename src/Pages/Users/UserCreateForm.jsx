@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-import { createFamily, createMember } from "../../Api/userApi";
+import React, { useState } from "react";
+import { createUser } from "../../Api/userApi";
 
 const UserCreateForm = () => {
-  // const navigate = useNavigate();
   const [user, setUser] = useState({});
 
-  const [isLoading] = useState(false);
-  const [variant, setVariant] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -20,23 +17,31 @@ const UserCreateForm = () => {
   };
 
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this job?")) {
+    if (window.confirm("Are you sure you want to create this user?")) {
+      setIsLoading(prev => true);
       const newMember = {
-        address: user.address,
-        age: user.age,
-        bloodGroup: user.bloodGroup,
-        contact: user.contact,
-        dob: user.dob,
-        familyId: user.familyId,
         name: user.name,
-        occupation: user.occupation,
+        age: parseInt(user.age),
+        address: user.address,
         gender: user.gender,
-        profilePic: user.profilePic,
         karyakarni: user.karyakarni,
-        relation: 'HEAD',
+        familyID: user.familyID,
+        contact: user.contact,
+        DOB: user.dob,
+        profilePic: user.profilePic,
+        relation: user.relation,
+        bloodGroup: user.bloodGroup,
+        occupation: user.occupation,
+        education: user.education,
+      };
+      const response = await createUser(newMember);
+      if (response.message === "Member added successfully") {
+        alert("User created successfully");
+        window.location.reload();
+      } else {
+        alert("Couldn't create user. Please try again.");
       }
-      
-      await createFamily(newMember);
+      setIsLoading(prev => false);
     }
   };
 
@@ -47,27 +52,49 @@ const UserCreateForm = () => {
           Create User
         </p>
       </div>
-      <ul className="flex mb-4 items-start justify justify-center gap-12 text-xl">
-        <li
-          onClick={() => {setVariant((prev) => false)}}
-          className={`cursor-pointer ${!variant ? "text-blue-500" : ""}`}
-        >
-          New family
-        </li>
-        <li
-          onClick={() => setVariant((prev) => true)}
-          className={`cursor-pointer ${variant ? "text-blue-500" : ""}`}
-        >
-          Existing family
-        </li>
-      </ul>
-      <hr className=" border-black" />
       <div className="mt-10 ml-5">
+
         <p className="text-xl mb-2">Name</p>
         <input
           onChange={handleChange("name")}
           className=" border-black border-[1px] p-2 w-[40rem]"
         ></input>
+
+        <div className="flex gap-[2rem]">
+          <div>
+            <p className="text-xl mb-2 mt-5">Age</p>
+            <input
+              type="number"
+              onChange={handleChange("age")}
+              className=" border-black border-[1px] p-2 w-[19rem]"
+            ></input>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">Gender</p>
+            <input
+              onChange={handleChange("gender")}
+              className=" border-black border-[1px] p-2 w-[19rem]"
+            ></input>
+          </div>
+        </div>
+
+        <div className="flex gap-[2rem]">
+          <div>
+            <p className="text-xl mb-2 mt-5">Karyakarni</p>
+            <input
+              onChange={handleChange("karyakarni")}
+              className=" border-black border-[1px] p-2 w-[19rem]"
+            ></input>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">Family ID</p>
+            <input
+              onChange={handleChange("familyID")}
+              className=" border-black border-[1px] p-2 w-[19rem]"
+            ></input>
+          </div>
+        </div>
+
         <div className="flex gap-[2rem]">
           <div>
             <p className="text-xl mb-2 mt-5">Contact</p>
@@ -84,6 +111,24 @@ const UserCreateForm = () => {
             ></input>
           </div>
         </div>
+
+        <div className="flex gap-[2rem]">
+          <div>
+            <p className="text-xl mb-2 mt-5">Relation</p>
+            <input
+              onChange={handleChange("relation")}
+              className=" border-black border-[1px] p-2 w-[19rem]"
+            ></input>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">Blood Group</p>
+            <input
+              onChange={handleChange("bloodGroup")}
+              className=" border-black border-[1px] p-2 w-[19rem]"
+            ></input>
+          </div>
+        </div>
+
         <div className="flex gap-[2rem]">
           <div>
             <p className="text-xl mb-2 mt-5">Occupation</p>
@@ -93,62 +138,20 @@ const UserCreateForm = () => {
             ></input>
           </div>
           <div>
-            <p className="text-xl mb-2 mt-5">Blood group</p>
+            <p className="text-xl mb-2 mt-5">Education</p>
             <input
-              onChange={handleChange("bloodGroup")}
+              onChange={handleChange("education")}
               className=" border-black border-[1px] p-2 w-[19rem]"
             ></input>
           </div>
         </div>
-        <div className="flex gap-[2rem]">
-          <div>
-            <p className="text-xl mb-2 mt-5">Gender</p>
-            <input
-              onChange={handleChange("gender")}
-              className=" border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-          <div>
-            <p className="text-xl mb-2 mt-5">Age</p>
-            <input
-              onChange={handleChange("age")}
-              type="number"
-              className=" border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-        </div>
-        <p className="text-xl mb-2 mt-5">Profile Pic</p>
+
+        <p className="text-xl my-2">Profile Pic</p>
         <input
           onChange={handleChange("profilePic")}
-          className=" border-black border-[1px] p-2 w-[19rem]"
+          className=" border-black border-[1px] p-2 w-[40rem]"
         ></input>
-        <p className="text-xl mb-2 mt-5">Karyakarni</p>
-        <input
-          onChange={handleChange("karyakarni")}
-          className=" border-black border-[1px] p-2 w-[19rem]"
-        ></input>
-        {variant ? (
-          <>
-            <p className="text-xl mb-2 mt-5">Relation</p>
-            <input
-              onChange={handleChange("relation")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            />
-            <p className="text-xl mb-2 mt-5">Contact of Head</p>
-            <input
-              onChange={handleChange("contactOfHead")}
-              className=" border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </>
-        ) : (
-          <>
-            <p className="text-xl mb-2 mt-5">Family ID</p>
-            <input
-              onChange={handleChange("familyId")}
-              className=" border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </>
-        )}
+
         <p className="text-xl mb-2 mt-5">Address</p>
         <textarea
           onChange={handleChange("address")}

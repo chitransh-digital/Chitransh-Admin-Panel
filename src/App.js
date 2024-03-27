@@ -23,7 +23,7 @@ function App() {
       }
       setChecking((prev) => false);
     })();
-  }, []);
+  }, [isLoggedIn, setIsLoggedIn]);
 
   if (checking) {
     return <div>Loading...</div>;
@@ -89,14 +89,6 @@ function App() {
           }
         />
         <Route
-          path="/family"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/business"
           element={
             <ProtectedRoute>
@@ -114,6 +106,14 @@ function App() {
         />
         <Route
           path="/notification"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/changePassword"
           element={
             <ProtectedRoute>
               <Dashboard />

@@ -24,3 +24,19 @@ export const checkUser = async () => {
     console.error("Error checking user:", err);
   }
 }
+
+export const changePassword = async (currentPassword, newPassword) => {
+  try {
+    const response = await fetch("http://localhost:5000/auth/changeAdminPassword", {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ currentPassword, newPassword }),
+    })
+    return response.json();
+  } catch (err) {
+    console.error("Error changing password:", err);
+  }
+}

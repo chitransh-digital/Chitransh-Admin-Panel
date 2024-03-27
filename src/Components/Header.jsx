@@ -14,16 +14,22 @@ const Header = () => {
   return (
     <div className="flex justify-between px-[2%] sm:px-[5%] py-[2rem] border-b-[1px] border-[#b6b6b6]">
       <Link to="/">
-        <p>Chitransh App</p>
+        <p>Chitransh Admin Panel</p>
       </Link>
-      <nav>
-        <ul
-          onClick={handleLogout}
+
+      <ul className="flex">
+        <li
           className="flex xl:gap-12 gap-5 hover:text-blue-800 hover:underline px-2 cursor-pointer"
+          onClick={handleLogout}
         >
           Logout
-        </ul>
-      </nav>
+        </li>
+        <Link to="/changePassword">
+          <li className="flex xl:gap-12 gap-5 hover:text-blue-800 hover:underline px-2 cursor-pointer">
+            Change Password
+          </li>
+        </Link>
+      </ul>
     </div>
   );
 };

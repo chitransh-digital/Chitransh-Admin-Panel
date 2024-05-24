@@ -3,7 +3,7 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/Login/LoginPage";
 import { useUserState } from "./Store/store";
 import { useEffect, useState } from "react";
-import { checkUser } from "./Api/authApi";
+// import { checkUser } from "./Api/authApi";
 
 function ProtectedRoute({ children }) {
   const { isLoggedIn } = useUserState();
@@ -17,10 +17,11 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const checkingUser = await checkUser();
-      if (checkingUser.message === "Authorized") {
-        setIsLoggedIn();
-      }
+      // const checkingUser = await checkUser();
+      // if (checkingUser.message === "Authorized") {
+      //   setIsLoggedIn();
+      // }
+      setIsLoggedIn(true);
       setChecking((prev) => false);
     })();
   }, [isLoggedIn, setIsLoggedIn]);
@@ -90,6 +91,14 @@ function App() {
         />
         <Route
           path="/business"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/registerBusiness"
           element={
             <ProtectedRoute>
               <Dashboard />

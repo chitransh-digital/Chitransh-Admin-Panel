@@ -9,6 +9,8 @@ import JobsUpdateForm from "./Jobs/JobsUpdateForm";
 import FeedCreateForm from "./Feeds/FeedCreateForm";
 import FeedUpdateForm from "./Feeds/FeedUpdateForm";
 import UserCreateForm from "./Users/UserCreateForm";
+import BusinessCreateForm from "./Business/BusinessCreateForm";
+ import BusinessListView from "./Business/BusinessListView";
 import ChangePasswordForm from "./ChangePassword/ChangePasswordForm";
 
 const Dashboard = () => {
@@ -23,6 +25,8 @@ const Dashboard = () => {
   else if (pathname === "/notification") content = <NotificationView />;
   else if (pathname === "/users") content = <UserCreateForm />;
   else if (pathname === "/changePassword") content = <ChangePasswordForm />;
+  else if (pathname === "/business") content = <BusinessListView />;
+  else if (pathname === "/registerBusiness") content = <BusinessCreateForm />;
   // else if (pathname === "/business") content = <Appointments />;
 
   return (

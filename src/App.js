@@ -3,7 +3,7 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/Login/LoginPage";
 import { useUserState } from "./Store/store";
 import { useEffect, useState } from "react";
-import { checkUser } from "./Api/authApi";
+// import { checkUser } from "./Api/authApi";
 
 function ProtectedRoute({ children }) {
   const { isLoggedIn } = useUserState();

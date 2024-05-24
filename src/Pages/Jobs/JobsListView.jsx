@@ -16,7 +16,7 @@ const JobsListView = () => {
     fetchJobs();
   }, [reload]);
 
-  if (jobs.length === 0) {
+  if (!jobs || jobs.length === 0) {
     return <div>Loading...</div>;
   }
 

@@ -1,0 +1,113 @@
+import React, { useState } from "react";
+import { uploadImage } from "../../Api/karyakarniApi";
+
+const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakarni }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [member, setMember] = useState({
+    name: "",
+    familyID: "",
+    profilePic: "",
+    designations: [],
+    karyakarni: karyakarniId,
+  });
+
+  const normalButton = "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
+  const loadingButton = "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
+
+  const handleMemberChange = (input) => (e) => {
+    e.preventDefault();
+    setMember((prev) => ({ ...prev, [input]: e.target.value }));
+  };
+
+  const handleDesignationsChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+    setMember((prev) => ({ ...prev, designations: selectedOptions }));
+  };
+
+  const handleAddMember = async () => {
+    if (member.name.trim() && member.familyID.trim() && member.designations.length > 0) {
+      let profilePicUrl = "";
+      if (member.profilePic) {
+        profilePicUrl = await uploadImage(member.profilePic);
+      }
+      const newMember = {
+        ...member,
+        profilePic: profilePicUrl,
+        karyakarni: karyakarniId,
+      };
+      setKaryakarni((prev) => ({
+        ...prev,
+        members: [...prev.members, newMember],
+      }));
+      setMember({
+        name: "",
+        familyID: "",
+        profilePic: "",
+        designations: [],
+        karyakarni: karyakarniId,
+      });
+    }
+  };
+
+  const handleMemberImageUpload = (e) => {
+    setMember((prev) => ({ ...prev, profilePic: e.target.files[0] }));
+  };
+
+  return (
+    <div className="mt-10">
+      <h3 className="text-xl mb-2">Add Member</h3>
+      <p className="text-xl mb-2">Member Name</p>
+      <input
+        value={member.name}
+        onChange={handleMemberChange("name")}
+        className="border-black border-[1px] p-2 w-[40rem]"
+      ></input>
+
+      <p className="text-xl mb-2 mt-5">Family ID</p>
+      <input
+        value={member.familyID}
+        onChange={handleMemberChange("familyID")}
+        className="border-black border-[1px] p-2 w-[40rem]"
+      ></input>
+
+      <p className="text-xl mb-2 mt-5">Profile Picture</p>
+      <input onChange={handleMemberImageUpload} type="file"></input>
+
+      <p className="text-xl mb-2 mt-5">Designations</p>
+      <select
+        multiple={true}
+        value={member.designations}
+        onChange={handleDesignationsChange}
+        className="border-black border-[1px] p-2 w-[40rem]"
+      >
+        {designations.map((designation, index) => (
+          <option key={index} value={designation}>
+            {designation}
+          </option>
+        ))}
+      </select>
+
+      <button
+        onClick={handleAddMember}
+        className="mt-5 p-2 bg-blue-600 text-white rounded-md"
+      >
+        Add Member
+      </button>
+
+      <ul className="mt-5">
+        {members && members.map((member, index) => (
+          <li key={index} className="mb-2">
+            <p>Name: {member.name}</p>
+            <p>Family ID: {member.familyID}</p>
+            <p>Designations: {member.designations.join(", ")}</p>
+            {member.profilePic && (
+              <img src={member.profilePic} alt={member.name} className="w-20 h-20" />
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default KaryakarniMemberForm;

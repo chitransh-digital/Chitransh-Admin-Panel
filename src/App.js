@@ -130,6 +130,14 @@ function App() {
           }
         />
         <Route
+          path="/updateBusiness"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/users"
           element={
             <ProtectedRoute>

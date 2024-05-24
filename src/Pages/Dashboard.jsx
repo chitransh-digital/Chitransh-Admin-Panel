@@ -10,7 +10,8 @@ import FeedCreateForm from "./Feeds/FeedCreateForm";
 import FeedUpdateForm from "./Feeds/FeedUpdateForm";
 import UserCreateForm from "./Users/UserCreateForm";
 import BusinessCreateForm from "./Business/BusinessCreateForm";
- import BusinessListView from "./Business/BusinessListView";
+import BusinessListView from "./Business/BusinessListView";
+import BusinessUpdateForm from "./Business/BusinessUpdateForm";
 import KaryakarniUpdateForm from "./Karyakarni/KaryakarniUpdateForm";
 import KaryakarniList from "./Karyakarni/KaryakarniListView";
 import KaryakarniCreateForm from "./Karyakarni/KaryakarniCreateForm";
@@ -33,6 +34,7 @@ const Dashboard = () => {
   else if (pathname === "/changePassword") content = <ChangePasswordForm />;
   else if (pathname === "/business") content = <BusinessListView />;
   else if (pathname === "/registerBusiness") content = <BusinessCreateForm />;
+  else if (pathname === "/updateBusiness") content = <BusinessUpdateForm />;
   // else if (pathname === "/business") content = <Appointments />;
 
   return (

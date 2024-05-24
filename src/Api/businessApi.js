@@ -33,3 +33,23 @@ export const registerBusiness = async (businessData) => {
         throw error;
     }
 }
+
+export const updateBusiness = async (businessData) => {
+    try {
+        const payload = {
+            ...businessData,
+        };
+        const business = await fetch("http://localhost:5000/business/updateBusiness", {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+        return business;
+    } catch (error) {
+        console.error("Error updating business:", error);
+        throw error;
+    }
+}

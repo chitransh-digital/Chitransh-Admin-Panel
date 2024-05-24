@@ -27,7 +27,7 @@ const LoginPage = () => {
         <div className="w-[15rem] h-[12rem]">
           <img src={adminImage} alt="admin" />
         </div>
-        <lable className="font-bold">Enter Password</lable>
+        <label className="font-bold">Enter Password</label>
         <input
           onChange={(e) => setPassword(e.target.value)}
           type="password"

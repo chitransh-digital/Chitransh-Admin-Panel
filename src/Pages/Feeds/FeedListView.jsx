@@ -11,7 +11,7 @@ const Appointments = () => {
 
   const fetchFeeds = async () => {
     const feeds = await getFeeds();
-    setFeed(feeds);
+    setFeed(feeds.Feeds); 
   };
 
   useEffect(() => {

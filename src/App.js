@@ -17,10 +17,11 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const checkingUser = await checkUser();
-      if (checkingUser.message === "Authorized") {
-        setIsLoggedIn();
-      }
+      // const checkingUser = await checkUser();
+      // if (checkingUser.message === "Authorized") {
+      //   setIsLoggedIn();
+      // }
+      setIsLoggedIn(true);
       setChecking((prev) => false);
     })();
   }, [isLoggedIn, setIsLoggedIn]);
@@ -90,6 +91,14 @@ function App() {
         />
         <Route
           path="/business"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/registerBusiness"
           element={
             <ProtectedRoute>
               <Dashboard />

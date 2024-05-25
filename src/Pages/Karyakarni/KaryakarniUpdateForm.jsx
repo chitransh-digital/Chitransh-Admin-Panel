@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage, updateKaryakarni } from "../../Api/karyakarniApi";
+import KaryakarniMemberForm from "./KaryakarniMemberForm";
 
 const KaryakarniUpdateForm = () => {
   const navigate = useNavigate();
   const reactLocation = useLocation();
-  const { id, name, landmark, state, city, logo, designations} = reactLocation.state;
+  const { id, name, landmark, state, city, logo, designations, members } = reactLocation.state;
 
   const [isLoading, setIsLoading] = useState(false);
   const [logoImage, setLogoImage] = useState(null);
   const [currentDesignation, setCurrentDesignation] = useState("");
   const [karyakarni, setKaryakarni] = useState({
-    id, 
-    name, 
-    landmark, 
-    state, 
-    city, 
-    logo, 
-    designations
+    id,
+    name,
+    landmark,
+    state,
+    city,
+    logo,
+    designations,
+    members: members || [],
   });
 
-  const normalButton =
-    "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
-  const loadingButton =
-    "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
+  const normalButton = "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
+  const loadingButton = "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
   const handleChange = (input) => (e) => {
     e.preventDefault();
@@ -45,24 +45,26 @@ const KaryakarniUpdateForm = () => {
       ...prev,
       designations: prev.designations.filter((_, i) => i !== index),
     }));
-  };    
+  };
 
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to edit this karyakarni?")) {
       setIsLoading((prev) => true);
+      let karyakarniData = { ...karyakarni };
+
       if (logoImage !== null) {
         const imageUrl = await uploadImage(logoImage);
-        const karyakarniWithImage = { ...karyakarni, logo: imageUrl };
-        await updateKaryakarni(id, karyakarniWithImage);
-      } else {
-        await updateKaryakarni(id, karyakarni);
+        karyakarniData = { ...karyakarniData, logo: imageUrl };
       }
+
+      await updateKaryakarni(id, karyakarniData);
+      setIsLoading(false);
       navigate("/karyakarni");
     }
   };
 
   const handleImageUpload = (e) => {
-    setLogoImage((prev) => e.target.files[0]);
+    setLogoImage(e.target.files[0]);
   };
 
   return (
@@ -128,6 +130,13 @@ const KaryakarniUpdateForm = () => {
             </li>
           ))}
         </ul>
+
+        <KaryakarniMemberForm
+          karyakarniId={id}
+          designations={karyakarni.designations}
+          members={karyakarni.members}
+          setKaryakarni={setKaryakarni}
+        />
 
         <button
           onClick={isLoading ? () => {} : createClickHandler}

@@ -6,7 +6,7 @@ import { sendImageNotification } from "../../Api/notificationApi";
 
 const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
   const navigate = useNavigate();
-  const { id,name,landmark,city,state,logo,designations } = displayKaryakarni;
+  const { id,name,landmark,city,state,logo,designations, members } = displayKaryakarni;
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,6 +50,24 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
       </div>
       <p className="pr-20 pl-5 my-5">Formed at {landmark+" "+ city+" "+ state}</p>
 
+      <div className="flex flex-wrap pl-5">
+        <p className="font-bold">Designations:</p>
+        <ul className="flex flex-wrap">
+          {designations.map((designation, idx) => (
+            <li key={idx} className="ml-2">{designation}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="flex flex-wrap pl-5">
+        <p className="font-bold">Members:</p>
+        <ul className="flex flex-wrap">
+          {members.map((member, idx) => (
+            <li key={idx} className="ml-2">{member.name}</li> 
+          ))}
+        </ul>
+      </div>
+
       <div className="flex">
         <button
           onClick={isLoading ? () => {} : notifyHandler}
@@ -68,7 +86,8 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
             state, 
             city, 
             logo, 
-            designations
+            designations,
+            members,
           }}
         >
           <button className="mx-1 mt-8 w-[128px] h-[51px] border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">

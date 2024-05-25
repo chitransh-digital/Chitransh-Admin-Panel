@@ -9,7 +9,7 @@ const BusinessListView = () => {
 
     const fetchBusinesses = async () => {
         const businesses = await getBusinesses();
-        setBusinesses(businesses);
+        setBusinesses(businesses.businesses);
     }
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const BusinessListView = () => {
     }
     , [reload]);
 
-    if(businesses.length === 0) {
+    if(!businesses || businesses.length === 0) {
         return <div>Loading...</div>
     }
 

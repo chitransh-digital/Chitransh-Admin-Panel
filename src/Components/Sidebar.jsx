@@ -17,8 +17,8 @@ const Sidebar = () => {
         <Link to="/business">
           <li className={location.pathname === "/business" ? css : ""}>Business</li>
         </Link>
-        <Link to="/users">
-          <li className={location.pathname === "/users" ? css : ""}>Users</li>
+        <Link to="/family">
+          <li className={location.pathname === "/family" ? css : ""}>Family</li>
         </Link>
         <Link to="/notification">
           <li className={location.pathname === "/notification" ? css : ""}>Notification</li>

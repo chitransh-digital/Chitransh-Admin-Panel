@@ -66,6 +66,22 @@ function App() {
           }
         />
         <Route
+          path="/family"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/createFamily"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/jobs"
           element={
             <ProtectedRoute>
@@ -138,7 +154,23 @@ function App() {
           }
         />
         <Route
-          path="/users"
+          path="/members"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/addMember"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/updateMember"
           element={
             <ProtectedRoute>
               <Dashboard />

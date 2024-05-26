@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { addMember } from "../../Api/memberApi";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const UserCreateForm = () => {
-  const [familyMember, setFamilyMember] = useState({});
+const FamilyCreateForm = () => {
+  const [familyHead, setFamilyHead] = useState({});
   const navigate = useNavigate();
-  const reactLocation = useLocation();
   const [isLoading, setIsLoading] = useState(false);
-  const { familyID } = reactLocation.state;
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -16,23 +14,30 @@ const UserCreateForm = () => {
 
   const handleChange = (input) => (e) => {
     e.preventDefault();
-    setFamilyMember((prev) => ({ ...prev, [input]: e.target.value }));
+    setFamilyHead((prev) => ({ ...prev, [input]: e.target.value }));
+  };
+
+  const createFamilyId = (name, contact) => {
+    const firstThreeLetters = name.slice(0, 3).toUpperCase();
+    const lastThreeDigits = contact.slice(-3);
+    return `CH${firstThreeLetters}${lastThreeDigits}`;
   };
 
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to add this member?")) {
+    if (window.confirm("Are you sure you want to create this family?")) {
       setIsLoading(true);
-      const fID = familyID;
-      const memberData = {
-        ...familyMember,
-        familyID: fID,
+      const familyID = createFamilyId(familyHead.name, familyHead.contact);
+      const headMemberData = {
+        ...familyHead,
+        relation: "head",
+        familyID,
       };
-      const response = await addMember({ familyID, memberData: memberData });
+      const response = await addMember({ familyID, memberData: headMemberData });
       if (response.status === 201) {
-        alert("Member added successfully");
+        alert("Family created successfully");
         window.location.reload();
       } else {
-        alert("Couldn't add member. Please try again.");
+        alert("Couldn't create family. Please try again.");
       }
       setIsLoading(false);
       navigate("/family");
@@ -43,7 +48,7 @@ const UserCreateForm = () => {
     <div className="w-full">
       <div className="w-full mt-10">
         <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
-          Add Member
+          Create Family
         </p>
       </div>
       <div className="mt-10 ml-5">
@@ -90,25 +95,6 @@ const UserCreateForm = () => {
             <input
               type="date"
               onChange={handleChange("DOB")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-        </div>
-
-        <div className="flex gap-[2rem]">
-          <div>
-            <p className="text-xl mb-2 mt-5">FamilyID</p>
-            <input
-              value={familyID}
-              contentEditable="false"
-              onChange={handleChange("familID")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-          <div>
-            <p className="text-xl mb-2 mt-5">Relation</p>
-            <input
-              onChange={handleChange("relation")}
               className="border-black border-[1px] p-2 w-[19rem]"
             ></input>
           </div>
@@ -187,11 +173,11 @@ const UserCreateForm = () => {
             isLoading ? loadingButton : normalButton
           }`}
         >
-          {!isLoading ? "Add Member " : <div id="lds-dual-ring" />}
+          {!isLoading ? "Create Family " : <div id="lds-dual-ring" />}
         </button>
       </div>
     </div>
   );
 };
 
-export default UserCreateForm;
+export default FamilyCreateForm;

@@ -53,3 +53,20 @@ export const updateBusiness = async (businessData) => {
         throw error;
     }
 }
+
+export const deleteBusiness = async (ownerID, name) => {
+    try {
+        const business = await fetch(`http://localhost:5000/business/${ownerID}/${name}`, {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ownerID, name }),
+        });
+        return business;
+    } catch (error) {
+        console.error("Error deleting business:", error);
+        throw error;
+    }
+}

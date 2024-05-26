@@ -9,6 +9,7 @@ const MemberUpdateForm = () => {
   const [karyakarni, setKaryakarni] = useState([]);
   const reactLocation = useLocation();
   const { familyID, memberData } = reactLocation.state;
+  const [occupation, setOccupation] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -36,7 +37,11 @@ const MemberUpdateForm = () => {
 
   const handleChange = (input) => (e) => {
     e.preventDefault();
+    const value = e.target.value;
     setMember((prev) => ({ ...prev, [input]: e.target.value }));
+    if (input === "occupation") {
+      setOccupation(value);
+    }
   };
   const fetchKaryakarni = async () => {
     const karyakarnis = await getKaryakarnis();
@@ -64,6 +69,14 @@ const MemberUpdateForm = () => {
   const handleImageUpload = (e) => {
     setImage((prev) => e.target.files[0]);
   };
+
+  const occupationWithExtraFields = [
+    "Govt Job",
+    "Private Job",
+    "Doctor",
+    "Lawyer",
+    "Chartered Accountant",
+  ]
 
   return (
     <div className="w-full">
@@ -189,6 +202,66 @@ const MemberUpdateForm = () => {
             <option value="Housewife">Housewife</option>
           </select>
           </div>
+        </div>
+
+        <div>
+          {occupationWithExtraFields.includes(occupation) && (
+            <div className="flex gap-[2rem]">
+              <div>
+                <p className="text-xl mb-2 mt-5">Job Post</p>
+                <input
+                  onChange={handleChange("jobPost")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+              <div>
+                <p className="text-xl mb-2 mt-5">Job Department</p>
+                <input
+                  onChange={handleChange("jobDepartment")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+              <div>
+                <p className="text-xl mb-2 mt-5">Job Employer</p>
+                <input
+                  onChange={handleChange("jobEmployer")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+              <div>
+                <p className="text-xl mb-2 mt-5">Job Location</p>
+                <input
+                  onChange={handleChange("jobLocation")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+            </div>
+          )}
+          {occupation === "Business" && (
+            <div className="flex gap-[2rem]">
+              <div>
+                <p className="text-xl mb-2 mt-5">Business Name</p>
+                <input
+                  onChange={handleChange("businessName")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+              <div>
+                <p className="text-xl mb-2 mt-5">Business Type</p>
+                <input
+                  onChange={handleChange("businessType")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+              <div>
+                <p className="text-xl mb-2 mt-5">Business Address</p>
+                <input
+                  onChange={handleChange("businessAddress")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                ></input>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-[2rem]">

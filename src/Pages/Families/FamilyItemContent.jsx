@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const FamilyItemContent = ({ item }) => {
   const { familyID, members } = item;
-
-  useEffect(()=>{
-    console.log(familyID)
-    console.log(members)
-  },[])
 
   return (
     <>

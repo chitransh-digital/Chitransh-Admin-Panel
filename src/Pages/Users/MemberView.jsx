@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { deleteMember } from "../../Api/memberApi";
 import { Link, useNavigate } from "react-router-dom";
-import { sendImageNotification } from "../../Api/notificationApi";
 
 const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
   const navigate = useNavigate();
-
   const [isLoading, setIsLoading] = useState(false);
 
   const normalButton =
@@ -22,16 +20,8 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
     if (window.confirm("Are you sure you want to remove this member?")) {
       const name = displayMember.name;
       await deleteMember(familyID, name);
-      displayMember((prev) => !prev);
+      setMemberVariant((prev) => !prev);
       navigate("/family");
-    }
-  };
-
-  const notifyHandler = async () => {
-    if (window.confirm("Are you sure you want to send notification for this member?")) {
-      setIsLoading((prev) => true);
-      await sendImageNotification({ familyID });
-      setIsLoading((prev) => false);
     }
   };
 
@@ -58,11 +48,6 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
             <p className="ml-2">{displayMember.contact}</p>
         </div>
 
-        <div className="flex flex-wrap pl-5 pt-5">
-        <p className="font-bold">DOB:</p>
-        <p className="ml-2">{displayMember.DOB}</p>
-      </div>
-
       <div className="flex flex-wrap pl-5 pt-5">
         <p className="font-bold">Blood Group:</p>
         <p className="ml-2">{displayMember.bloodGroup}</p>
@@ -84,14 +69,6 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
       </div>
 
       <div className="flex">
-        <button
-          onClick={isLoading ? () => {} : notifyHandler}
-          className={`mx-1 mt-8 w-[128px] h-[51px] font-bold transition-all ease-in-out ${
-            isLoading ? loadingButton : normalButton
-          }`}
-        >
-          {!isLoading ? "Notify" : <div id="lds-dual-ring" />}
-        </button>
         <Link
           to="/updateMember"
           state={{

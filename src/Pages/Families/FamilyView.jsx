@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { removeFeed } from "../../Api/feedsApi";
+import { deleteMember } from "../../Api/memberApi";
 import { Link, useNavigate } from "react-router-dom";
-import { sendImageNotification } from "../../Api/notificationApi";
 
 const FamilyView = ({ setFamilyVariant, displayFamily }) => {
   const navigate = useNavigate();
@@ -21,17 +20,9 @@ const FamilyView = ({ setFamilyVariant, displayFamily }) => {
 
   const deleteHandler = async () => {
     if (window.confirm("Are you sure you want to remove this family?")) {
-      await removeFeed(familyID);
+      await deleteMember(familyID, "");
       setFamilyVariant((prev) => !prev);
       navigate("/family");
-    }
-  };
-
-  const notifyHandler = async () => {
-    if (window.confirm("Are you sure you want to send notification for this family?")) {
-      setIsLoading((prev) => true);
-      await sendImageNotification({ familyID });
-      setIsLoading((prev) => false);
     }
   };
 
@@ -59,14 +50,6 @@ const FamilyView = ({ setFamilyVariant, displayFamily }) => {
       </div>
 
       <div className="flex">
-        <button
-          onClick={isLoading ? () => {} : notifyHandler}
-          className={`mx-1 mt-8 w-[128px] h-[51px] font-bold transition-all ease-in-out ${
-            isLoading ? loadingButton : normalButton
-          }`}
-        >
-          {!isLoading ? "Notify" : <div id="lds-dual-ring" />}
-        </button>
         <Link
           to="/members"
           state={{

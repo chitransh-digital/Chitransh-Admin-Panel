@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage, updateFeed } from "../../Api/feedsApi";
 import { updateMember } from "../../Api/memberApi";
+import { getKaryakarnis } from "../../Api/karyakarniApi";
 
 const MemberUpdateForm = () => {
   const navigate = useNavigate();
+  const [karyakarni, setKaryakarni] = useState([]);
   const reactLocation = useLocation();
   const { familyID, memberData } = reactLocation.state;
 
@@ -19,7 +21,6 @@ const MemberUpdateForm = () => {
     city: memberData.city,
     state: memberData.state,
     familyID: familyID,
-    DOB: memberData.DOB,
     occupation: memberData.occupation,
     relation: memberData.relation,
     karyakarni: memberData.karyakarni,
@@ -37,6 +38,14 @@ const MemberUpdateForm = () => {
     e.preventDefault();
     setMember((prev) => ({ ...prev, [input]: e.target.value }));
   };
+  const fetchKaryakarni = async () => {
+    const karyakarnis = await getKaryakarnis();
+    setKaryakarni(karyakarnis.karyakarni);
+  };
+
+  useEffect(() => {
+    fetchKaryakarni();
+  }, []);
 
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to edit this member?")) {
@@ -86,7 +95,7 @@ const MemberUpdateForm = () => {
             <select
               value={member.gender}
               onChange={handleChange("gender")}
-              className="border-black border-[1px] p-2 w-[19rem]"
+              className="border-black border-[1px] p-3 w-[19rem]"
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -106,15 +115,6 @@ const MemberUpdateForm = () => {
               className="border-black border-[1px] p-2 w-[19rem]"
             ></input>
           </div>
-          <div>
-            <p className="text-xl mb-2 mt-5">Date of Birth</p>
-            <input
-              type="date"
-                value={member.DOB}
-              onChange={handleChange("DOB")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
         </div>
 
         <div className="flex gap-[2rem]">
@@ -128,43 +128,86 @@ const MemberUpdateForm = () => {
             ></input>
           </div>
           <div>
-            <p className="text-xl mb-2 mt-5">Relation</p>
-            <input
+          <p className="text-xl mb-2 mt-5">Relation</p>
+          <select
             value={member.relation}
-            contentEditable={member.relation === "head" ? false : true}
-              onChange={handleChange("relation")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+            onChange={handleChange("relation")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="">Select Relation</option>
+            <option value="Wife">Wife</option>
+            <option value="Husband">Husband</option>
+            <option value="Son">Son</option>
+            <option value="Daughter">Daughter</option>
+            <option value="Father">Father</option>
+            <option value="Mother">Mother</option>
+            <option value="Brother">Brother</option>
+            <option value="Sister">Sister</option>
+            <option value="Grandmother">Grandmother</option>
+            <option value="Grandfather">Grandfather</option>
+          </select>
           </div>
         </div>
 
         <div className="flex gap-[2rem]">
-          <div>
+        <div>
             <p className="text-xl mb-2 mt-5">Blood Group</p>
-            <input
+            <select
             value={member.bloodGroup}
               onChange={handleChange("bloodGroup")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+              className="border-black border-[1px] p-3 w-[19rem]"
+            >
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
           </div>
+
           <div>
-            <p className="text-xl mb-2 mt-5">Occupation</p>
-            <input
-            value={member.occupation}
-              onChange={handleChange("occupation")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+          <p className="text-xl mb-2 mt-5">Occupation</p>
+          <select
+          value={member.occupation}
+            onChange={handleChange("occupation")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="">Select Occupation</option>
+            <option value="Student">Student</option>
+            <option value="Govt Job">Government Job</option>
+            <option value="Private Job">Private Job</option>
+            <option value="Retired">Retired</option>
+            <option value="Business">Business</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Lawyer">Lawyer</option>
+            <option value="Chartered Accountant">Chartered Accountant</option>
+            <option value="Not Working">Not Working</option>
+            <option value="Housewife">Housewife</option>
+          </select>
           </div>
         </div>
 
         <div className="flex gap-[2rem]">
           <div>
-            <p className="text-xl mb-2 mt-5">Education</p>
-            <input
+          <p className="text-xl mb-2 mt-5">Education</p>
+          <select
             value={member.education}
-              onChange={handleChange("education")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+            onChange={handleChange("education")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="">Select Education</option>
+            <option value="Junior School">Junior School</option>
+            <option value="High School">High School</option>
+            <option value="Higher Secondary School">Higher Secondary School</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Bachelors">Bachelors</option>
+            <option value="Masters">Masters</option>
+            <option value="PhD">PhD</option>
+          </select>
           </div>
           <div>
             <p className="text-xl mb-2 mt-5">Landmark</p>
@@ -197,12 +240,19 @@ const MemberUpdateForm = () => {
 
         <div className="flex gap-[2rem]">
           <div>
-            <p className="text-xl mb-2 mt-5">Karyakarni</p>
-            <input
-            value={member.karyakarni}
+          <p className="text-xl mb-2 mt-5">Karyakarni</p>
+          <select
+              value={member.karyakarni}
               onChange={handleChange("karyakarni")}
               className="border-black border-[1px] p-2 w-[40rem]"
-            ></input>
+            >
+              <option value="">Select Karyakarni</option>
+              {karyakarni.map((k) => (
+                <option key={k.id} value={k.name}>
+                  {k.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { addMember } from "../../Api/memberApi";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getKaryakarnis } from "../../Api/karyakarniApi";
 
 const UserCreateForm = () => {
   const [familyMember, setFamilyMember] = useState({});
+  const [karyakarni, setKaryakarni] = useState([]);
   const navigate = useNavigate();
   const reactLocation = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +21,15 @@ const UserCreateForm = () => {
     setFamilyMember((prev) => ({ ...prev, [input]: e.target.value }));
   };
 
+  const fetchKaryakarni = async () => {
+    const karyakarnis = await getKaryakarnis();
+    setKaryakarni(karyakarnis.karyakarni);
+  };
+
+  useEffect(() => {
+    fetchKaryakarni();
+  }, []);
+
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to add this member?")) {
       setIsLoading(true);
@@ -30,7 +41,6 @@ const UserCreateForm = () => {
       const response = await addMember({ familyID, memberData: memberData });
       if (response.status === 201) {
         alert("Member added successfully");
-        window.location.reload();
       } else {
         alert("Couldn't add member. Please try again.");
       }
@@ -66,7 +76,7 @@ const UserCreateForm = () => {
             <p className="text-xl mb-2 mt-5">Gender</p>
             <select
               onChange={handleChange("gender")}
-              className="border-black border-[1px] p-2 w-[19rem]"
+              className="border-black border-[1px] p-3 w-[19rem]"
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -85,14 +95,6 @@ const UserCreateForm = () => {
               className="border-black border-[1px] p-2 w-[19rem]"
             ></input>
           </div>
-          <div>
-            <p className="text-xl mb-2 mt-5">Date of Birth</p>
-            <input
-              type="date"
-              onChange={handleChange("DOB")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
         </div>
 
         <div className="flex gap-[2rem]">
@@ -106,38 +108,81 @@ const UserCreateForm = () => {
             ></input>
           </div>
           <div>
-            <p className="text-xl mb-2 mt-5">Relation</p>
-            <input
-              onChange={handleChange("relation")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+          <p className="text-xl mb-2 mt-5">Relation</p>
+          <select
+            onChange={handleChange("relation")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="">Select Relation</option>
+            <option value="Wife">Wife</option>
+            <option value="Husband">Husband</option>
+            <option value="Son">Son</option>
+            <option value="Daughter">Daughter</option>
+            <option value="Father">Father</option>
+            <option value="Mother">Mother</option>
+            <option value="Brother">Brother</option>
+            <option value="Sister">Sister</option>
+            <option value="Grandmother">Grandmother</option>
+            <option value="Grandfather">Grandfather</option>
+          </select>
+          </div>
+        </div>
+
+        <div className="flex gap-[2rem]">
+        <div>
+          <p className="text-xl mb-2 mt-5">Blood Group</p>
+          <select
+            onChange={handleChange("bloodGroup")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="">Select Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+          <div>
+          <p className="text-xl mb-2 mt-5">Occupation</p>
+          <select
+            onChange={handleChange("occupation")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="">Select Occupation</option>
+            <option value="Student">Student</option>
+            <option value="Govt Job">Government Job</option>
+            <option value="Private Job">Private Job</option>
+            <option value="Retired">Retired</option>
+            <option value="Business">Business</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Lawyer">Lawyer</option>
+            <option value="Chartered Accountant">Chartered Accountant</option>
+            <option value="Not Working">Not Working</option>
+            <option value="Housewife">Housewife</option>
+          </select>
           </div>
         </div>
 
         <div className="flex gap-[2rem]">
           <div>
-            <p className="text-xl mb-2 mt-5">Blood Group</p>
-            <input
-              onChange={handleChange("bloodGroup")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-          <div>
-            <p className="text-xl mb-2 mt-5">Occupation</p>
-            <input
-              onChange={handleChange("occupation")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-        </div>
-
-        <div className="flex gap-[2rem]">
-          <div>
-            <p className="text-xl mb-2 mt-5">Education</p>
-            <input
+          <p className="text-xl mb-2 mt-5">Education</p>
+            <select
               onChange={handleChange("education")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+              className="border-black border-[1px] p-3 w-[19rem]"
+            >
+              <option value="">Select Education</option>
+              <option value="Junior School">Junior School</option>
+              <option value="High School">High School</option>
+              <option value="Higher Secondary School">Higher Secondary School</option>
+              <option value="Diploma">Diploma</option>
+              <option value="Bachelors">Bachelors</option>
+              <option value="Masters">Masters</option>
+              <option value="PhD">PhD</option>
+            </select>
           </div>
           <div>
             <p className="text-xl mb-2 mt-5">Landmark</p>
@@ -167,11 +212,18 @@ const UserCreateForm = () => {
 
         <div className="flex gap-[2rem]">
           <div>
-            <p className="text-xl mb-2 mt-5">Karyakarni</p>
-            <input
+          <p className="text-xl mb-2 mt-5">Karyakarni</p>
+          <select
               onChange={handleChange("karyakarni")}
-              className="border-black border-[1px] p-2 w-[40rem]"
-            ></input>
+              className="border-black border-[1px] p-3 w-[40rem]"
+            >
+              <option value="">Select Karyakarni</option>
+              {karyakarni.map((k) => (
+                <option key={k.id} value={k.name}>
+                  {k.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

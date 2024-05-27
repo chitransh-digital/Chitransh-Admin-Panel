@@ -4,6 +4,7 @@ import { getFamilies } from "../../Api/memberApi";
 import FamilyView from "./FamilyView";
 import { Link } from "react-router-dom";
 import LocationFilter from "../../Components/LocationFilter";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 const FamilyList = () => {
   const [family, setFamily] = useState([]);
@@ -37,10 +38,6 @@ const FamilyList = () => {
     return true;
   });
 
-  if (!family || family.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   const clickHandler = (item) => {
     setFamilyVariant((prev) => !prev);
     setDisplayFamily(item);
@@ -50,11 +47,19 @@ const FamilyList = () => {
     setFilters(searchFilters);
   };
 
+  const resetFilters = () => {
+    setFilters({ state: "", city: "", searchTerm: "" });
+  };
+
+  if (!family || family.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   if (familyVariant) {
     return (
       <div className="w-full">
         <div className="w-full mt-24">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
               Families
             </p>
@@ -64,7 +69,15 @@ const FamilyList = () => {
               </button>
             </Link>
           </div>
-          <LocationFilter onSearch={handleSearch} searchTermLabel="Family ID" />
+          <div className="flex justify-between items-center mb-5">
+            <LocationFilter onSearch={handleSearch} searchTermLabel="Family ID" />
+            {(filters.state || filters.city || filters.searchTerm) && (
+              <p onClick={resetFilters} className="my-10 ml-5 flex cursor-pointer">
+              <IoArrowBackCircleOutline className="text-2xl" />
+              <span className="ml-2">Back</span>
+              </p>
+            )}
+          </div>
           <ul className="my-5 sm:flex hidden justify-around font-medium text-[#A7A7A7]">
             <li>FamilyId</li>
             <li>Head</li>

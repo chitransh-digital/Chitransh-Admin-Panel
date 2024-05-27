@@ -4,12 +4,18 @@ import { getKaryakarnis } from "../../Api/karyakarniApi";
 import KaryakarniView from "./KaryakarniView";
 import { Link } from "react-router-dom";
 import LocationFilter from "../../Components/LocationFilter";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 const KaryakarniList = () => {
   const [karyakarni, setKaryakarni] = useState([]);
   const [karyakarniVariant, setKaryakarniVariant] = useState(true);
   const [displayKaryakarni, setDisplayKaryakarni] = useState({});
   const [filteredKaryakarni, setFilteredKaryakarni] = useState([]);
+  const [filters, setFilters] = useState({
+    state: "",
+    city: "",
+    searchTerm: ""
+  });
 
   const fetchKaryakarni = async () => {
     const karyakarnis = await getKaryakarnis();
@@ -39,16 +45,22 @@ const KaryakarniList = () => {
     }
 
     setFilteredKaryakarni(filteredList);
+    setFilters({ state, city, searchTerm });
   };
 
-  if (!karyakarni || karyakarni.length === 0) {
-    return <div>Loading...</div>;
-  }
+  const resetFilters = () => {
+    setFilters({ state: "", city: "", searchTerm: "" });
+    setFilteredKaryakarni(karyakarni);
+  };
 
   const clickHandler = (item) => {
     setKaryakarniVariant((prev) => !prev);
     setDisplayKaryakarni(item);
   };
+
+  if (!karyakarni || karyakarni.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   if (karyakarniVariant) {
     return (
@@ -66,6 +78,12 @@ const KaryakarniList = () => {
           </div>
           <div>
             <LocationFilter onSearch={handleSearch} searchTermLabel="Name" />
+            {(filters.state || filters.city || filters.searchTerm) && (
+              <p onClick={resetFilters} className="my-10 ml-5 flex cursor-pointer">
+              <IoArrowBackCircleOutline className="text-2xl" />
+              <span className="ml-2">Back</span>
+              </p>
+            )}
           </div>
           <ul className="my-5 sm:flex hidden justify-around font-medium text-[#A7A7A7]">
             <li>Name</li>

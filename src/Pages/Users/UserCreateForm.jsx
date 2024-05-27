@@ -310,7 +310,6 @@ const UserCreateForm = () => {
             <select
               onChange={handleChange("city")}
               className="border-black border-[1px] p-2 w-[19rem]"
-              disabled={!karyakarni.state}
             >
               <option value="">Select City</option>
               {cities.map((city) => (

@@ -26,11 +26,11 @@ const FamilyList = () => {
   }, []);
 
   const filteredFamilies = family.filter((item) => {
-    if (filters.state && item.state !== filters.state) return false;
-    if (filters.city && item.city !== filters.city) return false;
+    if (filters.state && item.members.state !== filters.state) return false;
+    if (filters.city && item.members.city !== filters.city) return false;
     if (filters.searchTerm) {
       const query = filters.searchTerm.toLowerCase();
-      if (!item.familyId.toLowerCase().includes(query)) {
+      if (item.familyID && !item.familyID.toLowerCase().includes(query)) {
         return false;
       }
     }

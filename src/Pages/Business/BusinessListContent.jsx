@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { deleteBusiness } from "../../Api/businessApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BusinessListContent = ({ item }) => {
     const [reload, setReload] = useState(false);
+    const navigate = useNavigate();
     const [showDetails, setShowDetails] = useState(false);
     const {
         id,
@@ -27,11 +28,12 @@ const BusinessListContent = ({ item }) => {
             await deleteBusiness(ownerID, name);
             setReload(reload ? false : true);
         }
+        navigate("/business")
     }
     
     return (
-        <div className="w-full">
-            <div className="w-full mt-10">
+        <div className="w-full border-black border-[2px] my-10 pb-8 rounded-lg">
+            <div className="w-full mt-10 ">
                 <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
                     {name}
                 </p>
@@ -49,8 +51,8 @@ const BusinessListContent = ({ item }) => {
                 </button>
             </div>
             {showDetails && (
-                <div>
-                    <div className="mt-5 ml-5">
+                <div className=" ml-5">
+                    <div className="mt-5">
                         <p className="text-xl mb-2">Owner ID: {ownerID}</p>
                         <p className="text-xl mb-2">Landmark: {landmark}</p>
                         <p className="text-xl mb-2">Type: {type}</p>

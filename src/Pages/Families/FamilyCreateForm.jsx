@@ -8,6 +8,8 @@ import { uploadImage } from "../../Api/feedsApi";
 const FamilyCreateForm = () => {
   const [familyHead, setFamilyHead] = useState({
     profilePic: "",
+    state: "",
+    city:"",
   });
   const [image, setImage] = useState(null);
   const [karyakarni, setKaryakarni] = useState([]);
@@ -46,7 +48,7 @@ const FamilyCreateForm = () => {
 
   useEffect(() => {
     if (familyHead.state) {
-      const indianCities = City.getCitiesOfState("IN", karyakarni.state);
+      const indianCities = City.getCitiesOfState("IN", familyHead.state);
       setCities(indianCities);
     }
   }, [familyHead.state]);
@@ -287,7 +289,6 @@ const FamilyCreateForm = () => {
           <select
             onChange={handleChange("city")}
             className="border-black border-[1px] p-2 w-[19rem]"
-            disabled={!karyakarni.state}
           >
             <option value="">Select City</option>
             {cities.map((city) => (

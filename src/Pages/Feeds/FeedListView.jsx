@@ -18,6 +18,14 @@ const Appointments = () => {
     fetchFeeds();
   }, []);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchByAuthor = () => {
+    const filteredFeeds = feed.filter((feed) =>
+      feed.author && feed.author.includes(searchTerm)
+    );
+    setFeed(filteredFeeds);
+  };
+
   if (!feed || feed.length === 0) {
     return <div>Loading...</div>;
   }
@@ -27,10 +35,25 @@ const Appointments = () => {
     setDisplayFeed(item);
   };
 
+  
+    
+
   if (feedVariant) {
     return (
       <div className="w-full">
         <div className="w-full mt-24">
+            <input
+              type="text"
+              placeholder="Search by author"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button
+              className="my-2 w-[128px] h-[51px] font-bold transition-all ease-in-out border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white block"
+              onClick={searchByAuthor}
+            >
+              Search
+            </button>
           <div className=" flex justify-between">
             <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
               Feeds

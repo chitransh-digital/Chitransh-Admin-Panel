@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage, updateKaryakarni } from "../../Api/karyakarniApi";
 import KaryakarniMemberForm from "./KaryakarniMemberForm";
+import { State, City } from "country-state-city";
 
 const KaryakarniUpdateForm = () => {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ const KaryakarniUpdateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [logoImage, setLogoImage] = useState(null);
   const [currentDesignation, setCurrentDesignation] = useState("");
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [karyakarni, setKaryakarni] = useState({
     id,
     name,
@@ -21,6 +24,18 @@ const KaryakarniUpdateForm = () => {
     designations,
     members: members || [],
   });
+
+  useEffect(() => {
+    const indianStates = State.getStatesOfCountry("IN");
+    setStates(indianStates);
+  }, []);
+
+  useEffect(() => {
+    if (karyakarni.state) {
+      const indianCities = City.getCitiesOfState("IN", karyakarni.state);
+      setCities(indianCities);
+    }
+  }, [karyakarni.state]);
 
   const normalButton = "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
   const loadingButton = "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
@@ -87,19 +102,32 @@ const KaryakarniUpdateForm = () => {
           onChange={handleChange("landmark")}
           className=" border-black border-[1px] p-2 w-[40rem]"
         ></input>
-        <p className="text-xl mb-2 mt-5">City</p>
-        <input
-          value={karyakarni.city}
-          onChange={handleChange("city")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
-
         <p className="text-xl mb-2 mt-5">State</p>
-        <input
-          value={karyakarni.state}
+        <select
           onChange={handleChange("state")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
+          className="border-black border-[1px] p-2 w-[40rem]"
+        >
+          <option value="">Select State</option>
+          {states.map((state) => (
+            <option key={state.isoCode} value={state.isoCode}>
+              {state.name}
+            </option>
+          ))}
+        </select>
+
+        <p className="text-xl mb-2 mt-5">City</p>
+        <select
+          onChange={handleChange("city")}
+          className="border-black border-[1px] p-2 w-[40rem]"
+          disabled={!karyakarni.state}
+        >
+          <option value="">Select City</option>
+          {cities.map((city) => (
+            <option key={city.name} value={city.name}>
+              {city.name}
+            </option>
+          ))}
+        </select>
 
         <p className="text-xl mb-2 mt-5">Select Logo</p>
         <input onChange={handleImageUpload} type="file"></input>

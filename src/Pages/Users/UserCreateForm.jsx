@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addMember } from "../../Api/memberApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { uploadImage } from "../../Api/feedsApi";
 
 const UserCreateForm = () => {
   const [familyMember, setFamilyMember] = useState({});
@@ -9,6 +10,7 @@ const UserCreateForm = () => {
   const navigate = useNavigate();
   const reactLocation = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState(null);
   const { familyID } = reactLocation.state;
   const [occupation, setOccupation] = useState("");
 
@@ -43,6 +45,10 @@ const UserCreateForm = () => {
         ...familyMember,
         familyID: fID,
       };
+      if (image !== null) {
+        const imageUrl = await uploadImage(image);
+        memberData.profilePic = imageUrl;
+      }
       const response = await addMember({ familyID, memberData: memberData });
       if (response.status === 201) {
         alert("Member added successfully");
@@ -52,6 +58,10 @@ const UserCreateForm = () => {
       setIsLoading(false);
       navigate("/family");
     }
+  };
+
+  const handleImageUpload = (e) => {
+    setImage(e.target.files[0]);
   };
 
   const occupationWithExtraFields = [
@@ -301,8 +311,8 @@ const UserCreateForm = () => {
 
         <p className="text-xl my-2">Profile Pic</p>
         <input
-          onChange={handleChange("profilePic")}
-          className="border-black border-[1px] p-2 w-[40rem]"
+        type="file"
+          onChange={handleImageUpload}
         ></input>
 
         <button

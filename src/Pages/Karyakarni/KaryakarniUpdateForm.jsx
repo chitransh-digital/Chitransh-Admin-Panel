@@ -54,6 +54,7 @@ const KaryakarniUpdateForm = () => {
 
       if (logoImage !== null) {
         const imageUrl = await uploadImage(logoImage);
+        console.log(imageUrl)
         karyakarniData = { ...karyakarniData, logo: imageUrl };
       }
 

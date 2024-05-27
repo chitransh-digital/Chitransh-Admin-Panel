@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 
 const BusinessListView = () => {
     const [reload, setReload] = useState(false);
-    const [businesses, setBusinesses] = useState([]);
+    const [business, setBusiness] = useState([]);
 
     const fetchBusinesses = async () => {
         const businesses = await getBusinesses();
-        setBusinesses(businesses.businesses);
+        setBusiness(businesses.businesses);
     }
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const BusinessListView = () => {
     }
     , [reload]);
 
-    if(!businesses || businesses.length === 0) {
+    if(!business || business.length === 0) {
         return <div>Loading...</div>
     }
 
@@ -35,10 +35,10 @@ const BusinessListView = () => {
                     </Link>
                 </div>
                 <ul className="my-5 px-12 sm:flex hidden justify-between font-medium text-[#A7A7A7]">
-                    {/* <li>Details</li>
-                    <li>Contact</li> */}
+                    <li>Details</li>
+                    <li>Contact</li>
                 </ul>
-                {businesses.map((item, idx) => (
+                {business.map((item, idx) => (
                     <BusinessListContent item={item} reload={reload} setReload={setReload} key={idx} />
                 ))}
             </div>

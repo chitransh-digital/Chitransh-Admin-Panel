@@ -70,7 +70,7 @@ const JobsListContent = ({ item, reload, setReload }) => {
           <p className="max-w-[60rem] my-3">{jobDescription}</p>
         </div>
         <div>
-          <p>{businessName}</p>
+          <p className="text-xl font-bold">{businessName}</p>
           <p>{location}</p>
           <p className="text-md font-light">{contact}</p>
         </div>
@@ -79,7 +79,7 @@ const JobsListContent = ({ item, reload, setReload }) => {
       <p className="flex flex-wrap w-[40rem]">
         Requirements:
         {requirements.map((item, idx) => (
-          <span className="ml-3 text-md font-bold mx-1">{item}</span>
+          <span className="ml-3 text-md font-bold mx-1">{item+","}</span>
         ))}
       </p>
       <div className="flex justify-between">

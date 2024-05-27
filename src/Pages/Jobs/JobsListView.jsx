@@ -9,7 +9,8 @@ const JobsListView = () => {
 
   const fetchJobs = async () => {
     const jobs = await getJobs();
-    setJobs(jobs);
+    setJobs(jobs.jobs);
+    console.log(jobs.jobs);
   };
 
   useEffect(() => {

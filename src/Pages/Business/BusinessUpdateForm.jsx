@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import {updateBusiness} from "../../Api/businessApi";
 import {useNavigate, useLocation} from "react-router-dom";
+import { uploadImage } from "../../Api/feedsApi";
 
 const BusinessUpdateForm = () => {
     const reactLocation = useLocation();
     const navigate = useNavigate();
     const {
+        id,
         name,
         ownerID,
         contact,
@@ -15,8 +17,7 @@ const BusinessUpdateForm = () => {
         state,
         type,
         link,
-        image,
-        attachment,
+        coupon,
     } = reactLocation.state;
 
     const [business, setBusiness] = useState({
@@ -29,9 +30,11 @@ const BusinessUpdateForm = () => {
         state,
         type,
         link,
-        image,
-        attachment,
+        coupon,
     });
+
+    const [img,setImage] = useState(null);
+    const [attach,setAttachment] = useState(null);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -47,9 +50,35 @@ const BusinessUpdateForm = () => {
     const updateClickHandler = async () => {
         if(window.confirm("Are you sure you want to edit this business?")) {
             setIsLoading(true);
-            await updateBusiness(business);
+            if(img!==null && attach!==null) {
+                const imageUrl = await uploadImage(img);
+                const attachmentUrl = await uploadImage(attach);
+                const businessWithImage = {...business, images: [imageUrl], attachments: [attachmentUrl]};
+                await updateBusiness(id, businessWithImage);
+            } else if(img!==null) {
+                const imageUrl = await uploadImage(img);
+                const businessWithImage = {...business, images: [imageUrl]};
+                await updateBusiness(id, businessWithImage);
+            }
+            else if(attach!==null) {
+                const attachmentUrl = await uploadImage(attach);
+                const businessWithImage = {...business, attachments: [attachmentUrl]};
+                await updateBusiness(id, businessWithImage);
+            }
+            else{
+                console.log(business);
+                await updateBusiness(id, business);
+            }
             navigate("/business");
         }
+    }
+
+    const handleImageUpload = (e) => {
+        setImage((prev) => e.target.files[0]);
+      };
+
+    const handleAttachmentUpload = (e) => {
+        setAttachment((prev) => e.target.files[0]);
     }
 
     return (
@@ -60,79 +89,81 @@ const BusinessUpdateForm = () => {
                 </p>
             </div>
             <div className="mt-10 ml-5">
-                <p className="text-xl mb-2">name</p>
+                <p className="text-xl mb-2">Name</p>
                 <input
                     value={business.name}
                     onChange={handleChange("name")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">contact</p>
+                <p className="text-xl mb-2 mt-5">Contact</p>
                 <input
                     value={business.contact}
                     onChange={handleChange("contact")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">desc</p>
+                <p className="text-xl mb-2 mt-5">Desc</p>
                 <input
                     value={business.desc}
                     onChange={handleChange("desc")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">landmark</p>
+                <p className="text-xl mb-2 mt-5">Landmark</p>
                 <input
                     value={business.landmark}
                     onChange={handleChange("landmark")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">city</p>
+                <p className="text-xl mb-2 mt-5">City</p>
                 <input
                     value={business.city}
                     onChange={handleChange("city")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">state</p>
+                <p className="text-xl mb-2 mt-5">State</p>
                 <input
                     value={business.state}
                     onChange={handleChange("state")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">type</p>
+                <p className="text-xl mb-2 mt-5">Type</p>
                 <input
                     value={business.type}
                     onChange={handleChange("type")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input> 
 
-                <p className="text-xl mb-2 mt-5">link</p>
+                <p className="text-xl mb-2 mt-5">Link</p>
                 <input
                     value={business.link}
                     onChange={handleChange("link")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">image</p>
+                <p className="text-xl mb-2 mt-5">Image</p>
                 <input
-                    value={business.image}
-                    onChange={handleChange("image")}
+                    type="file"
+                    onChange={handleImageUpload}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">attachment</p>
+                <p className="text-xl mb-2 mt-5">Attachment</p>
                 <input
-                    value={business.attachment}
-                    onChange={handleChange("attachment")}
+                    type="file"
+                    onChange={handleAttachmentUpload}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
                 <button
                     onClick={updateClickHandler}
-                    className={isLoading ? loadingButton : normalButton}
+                    className={`block mt-8 w-[128px] h-[51px] font-bold transition-all ease-in-out ${
+                        isLoading ? loadingButton : normalButton
+                      }`}
                 >
                     {isLoading ? "Updating..." : "Update Business"}
                 </button>

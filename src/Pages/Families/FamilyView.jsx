@@ -7,13 +7,6 @@ const FamilyView = ({ setFamilyVariant, displayFamily }) => {
   const navigate = useNavigate();
   const { familyID , members } = displayFamily;
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const normalButton =
-    "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
-  const loadingButton =
-    "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
-
   const clickHandler = () => {
     setFamilyVariant((prev) => !prev);
   };

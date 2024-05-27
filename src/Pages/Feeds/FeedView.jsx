@@ -7,7 +7,7 @@ import { sendImageNotification } from "../../Api/notificationApi";
 const FeedView = ({ setFeedVariant, displayFeed }) => {
   const navigate = useNavigate();
   const { title, author, timestamp, location, images, body, id } = displayFeed;
-  const date = new Date(timestamp.seconds * 1000);
+  const date = new Date(timestamp);
   const dateString = date.toLocaleDateString("en-US", {
     day: "2-digit",
     month: "short",

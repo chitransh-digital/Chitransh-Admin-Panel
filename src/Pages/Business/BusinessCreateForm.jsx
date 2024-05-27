@@ -1,11 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { registerBusiness } from "../../Api/businessApi";
+import { uploadImage } from "../../Api/feedsApi";
 
 const BusinessCreateForm = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = React.useState(false);
-    const [businesses, setBusiness] = React.useState({});
+    const [businesses, setBusiness] = React.useState({
+        name: "",
+        ownerID: "",
+        contact: "",
+        desc: "",
+        landmark: "",
+        city: "",
+        state: "",
+        type: "",
+        link: "",
+        image: [],
+        attachment: [],
+        coupon: "",
+    });
+
+    const [image, setImage] = React.useState(null);
+    const [attachment, setAttachment] = React.useState(null);
 
     const normalButton = 
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -21,30 +38,36 @@ const BusinessCreateForm = () => {
     const createClickHandler = async () => {
         if(window.confirm("Are you sure you want to create this business?")) {
             setIsLoading((prev) => true);
-            const newBusiness = {
-                name: businesses.name,
-                ownerID: businesses.ownerID,
-                contact: businesses.contact,
-                desc: businesses.desc,
-                landmark: businesses.landmark,
-                city: businesses.city,
-                state: businesses.state,
-                type: businesses.type,
-                link: businesses.link,
-                image: businesses.image,
-                attachment: businesses.attachment,
-                coupen: businesses.coupen,
-            };
-            const response = await registerBusiness(newBusiness);
-            if(response.message === "Business added successfully") {
-                alert("Business created successfully");
-                navigate("/business");
-            } else {
-                alert("Couldn't create business. Please try again.");
+            if(image!==null && attachment!==null) {
+                const imageUrl = await uploadImage(image);
+                const attachmentUrl = await uploadImage(attachment);
+                const businessWithImage = {...businesses, images: [imageUrl], attachments: [attachmentUrl]};
+                await registerBusiness(businessWithImage);
+            } else if(image!==null) {
+                const imageUrl = await uploadImage(image);
+                const businessWithImage = {...businesses, images: [imageUrl]};
+                await registerBusiness(businessWithImage);
+            }
+            else if(attachment!==null) {
+                const attachmentUrl = await uploadImage(attachment);
+                const businessWithImage = {...businesses, attachments: [attachmentUrl]};
+                await registerBusiness(businessWithImage);
+            }
+            else{
+                console.log(businesses);
+                await registerBusiness(businesses);
             }
             setIsLoading((prev) => false);
+            navigate("/business");
         }
-        
+    }
+
+    const handleImageUpload = (e) => {
+        setImage((prev) => e.target.files[0]);
+      };
+
+    const handleAttachmentUpload = (e) => {
+        setAttachment((prev) => e.target.files[0]);
     }
 
     return (
@@ -102,17 +125,17 @@ const BusinessCreateForm = () => {
                 ></input>
                 <p className="text-xl mb-2 mt-5">Image</p>
                 <input 
-                    onChange={handleChange("image")}
-                    className="border-black border-[1px] p-2 w-[40rem]"
+                    type="file"
+                    onChange={handleImageUpload}
                 ></input>
                 <p className="text-xl mb-2 mt-5">Attachment</p>
                 <input 
-                    onChange={handleChange("attachment")}
-                    className="border-black border-[1px] p-2 w-[40rem]"
+                    type="file"
+                    onChange={handleAttachmentUpload}
                 ></input>
-                <p className="text-xl mb-2 mt-5">Coupen</p>
+                <p className="text-xl mb-2 mt-5">Coupon</p>
                 <input 
-                    onChange={handleChange("coupen")}
+                    onChange={handleChange("coupon")}
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
                 <button

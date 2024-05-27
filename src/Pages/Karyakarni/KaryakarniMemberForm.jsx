@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { uploadImage } from "../../Api/karyakarniApi";
 
 const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakarni }) => {
-  const [isLoading, setIsLoading] = useState(false);
+
   const [member, setMember] = useState({
     name: "",
     familyID: "",
@@ -10,9 +10,6 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
     designations: [],
     karyakarni: karyakarniId,
   });
-
-  const normalButton = "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
-  const loadingButton = "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
   const handleMemberChange = (input) => (e) => {
     e.preventDefault();
@@ -100,9 +97,9 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
             <p>Name: {member.name}</p>
             <p>Family ID: {member.familyID}</p>
             <p>Designations: {member.designations.join(", ")}</p>
-            {member.profilePic && (
-              <img src={member.profilePic} alt={member.name} className="w-20 h-20" />
-            )}
+            {/* {member.profilePic && (
+              <img src={window.location.protocol+"//"+window.location.host+member.profilePic} alt={member.name} className="w-20 h-20" />
+            )} */}
           </li>
         ))}
       </ul>

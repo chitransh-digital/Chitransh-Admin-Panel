@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { uploadImage, updateFeed } from "../../Api/feedsApi";
+import { uploadImage } from "../../Api/feedsApi";
 import { updateMember } from "../../Api/memberApi";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
 
@@ -57,7 +57,8 @@ const MemberUpdateForm = () => {
       setIsLoading((prev) => true);
       if (image !== null) {
         const imageUrl = await uploadImage(image);
-        const memberWithImage = { ...member, images: [imageUrl] };
+        const memberWithImage = { ...member, profilePic: imageUrl };
+        console.log("memberWithImage", memberWithImage)
         await updateMember(familyID, memberWithImage);
       } else {
         await updateMember(familyID, member);
@@ -331,9 +332,8 @@ const MemberUpdateForm = () => {
 
         <p className="text-xl my-2">Profile Pic</p>
         <input
-        value={member.profilePic}
-          onChange={handleChange("profilePic")}
-          className="border-black border-[1px] p-2 w-[40rem]"
+          type="file"
+          onChange={handleImageUpload}
         ></input>
 
 

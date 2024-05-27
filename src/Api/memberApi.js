@@ -35,6 +35,7 @@ export const addMember = async (memberData) => {
 
 export const updateMember = async (familyID, memberData) => {
     try {
+      console.log("body", memberData);
       const response = await fetch(`http://localhost:5000/member/update/${familyID}`, {
         method: 'PATCH',
         headers: {

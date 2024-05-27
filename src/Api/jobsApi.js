@@ -5,7 +5,7 @@ export const getJobs = async () => {
       credentials: "include",
     });
     const jobs = await data.json();
-    return jobs.jobs;
+    return jobs;
   } catch (err) {
     console.error("Error getting jobs:", err);
   }

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createKaryakarni, uploadImage } from "../../Api/karyakarniApi";
+import { State, City } from "country-state-city";
 
 const KaryakarniCreateForm = () => {
   const navigate = useNavigate();
@@ -13,9 +14,23 @@ const KaryakarniCreateForm = () => {
     designations: [],
   });
 
-  const [logo,setLogo] = useState(null);
+  const [logo, setLogo] = useState(null);
   const [currentDesignation, setCurrentDesignation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  useEffect(() => {
+    const indianStates = State.getStatesOfCountry("IN");
+    setStates(indianStates);
+  }, []);
+
+  useEffect(() => {
+    if (karyakarni.state) {
+      const indianCities = City.getCitiesOfState("IN", karyakarni.state);
+      setCities(indianCities);
+    }
+  }, [karyakarni.state]);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -28,7 +43,7 @@ const KaryakarniCreateForm = () => {
   };
 
   const handleLogoUpload = (e) => {
-    setLogo((prev) => e.target.files[0]);
+    setLogo(e.target.files[0]);
   };
 
   const handleAddDesignation = () => {
@@ -50,15 +65,15 @@ const KaryakarniCreateForm = () => {
 
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to create this karyakarni?")) {
-      setIsLoading(prev => true);
-      if(logo !== null){
+      setIsLoading(true);
+      if (logo !== null) {
         const logoUrl = await uploadImage(logo);
-        const karyakarniWithLogo = {...karyakarni, logo: logoUrl};
+        const karyakarniWithLogo = { ...karyakarni, logo: logoUrl };
         await createKaryakarni(karyakarniWithLogo);
       } else {
         await createKaryakarni(karyakarni);
       }
-      setIsLoading(prev => false);
+      setIsLoading(false);
       navigate("/karyakarni");
     }
   };
@@ -71,33 +86,47 @@ const KaryakarniCreateForm = () => {
         </p>
       </div>
       <div className="mt-10 ml-5">
-
         <p className="text-xl mb-2">Name</p>
         <input
           onChange={handleChange("name")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
+          className="border-black border-[1px] p-2 w-[40rem]"
+        />
 
         <p className="text-xl mb-2 mt-5">Landmark</p>
         <input
           onChange={handleChange("landmark")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
-
-        <p className="text-xl mb-2 mt-5">City</p>
-        <input
-          onChange={handleChange("city")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
+          className="border-black border-[1px] p-2 w-[40rem]"
+        />
 
         <p className="text-xl mb-2 mt-5">State</p>
-        <input
+        <select
           onChange={handleChange("state")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
+          className="border-black border-[1px] p-2 w-[40rem]"
+        >
+          <option value="">Select State</option>
+          {states.map((state) => (
+            <option key={state.isoCode} value={state.isoCode}>
+              {state.name}
+            </option>
+          ))}
+        </select>
+
+        <p className="text-xl mb-2 mt-5">City</p>
+        <select
+          onChange={handleChange("city")}
+          className="border-black border-[1px] p-2 w-[40rem]"
+          disabled={!karyakarni.state}
+        >
+          <option value="">Select City</option>
+          {cities.map((city) => (
+            <option key={city.name} value={city.name}>
+              {city.name}
+            </option>
+          ))}
+        </select>
 
         <p className="text-xl mb-2 mt-5">Select Logo</p>
-        <input onChange={handleLogoUpload} type="file"></input>
+        <input onChange={handleLogoUpload} type="file" />
 
         <p className="text-xl mb-2 mt-5">Designations</p>
         <div className="flex items-center">
@@ -105,7 +134,7 @@ const KaryakarniCreateForm = () => {
             value={currentDesignation}
             onChange={(e) => setCurrentDesignation(e.target.value)}
             className="border-black border-[1px] p-2 w-[30rem]"
-          ></input>
+          />
           <button
             onClick={handleAddDesignation}
             className="ml-2 p-2 bg-blue-600 text-white rounded-md"
@@ -126,7 +155,6 @@ const KaryakarniCreateForm = () => {
             </li>
           ))}
         </ul>
-
 
         <button
           onClick={isLoading ? () => {} : createClickHandler}

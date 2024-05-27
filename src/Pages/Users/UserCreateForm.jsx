@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addMember } from "../../Api/memberApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { State, City } from "country-state-city";
 import { uploadImage } from "../../Api/feedsApi";
 
 const UserCreateForm = () => {
@@ -13,6 +14,8 @@ const UserCreateForm = () => {
   const [image, setImage] = useState(null);
   const { familyID } = reactLocation.state;
   const [occupation, setOccupation] = useState("");
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -36,6 +39,18 @@ const UserCreateForm = () => {
   useEffect(() => {
     fetchKaryakarni();
   }, []);
+
+  useEffect(() => {
+    const indianStates = State.getStatesOfCountry("IN");
+    setStates(indianStates);
+  }, []);
+
+  useEffect(() => {
+    if (familyMember.state) {
+      const indianCities = City.getCitiesOfState("IN", familyMember.state);
+      setCities(indianCities);
+    }
+  }, [familyMember.state]);
 
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to add this member?")) {
@@ -277,18 +292,33 @@ const UserCreateForm = () => {
 
         <div className="flex gap-[2rem]">
           <div>
-            <p className="text-xl mb-2 mt-5">City</p>
-            <input
-              onChange={handleChange("city")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-          <div>
             <p className="text-xl mb-2 mt-5">State</p>
-            <input
+            <select
               onChange={handleChange("state")}
               className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+            >
+              <option value="">Select State</option>
+              {states.map((state) => (
+                <option key={state.isoCode} value={state.isoCode}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">City</p>
+            <select
+              onChange={handleChange("city")}
+              className="border-black border-[1px] p-2 w-[19rem]"
+              disabled={!karyakarni.state}
+            >
+              <option value="">Select City</option>
+              {cities.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

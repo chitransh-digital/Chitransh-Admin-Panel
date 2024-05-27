@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { removeKaryakarni } from "../../Api/karyakarniApi";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,9 +6,14 @@ import { sendImageNotification } from "../../Api/notificationApi";
 
 const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
   const navigate = useNavigate();
-  const { id,name,landmark,city,state,logo,designations, members } = displayKaryakarni;
+  const { id, name, landmark, city, state, logo, designations, members } = displayKaryakarni;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+
+  useEffect(() => {
+    setSelectedMembers(members || []);
+  }, [members]);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -29,9 +34,9 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
 
   const notifyHandler = async () => {
     if (window.confirm("Are you sure you want to send notification for this karyakarni?")) {
-      setIsLoading((prev) => true);
+      setIsLoading(true);
       await sendImageNotification({ name, logo });
-      setIsLoading((prev) => false);
+      setIsLoading(false);
     }
   };
 
@@ -43,28 +48,30 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
       </p>
       <p className="text-3xl pl-5">{name}</p>
       <div className="m-5 flex flex-wrap">
-            <div className="w-64 h-64 overflow-hidden rounded-xl mr-6">
-              <img src={logo} alt="" className="object-cover w-full h-full" />
+        <div className="w-64 h-64 overflow-hidden rounded-xl mr-6">
+          <img src={logo} alt={name} className="object-cover w-full h-full" />
+        </div>
+      </div>
+      <p className="pr-20 pl-5 my-5">Formed at {`${landmark} ${city} ${state}`}</p>
+
+      <div className="flex flex-wrap pl-5">
+        <p className="font-bold w-full">Members:</p>
+        <div className="flex flex-wrap">
+          {selectedMembers.map((member, index) => (
+            <div 
+              key={index} 
+              className="m-5 p-5 border-black  border-2 rounded hover:shadow-2xl duration-200"
+            >
+              <img src={member.profilePic} alt={member.name} className="w-16 h-16 object-cover rounded-full" />
+              <h2 className="font-bold">{member.name}</h2>
+              <ul>
+                {member.designations.map((designation, i) => (
+                  <li key={i}>{designation}</li>
+                ))}
+              </ul>
             </div>
-      </div>
-      <p className="pr-20 pl-5 my-5">Formed at {landmark+" "+ city+" "+ state}</p>
-
-      <div className="flex flex-wrap pl-5">
-        <p className="font-bold">Designations:</p>
-        <ul className="flex flex-wrap">
-          {designations.map((designation, idx) => (
-            <li key={idx} className="ml-2">{designation}</li>
           ))}
-        </ul>
-      </div>
-
-      <div className="flex flex-wrap pl-5">
-        <p className="font-bold">Members:</p>
-        <ul className="flex flex-wrap">
-          {members.map((member, idx) => (
-            <li key={idx} className="ml-2">{member.name}</li> 
-          ))}
-        </ul>
+        </div>
       </div>
 
       <div className="flex">
@@ -79,12 +86,12 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
         <Link
           to="/updateKaryakarni"
           state={{
-            id, 
-            name, 
-            landmark, 
-            state, 
-            city, 
-            logo, 
+            id,
+            name,
+            landmark,
+            state,
+            city,
+            logo,
             designations,
             members,
           }}

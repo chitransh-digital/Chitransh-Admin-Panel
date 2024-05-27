@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage, updateFeed } from "../../Api/feedsApi";
 import { updateMember } from "../../Api/memberApi";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { State, City } from "country-state-city";
 
 const MemberUpdateForm = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const MemberUpdateForm = () => {
   const reactLocation = useLocation();
   const { familyID, memberData } = reactLocation.state;
   const [occupation, setOccupation] = useState("");
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -51,6 +54,18 @@ const MemberUpdateForm = () => {
   useEffect(() => {
     fetchKaryakarni();
   }, []);
+
+  useEffect(() => {
+    const indianStates = State.getStatesOfCountry("IN");
+    setStates(indianStates);
+  }, []);
+
+  useEffect(() => {
+    if (member.state) {
+      const indianCities = City.getCitiesOfState("IN", member.state);
+      setCities(indianCities);
+    }
+  }, [member.state]);
 
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to edit this member?")) {
@@ -292,24 +307,42 @@ const MemberUpdateForm = () => {
           </div>
         </div>
 
+        // Inside the return statement of MemberUpdateForm component
+
         <div className="flex gap-[2rem]">
           <div>
-            <p className="text-xl mb-2 mt-5">City</p>
-            <input
-            value={member.city}
-              onChange={handleChange("city")}
-              className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
-          </div>
-          <div>
             <p className="text-xl mb-2 mt-5">State</p>
-            <input
-            value={member.state}
+            <select
+              value={member.state}
               onChange={handleChange("state")}
               className="border-black border-[1px] p-2 w-[19rem]"
-            ></input>
+            >
+              <option value="">Select State</option>
+              {states.map((state) => (
+                <option key={state.isoCode} value={state.isoCode}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">City</p>
+            <select
+              value={member.city}
+              onChange={handleChange("city")}
+              className="border-black border-[1px] p-2 w-[19rem]"
+              disabled={!member.state} // Disable until state is selected
+            >
+              <option value="">Select City</option>
+              {cities.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
+
 
         <div className="flex gap-[2rem]">
           <div>

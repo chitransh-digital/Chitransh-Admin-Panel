@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {updateBusiness} from "../../Api/businessApi";
 import {useNavigate, useLocation} from "react-router-dom";
+import { useEffect } from "react";
+import { State, City } from "country-state-city";  
 
 const BusinessUpdateForm = () => {
     const reactLocation = useLocation();
@@ -32,6 +34,8 @@ const BusinessUpdateForm = () => {
         image,
         attachment,
     });
+    const [states, setStates] = React.useState([]);
+    const [cities, setCities] = React.useState([]);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +47,17 @@ const BusinessUpdateForm = () => {
         e.preventDefault();
         setBusiness((prev) => ({...prev, [input]: e.target.value}));
     }
+
+    useEffect(() => {
+        const indianStates = State.getStatesOfCountry("IN");
+        setStates(indianStates);
+    }, []);
+
+    useEffect(() => {
+        if(business.state) {
+            setCities(City.getCitiesOfState("IN", business.state));
+        }
+    }, [business.state]);
 
     const updateClickHandler = async () => {
         if(window.confirm("Are you sure you want to edit this business?")) {
@@ -88,19 +103,32 @@ const BusinessUpdateForm = () => {
                     className="border-black border-[1px] p-2 w-[40rem]"
                 ></input>
 
-                <p className="text-xl mb-2 mt-5">city</p>
-                <input
-                    value={business.city}
-                    onChange={handleChange("city")}
-                    className="border-black border-[1px] p-2 w-[40rem]"
-                ></input>
+                <p className="text-xl mb-2 mt-5">State</p>
+                <select
+                onChange={handleChange("state")}
+                className="border-black border-[1px] p-2 w-[40rem]"
+                >
+                <option value="">Select State</option>
+                {states.map((state) => (
+                    <option key={state.isoCode} value={state.isoCode}>
+                    {state.name}
+                    </option>
+                ))}
+                </select>
 
-                <p className="text-xl mb-2 mt-5">state</p>
-                <input
-                    value={business.state}
-                    onChange={handleChange("state")}
-                    className="border-black border-[1px] p-2 w-[40rem]"
-                ></input>
+                <p className="text-xl mb-2 mt-5">City</p>
+                <select
+                onChange={handleChange("city")}
+                className="border-black border-[1px] p-2 w-[40rem]"
+                disabled={!business.state}
+                >
+                <option value="">Select City</option>
+                {cities.map((city) => (
+                    <option key={city.name} value={city.name}>
+                    {city.name}
+                    </option>
+                ))}
+                </select>
 
                 <p className="text-xl mb-2 mt-5">type</p>
                 <input

@@ -1,6 +1,6 @@
 export const getBusinesses = async () => {
     try {
-        const businesses = await fetch("http://localhost:5000/business/getBusiness", {
+        const businesses = await fetch("http://localhost:5000/business/getBusinesses", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -34,13 +34,14 @@ export const registerBusiness = async (businessData) => {
     }
 }
 
-export const updateBusiness = async (businessData) => {
+export const updateBusiness = async (id,businessData) => {
     try {
         const payload = {
             ...businessData,
         };
-        const business = await fetch("http://localhost:5000/business/updateBusiness", {
-            method: "PUT",
+        console.log("payload",payload)
+        const business = await fetch(`http://localhost:5000/business/updateBusiness/${id}`, {
+            method: "PATCH",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
@@ -56,7 +57,7 @@ export const updateBusiness = async (businessData) => {
 
 export const deleteBusiness = async (ownerID, name) => {
     try {
-        const business = await fetch(`http://localhost:5000/business/${ownerID}/${name}`, {
+        const business = await fetch(`http://localhost:5000/business/deleteBusiness/${ownerID}/${name}`, {
             method: "DELETE",
             credentials: "include",
             headers: {

@@ -6,12 +6,12 @@ import LocationFilter from "../../Components/LocationFilter";
 
 const BusinessListView = () => {
   const [reload, setReload] = useState(false);
-  const [businesses, setBusinesses] = useState([]);
+  const [business, setBusiness] = useState([]);
   const [filteredBusinesses, setFilteredBusinesses] = useState([]);
   
   const fetchBusinesses = async () => {
     const businesses = await getBusinesses();
-    setBusinesses(businesses.businesses);
+    setBusiness(businesses.businesses);
     setFilteredBusinesses(businesses.businesses);
   };
 
@@ -20,7 +20,7 @@ const BusinessListView = () => {
   }, [reload]);
 
   const handleSearch = ({ state, city, searchTerm }) => {
-    let filteredList = businesses;
+    let filteredList = business;
 
     if (state) {
       filteredList = filteredList.filter((item) => item.state === state);
@@ -31,15 +31,15 @@ const BusinessListView = () => {
     }
 
     if (searchTerm) {
-      filteredList = filteredList.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      filteredList = filteredList.filter((item) => 
+        item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     setFilteredBusinesses(filteredList);
   };
 
-  if (!businesses || businesses.length === 0) {
+  if (!business || business.length === 0) {
     return <div>Loading...</div>;
   }
 
@@ -57,18 +57,14 @@ const BusinessListView = () => {
           </Link>
         </div>
         <LocationFilter onSearch={handleSearch} searchTermLabel="Name" />
-        {filteredBusinesses.map((business) => (
-          <div
-            key={business.name}
-            className="w-full cursor-pointer border-black border-[0.5px] h-[5rem] hover:h-[7rem] rounded-lg relative overflow-hidden px-5 py-3 sm:pt-3 transition-all ease-in-out my-2"
-          >
-            <BusinessListContent item={business} reload={reload} setReload={setReload} />
-          </div>
-        ))}
+
         <ul className="my-5 px-12 sm:flex hidden justify-between font-medium text-[#A7A7A7]">
-          {/* <li>Details</li>
-          {/* <li>Contact</li> */}
+            <li>Details</li>
+            <li>Contact</li>
         </ul>
+        {filteredBusinesses.map((busines,idx) => (
+            <BusinessListContent item={busines} reload={reload} setReload={setReload} key={idx}/>
+        ))}
       </div>
     </div>
   );

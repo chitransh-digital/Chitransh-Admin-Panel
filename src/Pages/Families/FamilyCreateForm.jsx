@@ -3,9 +3,15 @@ import { addMember } from "../../Api/memberApi";
 import { useNavigate } from "react-router-dom";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
+import { uploadImage } from "../../Api/feedsApi";
 
 const FamilyCreateForm = () => {
-  const [familyHead, setFamilyHead] = useState({});
+  const [familyHead, setFamilyHead] = useState({
+    profilePic: "",
+    state: "",
+    city:"",
+  });
+  const [image, setImage] = useState(null);
   const [karyakarni, setKaryakarni] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +48,7 @@ const FamilyCreateForm = () => {
 
   useEffect(() => {
     if (familyHead.state) {
-      const indianCities = City.getCitiesOfState("IN", karyakarni.state);
+      const indianCities = City.getCitiesOfState("IN", familyHead.state);
       setCities(indianCities);
     }
   }, [familyHead.state]);
@@ -62,6 +68,10 @@ const FamilyCreateForm = () => {
         relation: "head",
         familyID,
       };
+      if (image !== null) {
+        const imageUrl = await uploadImage(image);
+        headMemberData.profilePic = imageUrl;
+      }
       const response = await addMember({ familyID, memberData: headMemberData });
       if (response.status === 201) {
         alert("Family created successfully");
@@ -71,6 +81,10 @@ const FamilyCreateForm = () => {
       setIsLoading(false);
       navigate("/family");
     }
+  };
+
+  const handleIMageUpload = (e) => {
+    setImage((prev) => e.target.files[0]);
   };
 
   const occupationWithExtraFields = [
@@ -275,7 +289,6 @@ const FamilyCreateForm = () => {
           <select
             onChange={handleChange("city")}
             className="border-black border-[1px] p-2 w-[19rem]"
-            disabled={!karyakarni.state}
           >
             <option value="">Select City</option>
             {cities.map((city) => (
@@ -304,10 +317,10 @@ const FamilyCreateForm = () => {
           </div>
         </div>
 
-        <p className="text-xl my-2">Profile Pic</p>
+        <p className="text-xl my-2">Select Profile Pic</p>
         <input
-          onChange={handleChange("profilePic")}
-          className="border-black border-[1px] p-2 w-[40rem]"
+          type="file"
+          onChange={handleIMageUpload}
         ></input>
 
         <button

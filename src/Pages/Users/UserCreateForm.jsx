@@ -3,6 +3,7 @@ import { addMember } from "../../Api/memberApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
+import { uploadImage } from "../../Api/feedsApi";
 
 const UserCreateForm = () => {
   const [familyMember, setFamilyMember] = useState({});
@@ -10,6 +11,7 @@ const UserCreateForm = () => {
   const navigate = useNavigate();
   const reactLocation = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState(null);
   const { familyID } = reactLocation.state;
   const [occupation, setOccupation] = useState("");
   const [states, setStates] = useState([]);
@@ -58,6 +60,10 @@ const UserCreateForm = () => {
         ...familyMember,
         familyID: fID,
       };
+      if (image !== null) {
+        const imageUrl = await uploadImage(image);
+        memberData.profilePic = imageUrl;
+      }
       const response = await addMember({ familyID, memberData: memberData });
       if (response.status === 201) {
         alert("Member added successfully");
@@ -67,6 +73,10 @@ const UserCreateForm = () => {
       setIsLoading(false);
       navigate("/family");
     }
+  };
+
+  const handleImageUpload = (e) => {
+    setImage(e.target.files[0]);
   };
 
   const occupationWithExtraFields = [
@@ -300,7 +310,6 @@ const UserCreateForm = () => {
             <select
               onChange={handleChange("city")}
               className="border-black border-[1px] p-2 w-[19rem]"
-              disabled={!karyakarni.state}
             >
               <option value="">Select City</option>
               {cities.map((city) => (
@@ -331,8 +340,8 @@ const UserCreateForm = () => {
 
         <p className="text-xl my-2">Profile Pic</p>
         <input
-          onChange={handleChange("profilePic")}
-          className="border-black border-[1px] p-2 w-[40rem]"
+        type="file"
+          onChange={handleImageUpload}
         ></input>
 
         <button

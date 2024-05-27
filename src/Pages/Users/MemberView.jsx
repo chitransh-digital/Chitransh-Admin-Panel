@@ -1,16 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { deleteMember } from "../../Api/memberApi";
 import { Link, useNavigate } from "react-router-dom";
 
 const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const normalButton =
-    "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
-  const loadingButton =
-    "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
   const clickHandler = () => {
     setMemberVariant((prev) => !prev);
@@ -33,6 +27,10 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
       </p>
       <p className="text-3xl pl-5">{displayMember.name}</p>
       <p className="pl-5">{displayMember.gender + " "+ displayMember.age}</p>
+
+      <div className="w-64 h-64 overflow-hidden rounded-xl mr-6 ml-5">
+        <img src={displayMember.profilePic} alt="" className="object-cover w-full h-full" />
+      </div>
 
       <div className="flex flex-wrap pl-5 pt-5">
             <p className="font-bold">Family ID:</p>

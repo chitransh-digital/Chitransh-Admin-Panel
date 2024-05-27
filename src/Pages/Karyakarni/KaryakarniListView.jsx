@@ -34,7 +34,7 @@ const KaryakarniList = () => {
 
     if (searchTerm) {
       filteredList = filteredList.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 

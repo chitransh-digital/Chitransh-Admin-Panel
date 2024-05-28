@@ -1,24 +1,35 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import adminImage from "../../Assets/admin.jpg";
 import { loginAdmin } from "../../Api/authApi";
 import Cookies from "js-cookie";
 import { useUserState } from "../../Store/store";
+import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
   const { setIsLoggedIn } = useUserState();
 
   const submitHandler = async () => {
-    const response = await loginAdmin(password);
-    const { token } = response;
-    if (!token) {
-      alert("Invalid Password");
-      return;
+    try {
+      const response = await loginAdmin(password);
+      const { token } = response;
+      if (!token) {
+        alert("Invalid Password");
+        return;
+      }
+      Cookies.set("jwt", token, { expires: 3 });
+      setIsLoggedIn(); // Assuming setIsLoggedIn sets the user state to logged in
+      setRedirect(true); // Trigger redirect
+    } catch (error) {
+      console.error("Login failed", error);
+      alert("Login failed. Please try again.");
     }
-    Cookies.set("jwt", token, {expires: 3});
-    setIsLoggedIn();
   };
+
+  if (redirect) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <center>

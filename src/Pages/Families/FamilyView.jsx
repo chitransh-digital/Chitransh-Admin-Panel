@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { deleteMember } from "../../Api/memberApi";
 import { Link, useNavigate } from "react-router-dom";

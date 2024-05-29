@@ -308,8 +308,6 @@ const MemberUpdateForm = () => {
           </div>
         </div>
 
-        // Inside the return statement of MemberUpdateForm component
-
         <div className="flex gap-[2rem]">
           <div>
             <p className="text-xl mb-2 mt-5">State</p>
@@ -332,7 +330,7 @@ const MemberUpdateForm = () => {
               value={member.city}
               onChange={handleChange("city")}
               className="border-black border-[1px] p-2 w-[19rem]"
-              disabled={!member.state} // Disable until state is selected
+              disabled={!member.state}
             >
               <option value="">Select City</option>
               {cities.map((city) => (

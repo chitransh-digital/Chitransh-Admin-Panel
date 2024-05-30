@@ -28,6 +28,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
     if (window.confirm("Are you sure you want to remove this karyakarni?")) {
       await removeKaryakarni(id);
       setKaryakarniVariant((prev) => !prev);
+      window.location.reload();
       navigate("/karyakarni");
     }
   };

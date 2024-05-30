@@ -32,7 +32,7 @@ const MemberList = () => {
             <li>Relation</li>
             <li> Contact</li>
           </ul>
-          {members.map((item, idx) => (
+          {members && members.map((item, idx) => (
             <div
             key={idx}
               onClick={() => clickHandler(item)}

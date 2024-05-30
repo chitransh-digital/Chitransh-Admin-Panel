@@ -19,8 +19,8 @@ const LoginPage = () => {
         return;
       }
       Cookies.set("jwt", token, { expires: 3 });
-      setIsLoggedIn(); // Assuming setIsLoggedIn sets the user state to logged in
-      setRedirect(true); // Trigger redirect
+      setIsLoggedIn();
+      setRedirect(true);
     } catch (error) {
       console.error("Login failed", error);
       alert("Login failed. Please try again.");

@@ -15,7 +15,7 @@ const Appointments = () => {
   const fetchFeeds = async () => {
     const feeds = await getFeeds();
     setFeed(feeds.Feeds);
-    setFilteredFeed(feeds.Feeds); // Initialize filteredFeed with the original feed data
+    setFilteredFeed(feeds.Feeds);
   };
 
   useEffect(() => {
@@ -24,9 +24,9 @@ const Appointments = () => {
 
   const searchByAuthor = () => {
     if (searchTerm.trim() === "") {
-      setFilteredFeed(feed); // If search term is empty, reset to original feed data
+      setFilteredFeed(feed);
     } else {
-      const filteredFeeds = feed.filter((feed) =>
+      const filteredFeeds = feed && feed.filter((feed) =>
         feed.author && feed.author.includes(searchTerm)
       );
       setFilteredFeed(filteredFeeds);
@@ -42,10 +42,6 @@ const Appointments = () => {
     setFeedVariant((prev) => !prev);
     setDisplayFeed(item);
   };
-
-  if (!feed || feed.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   if (!feedVariant) {
     return <FeedView setFeedVariant={setFeedVariant} displayFeed={displayFeed} />;
@@ -92,7 +88,7 @@ const Appointments = () => {
           <li>Time</li>
           <li>Author</li>
         </ul>
-        {filteredFeed.map((item, idx) => (
+        {filteredFeed && filteredFeed.map((item, idx) => (
           <div
             key={idx}
             onClick={() => clickHandler(item)}

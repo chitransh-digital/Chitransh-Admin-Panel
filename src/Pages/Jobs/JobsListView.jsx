@@ -13,7 +13,7 @@ const JobsListView = () => {
   const fetchJobs = async () => {
     const jobs = await getJobs();
     setJobs(jobs.jobs);
-    setFilteredJobs(jobs.jobs); // Initialize filteredJobs with the original jobs data
+    setFilteredJobs(jobs.jobs);
     console.log(jobs.jobs);
   };
 
@@ -23,9 +23,9 @@ const JobsListView = () => {
 
   const searchByTitle = () => {
     if (searchTerm.trim() === "") {
-      setFilteredJobs(jobs); // If search term is empty, reset to original jobs data
+      setFilteredJobs(jobs);
     } else {
-      const filteredJobs = jobs.filter((job) =>
+      const filteredJobs = jobs && jobs.filter((job) =>
         job.jobTitle && job.jobTitle.includes(searchTerm)
       );
       setFilteredJobs(filteredJobs);
@@ -36,10 +36,6 @@ const JobsListView = () => {
     setSearchTerm("");
     setFilteredJobs(jobs);
   };
-
-  if (!jobs || jobs.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="w-full">
@@ -81,7 +77,7 @@ const JobsListView = () => {
           <li>Details</li>
           <li>Contact</li>
         </ul>
-        {filteredJobs.map((item, idx) => (
+        {filteredJobs && filteredJobs.map((item, idx) => (
           <JobsListContent item={item} reload={reload} setReload={setReload} key={idx} />
         ))}
       </div>

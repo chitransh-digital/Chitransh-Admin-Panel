@@ -1,6 +1,6 @@
 export const createUser = async (data) => {
   try {
-    const response = await fetch("http://localhost:5000/member/add", {
+    const response = await fetch("http://159.89.165.67/api/member/add", {
       method: "POST",
       credentials: "include",
       headers: {

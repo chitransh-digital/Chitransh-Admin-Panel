@@ -61,7 +61,7 @@
 
 export const getFeeds = async () =>{
   try {
-    const response = await fetch("http://localhost:5000/feeds/getFeeds ", {
+    const response = await fetch("http://159.89.165.67/api/feeds/getFeeds ", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -78,7 +78,7 @@ export const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
   
-  const response = await fetch("http://localhost:5000/image/upload", {
+  const response = await fetch("http://159.89.165.67/api/image/upload", {
     method: "POST",
     body: formData
   });
@@ -99,7 +99,7 @@ export const createFeed = async (feedData) => {
       timestamp: new Date(),
       visible: false,
     };
-    const feed = await fetch("http://localhost:5000/feeds/uploadFeeds", {
+    const feed = await fetch("http://159.89.165.67/api/feeds/uploadFeeds", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -120,7 +120,7 @@ export const updateFeed = async (feedId, newData) => {
       ...newData,
       timestamp: new Date(),
     };
-    const feed = await fetch(`http://localhost:5000/feeds/update/${feedId}`, {
+    const feed = await fetch(`http://159.89.165.67/api/feeds/update/${feedId}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -137,7 +137,7 @@ export const updateFeed = async (feedId, newData) => {
 
 export const removeFeed = async (feedId) => {
   try {
-    const feed = await fetch(`http://localhost:5000/feeds/delete/${feedId}`, {
+    const feed = await fetch(`http://159.89.165.67/api/feeds/delete/${feedId}`, {
       method: "DELETE",
       credentials: "include",
     });

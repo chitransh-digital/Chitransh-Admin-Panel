@@ -1,6 +1,6 @@
 export const loginAdmin = async (password) => {
   try {
-    const response = await fetch("http://localhost:5000/auth/loginAdmin ", {
+    const response = await fetch("http://159.89.165.67/api/auth/loginAdmin ", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const loginAdmin = async (password) => {
 
 export const checkUser = async () => {
   try {
-    const response = await fetch("http://localhost:5000/auth/isLoggedIn", {
+    const response = await fetch("http://159.89.165.67/api/auth/isLoggedIn", {
       method: "GET",
       credentials: "include",
     });
@@ -27,7 +27,7 @@ export const checkUser = async () => {
 
 export const changePassword = async (currentPassword, newPassword) => {
   try {
-    const response = await fetch("http://localhost:5000/auth/changeAdminPassword", {
+    const response = await fetch("http://159.89.165.67/api/auth/changeAdminPassword", {
       method: "PUT",
       credentials: "include",
       headers: {

@@ -1,6 +1,6 @@
 export const getJobs = async () => {
   try {
-    const data = await fetch ("http://localhost:5000/job/getAll", {
+    const data = await fetch ("http://159.89.165.67/api/job/getAll", {
       method: "GET",
       credentials: "include",
     });
@@ -18,7 +18,7 @@ export const createJob = async (jobData) => {
       requirements: jobData.requirements.split(",").map((item) => item.trim()),
       salary: parseInt(jobData.salary),
     };
-    const job = await fetch("http://localhost:5000/job/add", {
+    const job = await fetch("http://159.89.165.67/api/job/add", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -42,7 +42,7 @@ export const updateJob = async (jobId, updatedJobData) => {
         .map((item) => item.trim()),
       salary: parseInt(updatedJobData.salary),
     };
-    const job = await fetch(`http://localhost:5000/job/update/${jobId}`, {
+    const job = await fetch(`http://159.89.165.67/api/job/update/${jobId}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -59,7 +59,7 @@ export const updateJob = async (jobId, updatedJobData) => {
 
 export const removeJob = async (jobId) => {
   try {
-    const job = await fetch(`http://localhost:5000/job/delete/${jobId}`, {
+    const job = await fetch(`http://159.89.165.67/api/job/delete/${jobId}`, {
       method: "DELETE",
       credentials: "include",
     });

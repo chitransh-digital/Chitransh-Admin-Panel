@@ -1,6 +1,6 @@
 export const sendNotification = async (data) => {
   try {
-    const response = await fetch("http://localhost:5000/notification/send", {
+    const response = await fetch("http://159.89.165.67/api/notification/send", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -17,7 +17,7 @@ export const sendNotification = async (data) => {
 export const sendImageNotification = async (body) => {
   const { title, images } = body;
   try {
-    await fetch("http://localhost:5000/notification/send-image", {
+    await fetch("http://159.89.165.67/api/notification/send-image", {
       method: "POST",
       credentials: "include",
       headers: {

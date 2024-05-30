@@ -50,7 +50,7 @@
 
 export const getKaryakarnis = async () =>{
     try {
-      const response = await fetch("http://localhost:5000/karyakarni/getKaryakarnis", {
+      const response = await fetch("http://159.89.165.67/api/karyakarni/getKaryakarnis", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -67,7 +67,7 @@ export const getKaryakarnis = async () =>{
     const formData = new FormData();
     formData.append('file', file);
     
-    const response = await fetch("http://localhost:5000/image/upload", {
+    const response = await fetch("http://159.89.165.67/api/image/upload", {
       method: "POST",
       body: formData
     });
@@ -86,7 +86,7 @@ export const getKaryakarnis = async () =>{
       const payload = {
         ...karyakarniData,
       };
-      const karyakarni = await fetch("http://localhost:5000/karyakarni/registerKaryakarni", {
+      const karyakarni = await fetch("http://159.89.165.67/api/karyakarni/registerKaryakarni", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -106,7 +106,7 @@ export const getKaryakarnis = async () =>{
       const payload = {
         ...newData
       };
-      const karyakarni = await fetch(`http://localhost:5000/karyakarni/update/${karyakarniId}`, {
+      const karyakarni = await fetch(`http://159.89.165.67/api/karyakarni/update/${karyakarniId}`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -123,7 +123,7 @@ export const getKaryakarnis = async () =>{
   
   export const removeKaryakarni = async (karyakarniId) => {
     try {
-      const karyakarni = await fetch(`http://localhost:5000/karyakarni/delete/${karyakarniId}`, {
+      const karyakarni = await fetch(`http://159.89.165.67/api/karyakarni/delete/${karyakarniId}`, {
         method: "DELETE",
         credentials: "include",
       });

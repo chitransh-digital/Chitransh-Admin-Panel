@@ -43,7 +43,6 @@ const Dashboard = () => {
   else if (pathname === "/business") content = <BusinessListView />;
   else if (pathname === "/registerBusiness") content = <BusinessCreateForm />;
   else if (pathname === "/updateBusiness") content = <BusinessUpdateForm />;
-  // else if (pathname === "/business") content = <Appointments />;
 
   return (
     <>

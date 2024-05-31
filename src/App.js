@@ -21,7 +21,6 @@ function App() {
       if (checkingUser.message === "Authorized") {
         setIsLoggedIn();
       }
-      // setIsLoggedIn(true);
       setChecking((prev) => false);
     })();
   }, [isLoggedIn, setIsLoggedIn]);

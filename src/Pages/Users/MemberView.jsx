@@ -15,6 +15,7 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
       const name = displayMember.name;
       await deleteMember(familyID, name);
       setMemberVariant((prev) => !prev);
+      window.location.reload();
       navigate("/family");
     }
   };

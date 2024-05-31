@@ -35,7 +35,6 @@ const JobsListContent = ({ item, reload, setReload }) => {
       const notification = buildNotificationPayload("JOB", item);
       try {
         const notificationResponse = await sendNotification(notification);
-        // check if notification already sent within last 24 hours.
         if (notificationResponse.cooldown) {
           alert(
             `Notification already sent!\nPlease wait for ${convertHoursToFormat(

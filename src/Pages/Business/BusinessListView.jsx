@@ -26,15 +26,15 @@ const BusinessListView = () => {
     let filteredList = business;
 
     if (state) {
-      filteredList = filteredList.filter((item) => item.state === state);
+      filteredList = filteredList && filteredList.filter((item) => item.state === state);
     }
 
     if (city) {
-      filteredList = filteredList.filter((item) => item.city === city);
+      filteredList = filteredList && filteredList.filter((item) => item.city === city);
     }
 
     if (searchTerm) {
-      filteredList = filteredList.filter((item) =>
+      filteredList = filteredList && filteredList.filter((item) =>
         item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -46,10 +46,6 @@ const BusinessListView = () => {
     setFilters({ state: "", city: "", searchTerm: "" });
     setFilteredBusinesses(business);
   };
-
-  if (!business || business.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="w-full">
@@ -77,7 +73,7 @@ const BusinessListView = () => {
           <li>Details</li>
           <li>Contact</li>
         </ul>
-        {filteredBusinesses.map((busines, idx) => (
+        {filteredBusinesses && filteredBusinesses.map((busines, idx) => (
           <BusinessListContent item={busines} reload={reload} setReload={setReload} key={idx} />
         ))}
       </div>

@@ -51,10 +51,6 @@ const FamilyList = () => {
     setFilters({ state: "", city: "", searchTerm: "" });
   };
 
-  if (!family || family.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   if (familyVariant) {
     return (
       <div className="w-full">
@@ -83,7 +79,7 @@ const FamilyList = () => {
             <li>Head</li>
             <li>Contact</li>
           </ul>
-          {filteredFamilies.map((item, idx) => (
+          {filteredFamilies && filteredFamilies.map((item, idx) => (
             <div
               key={idx}
               onClick={() => clickHandler(item)}

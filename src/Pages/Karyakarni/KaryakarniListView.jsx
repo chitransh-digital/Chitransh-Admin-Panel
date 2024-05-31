@@ -31,15 +31,15 @@ const KaryakarniList = () => {
     let filteredList = karyakarni;
 
     if (state) {
-      filteredList = filteredList.filter((item) => item.state === state);
+      filteredList = filteredList && filteredList.filter((item) => item.state === state);
     }
 
     if (city) {
-      filteredList = filteredList.filter((item) => item.city === city);
+      filteredList = filteredList && filteredList.filter((item) => item.city === city);
     }
 
     if (searchTerm) {
-      filteredList = filteredList.filter((item) =>
+      filteredList = filteredList && filteredList.filter((item) =>
         item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -57,10 +57,6 @@ const KaryakarniList = () => {
     setKaryakarniVariant((prev) => !prev);
     setDisplayKaryakarni(item);
   };
-
-  if (!karyakarni || karyakarni.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   if (karyakarniVariant) {
     return (
@@ -89,7 +85,7 @@ const KaryakarniList = () => {
             <li>Name</li>
             <li>Location</li>
           </ul>
-          {filteredKaryakarni.map((item, idx) => (
+          {filteredKaryakarni && filteredKaryakarni.map((item, idx) => (
             <div
               key={idx}
               onClick={() => clickHandler(item)}

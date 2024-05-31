@@ -34,6 +34,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
     if (window.confirm("Are you sure you want to remove this feed?")) {
       await removeFeed(id);
       setFeedVariant((prev) => !prev);
+      window.location.reload();
       navigate("/feeds");
     }
   };

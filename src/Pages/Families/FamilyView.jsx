@@ -15,6 +15,7 @@ const FamilyView = ({ setFamilyVariant, displayFamily }) => {
     if (window.confirm("Are you sure you want to remove this family?")) {
       await deleteMember(familyID, "");
       setFamilyVariant((prev) => !prev);
+      window.location.reload();
       navigate("/family");
     }
   };

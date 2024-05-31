@@ -97,9 +97,6 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
             <p>Name: {member.name}</p>
             <p>Family ID: {member.familyID}</p>
             <p>Designations: {member.designations.join(", ")}</p>
-            {/* {member.profilePic && (
-              <img src={window.location.protocol+"//"+window.location.host+member.profilePic} alt={member.name} className="w-20 h-20" />
-            )} */}
           </li>
         ))}
       </ul>

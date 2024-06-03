@@ -81,7 +81,6 @@ const BusinessUpdateForm = () => {
                 await updateBusiness(id, businessWithImage);
             }
             else{
-                console.log(business);
                 await updateBusiness(id, business);
             }
             navigate("/business");

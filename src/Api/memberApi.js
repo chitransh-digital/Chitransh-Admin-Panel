@@ -35,7 +35,6 @@ export const addMember = async (memberData) => {
 
 export const updateMember = async (familyID, memberData) => {
     try {
-      console.log("body", memberData);
       const response = await fetch(`http://159.89.165.67/api/member/update/${familyID}`, {
         method: 'PATCH',
         headers: {

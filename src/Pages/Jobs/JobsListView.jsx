@@ -14,7 +14,6 @@ const JobsListView = () => {
     const jobs = await getJobs();
     setJobs(jobs.jobs);
     setFilteredJobs(jobs.jobs);
-    console.log(jobs.jobs);
   };
 
   useEffect(() => {

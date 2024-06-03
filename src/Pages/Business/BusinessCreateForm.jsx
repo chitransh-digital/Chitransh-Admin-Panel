@@ -71,7 +71,6 @@ const BusinessCreateForm = () => {
                 await registerBusiness(businessWithImage);
             }
             else{
-                console.log(businesses);
                 await registerBusiness(businesses);
             }
             setIsLoading((prev) => false);

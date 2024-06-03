@@ -7,7 +7,17 @@ import { State, City } from "country-state-city";
 const KaryakarniUpdateForm = () => {
   const navigate = useNavigate();
   const reactLocation = useLocation();
-  const { id, name, landmark, state, city, logo, designations, members } = reactLocation.state;
+  const {
+    id,
+    name,
+    landmark,
+    state,
+    city,
+    logo,
+    designations,
+    members,
+    level,
+  } = reactLocation.state;
 
   const [isLoading, setIsLoading] = useState(false);
   const [logoImage, setLogoImage] = useState(null);
@@ -22,6 +32,7 @@ const KaryakarniUpdateForm = () => {
     city,
     logo,
     designations,
+    level,
     members: members || [],
   });
 
@@ -35,14 +46,20 @@ const KaryakarniUpdateForm = () => {
       const indianCities = City.getCitiesOfState("IN", karyakarni.state);
       setCities(indianCities);
     }
-  }, [karyakarni.state]);
+    if(karyakarni.level === "State" ) {
+      const indianCities = City.getCitiesOfCountry("IN");
+      setCities(indianCities);
+    }
+  }, [karyakarni.state, karyakarni.level]);
 
-  const normalButton = "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
-  const loadingButton = "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
+  const normalButton =
+    "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
+  const loadingButton =
+    "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
-  const handleChange = (input) => (e) => {
-    e.preventDefault();
-    setKaryakarni((prev) => ({ ...prev, [input]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setKaryakarni((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAddDesignation = () => {
@@ -64,12 +81,18 @@ const KaryakarniUpdateForm = () => {
 
   const createClickHandler = async () => {
     if (window.confirm("Are you sure you want to edit this karyakarni?")) {
-      setIsLoading((prev) => true);
+      setIsLoading(true);
+      if(karyakarni.level !== "India") {
+        karyakarni.state = "";
+      }
+      if(karyakarni.level === "City") {
+        karyakarni.city = "";
+      }
+      
       let karyakarniData = { ...karyakarni };
 
       if (logoImage !== null) {
         const imageUrl = await uploadImage(logoImage);
-        console.log(imageUrl)
         karyakarniData = { ...karyakarniData, logo: imageUrl };
       }
 
@@ -93,52 +116,103 @@ const KaryakarniUpdateForm = () => {
       <div className="mt-10 ml-5">
         <p className="text-xl mb-2">Name</p>
         <input
+          name="name"
           value={karyakarni.name}
-          onChange={handleChange("name")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
-        <p className="text-xl mb-2 mt-5">Landmark</p>
-        <input
-          value={karyakarni.landmark}
-          onChange={handleChange("landmark")}
-          className=" border-black border-[1px] p-2 w-[40rem]"
-        ></input>
-        <p className="text-xl mb-2 mt-5">State</p>
-        <select
-          onChange={handleChange("state")}
+          onChange={handleChange}
           className="border-black border-[1px] p-2 w-[40rem]"
-        >
-          <option value="">Select State</option>
-          {states.map((state) => (
-            <option key={state.isoCode} value={state.isoCode}>
-              {state.name}
-            </option>
-          ))}
-        </select>
+        />
 
-        <p className="text-xl mb-2 mt-5">City</p>
-        <select
-          onChange={handleChange("city")}
+        <p className="text-xl mb-2 mt-5">Level</p>
+        <div onChange={handleChange} className="flex">
+          <label className="mr-4">
+            <input
+              type="radio"
+              name="level"
+              value="India"
+              checked={karyakarni.level === "India"}
+              className="mr-2"
+            />
+            All India
+          </label>
+          <label className="mr-4">
+            <input
+              type="radio"
+              name="level"
+              value="State"
+              checked={karyakarni.level === "State"}
+              className="mr-2"
+            />
+            State
+          </label>
+          <label className="mr-4">
+            <input
+              type="radio"
+              name="level"
+              value="City"
+              checked={karyakarni.level === "City"}
+              className="mr-2"
+            />
+            City
+          </label>
+        </div>
+
+        {karyakarni.level === "India" && (
+          <>
+            <p className="text-xl mb-2 mt-5">State</p>
+            <select
+              name="state"
+              value={karyakarni.state}
+              onChange={handleChange}
+              className="border-black border-[1px] p-2 w-[40rem]"
+            >
+              <option value="">Select State</option>
+              {states.map((state) => (
+                <option key={state.isoCode} value={state.isoCode}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
+
+        {karyakarni.level !== "City" && (
+          <>
+            <p className="text-xl mb-2 mt-5">City</p>
+            <select
+              name="city"
+              value={karyakarni.city}
+              onChange={handleChange}
+              className="border-black border-[1px] p-2 w-[40rem]"
+              disabled={!karyakarni.state && karyakarni.level === "India"}
+            >
+              <option value="">Select City</option>
+              {cities.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
+
+        <p className="text-xl mb-2 mt-5">Head Quarters</p>
+        <input
+          name="landmark"
+          value={karyakarni.landmark}
+          onChange={handleChange}
           className="border-black border-[1px] p-2 w-[40rem]"
-          disabled={!karyakarni.state}
-        >
-          <option value="">Select City</option>
-          {cities.map((city) => (
-            <option key={city.name} value={city.name}>
-              {city.name}
-            </option>
-          ))}
-        </select>
+        />
 
         <p className="text-xl mb-2 mt-5">Select Logo</p>
-        <input onChange={handleImageUpload} type="file"></input>
+        <input onChange={handleImageUpload} type="file" />
 
-        <div className="flex items-center text-xl mb-2 mt-5">
+        <p className="text-xl mb-2 mt-5">Designations</p>
+        <div className="flex items-center">
           <input
             value={currentDesignation}
             onChange={(e) => setCurrentDesignation(e.target.value)}
             className="border-black border-[1px] p-2 w-[30rem]"
-          ></input>
+          />
           <button
             onClick={handleAddDesignation}
             className="ml-2 p-2 bg-blue-600 text-white rounded-md"
@@ -149,7 +223,7 @@ const KaryakarniUpdateForm = () => {
         <ul className="mt-2">
           {karyakarni.designations.map((designation, index) => (
             <li key={index} className="flex items-center mb-1">
-              <p className="mr-2">{designation}</p>
+              <span className="mr-2">{designation}</span>
               <button
                 onClick={() => handleRemoveDesignation(index)}
                 className="text-red-600"

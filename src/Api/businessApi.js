@@ -39,7 +39,6 @@ export const updateBusiness = async (id,businessData) => {
         const payload = {
             ...businessData,
         };
-        console.log("payload",payload)
         const business = await fetch(`http://159.89.165.67/api/business/updateBusiness/${id}`, {
             method: "PATCH",
             credentials: "include",

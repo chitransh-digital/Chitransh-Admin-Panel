@@ -73,7 +73,6 @@ const MemberUpdateForm = () => {
       if (image !== null) {
         const imageUrl = await uploadImage(image);
         const memberWithImage = { ...member, profilePic: imageUrl };
-        console.log("memberWithImage", memberWithImage)
         await updateMember(familyID, memberWithImage);
       } else {
         await updateMember(familyID, member);

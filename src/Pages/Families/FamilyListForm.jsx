@@ -19,7 +19,6 @@ const FamilyList = () => {
   const fetchFamilies = async () => {
     const families = await getFamilies();
     setFamily(families.families); 
-    console.log(families.families)
   };
 
   useEffect(() => {

@@ -6,7 +6,21 @@ import { State, City } from "country-state-city";
 import { uploadImage } from "../../Api/feedsApi";
 
 const UserCreateForm = () => {
-  const [familyMember, setFamilyMember] = useState({});
+  const [familyMember, setFamilyMember] = useState({
+    name: "",
+    age: "",
+    contact: "",
+    gender: "",
+    bloodGroup: "",
+    relation: "",
+    occupation: "",
+    education: "",
+    landmark: "",
+    karyakarni: "",
+    profilePic: "",
+    state: "",
+    city:"",
+  });
   const [karyakarni, setKaryakarni] = useState([]);
   const navigate = useNavigate();
   const reactLocation = useLocation();
@@ -52,8 +66,30 @@ const UserCreateForm = () => {
     }
   }, [familyMember.state]);
 
+  const validateFamilyFields = (familyMember) => {
+    const missingFields = [];
+    if (familyMember.name === "") missingFields.push("Name");
+    if (familyMember.age === "") missingFields.push("Age");
+    if (familyMember.gender === "") missingFields.push("Gender");
+    if (familyMember.contact === "") missingFields.push("Contact");
+    if (familyMember.bloodGroup === "") missingFields.push("Blood Group");
+    if (familyMember.occupation === "") missingFields.push("Occupation");
+    if (familyMember.education === "") missingFields.push("Education");
+    if (familyMember.landmark === "") missingFields.push("Landmark");
+    if (familyMember.state === "") missingFields.push("State");
+    if (familyMember.city === "") missingFields.push("City");
+    if (familyMember.karyakarni === "") missingFields.push("Karyakarni");
+    if (familyMember.relation === "") missingFields.push("Relation");
+
+    return missingFields;
+  }
+
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to add this member?")) {
+    const missingFields = validateFamilyFields(familyMember);
+    if (missingFields && missingFields.length > 0) {
+      alert(`Please fill the following fields: ${missingFields.join(", ")}`);
+    }
+    else if (window.confirm("Are you sure you want to add this member?")) {
       setIsLoading(true);
       const fID = familyID;
       const memberData = {

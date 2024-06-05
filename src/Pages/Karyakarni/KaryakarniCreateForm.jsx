@@ -71,8 +71,24 @@ const KaryakarniCreateForm = () => {
     }));
   };
 
+  const validateKaryakarniFields = (karyakarni) => {
+    const missingFields = [];
+    if (karyakarni.name === "") missingFields.push("Name");
+    if (karyakarni.landmark === "") missingFields.push("Landmark");
+    if (karyakarni.address === "") missingFields.push("Address");
+    if (karyakarni.level !== "India" && karyakarni.city === "") missingFields.push("City");
+    if (karyakarni.level === "City" && karyakarni.state === "") missingFields.push("State");
+    if (karyakarni.designations.length === 0) missingFields.push("Designations");
+
+    return missingFields;
+  }
+
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this karyakarni?")) {
+    const missingFields = validateKaryakarniFields(karyakarni);
+    if (missingFields && missingFields.length > 0) {
+      alert(`You must enter all the required fields: ${missingFields.join(", ")}`);
+    }
+    else if (window.confirm("Are you sure you want to create this karyakarni?")) {
       setIsLoading(true);
       if(karyakarni.level !== "City") {
         karyakarni.state = "";

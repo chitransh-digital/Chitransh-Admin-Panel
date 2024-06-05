@@ -21,8 +21,20 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
     setMember((prev) => ({ ...prev, designations: selectedOptions }));
   };
 
+  const validateMemberFields = (member) => {
+    const missingFields = [];
+    if (!member.name.trim()) missingFields.push("Name");
+    if (member.designations.length === 0) missingFields.push("Designations");
+
+    return missingFields;
+  }
+
   const handleAddMember = async () => {
-    if (member.name.trim() && member.designations.length > 0) {
+    const missingFields = validateMemberFields(member);
+    if (missingFields && missingFields.length > 0) {
+      alert(`You must enter all the required fields: ${missingFields.join(", ")}`);
+    }
+    else if (member.name.trim() && member.designations.length > 0) {
       let profilePicUrl = "";
       if (member.profilePic) {
         profilePicUrl = await uploadImage(member.profilePic);

@@ -7,6 +7,15 @@ import { uploadImage } from "../../Api/feedsApi";
 
 const FamilyCreateForm = () => {
   const [familyHead, setFamilyHead] = useState({
+    name: "",
+    age: "",
+    contact: "",
+    gender: "",
+    bloodGroup: "",
+    occupation: "",
+    education: "",
+    landmark: "",
+    karyakarni: "",
     profilePic: "",
     state: "",
     city:"",
@@ -59,8 +68,29 @@ const FamilyCreateForm = () => {
     return `CH${firstThreeLetters}${lastThreeDigits}`;
   };
 
+  const validateFamilyFields = (familyHead) => {
+    const missingFields = [];
+    if (familyHead.name === "") missingFields.push("Name");
+    if (familyHead.age === "") missingFields.push("Age");
+    if (familyHead.gender === "") missingFields.push("Gender");
+    if (familyHead.contact === "") missingFields.push("Contact");
+    if (familyHead.bloodGroup === "") missingFields.push("Blood Group");
+    if (familyHead.occupation === "") missingFields.push("Occupation");
+    if (familyHead.education === "") missingFields.push("Education");
+    if (familyHead.landmark === "") missingFields.push("Landmark");
+    if (familyHead.state === "") missingFields.push("State");
+    if (familyHead.city === "") missingFields.push("City");
+    if (familyHead.karyakarni === "") missingFields.push("Karyakarni");
+
+    return missingFields;
+  }
+
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this family?")) {
+    const missingFields = validateFamilyFields(familyHead);
+    if (missingFields && missingFields.length > 0) {
+      alert(`Please fill the following fields: ${missingFields.join(", ")}`);
+    }
+    else if (window.confirm("Are you sure you want to create this family?")) {
       setIsLoading(true);
       const familyID = createFamilyId(familyHead.name, familyHead.contact);
       const headMemberData = {

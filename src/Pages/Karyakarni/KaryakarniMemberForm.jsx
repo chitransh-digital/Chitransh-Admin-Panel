@@ -22,7 +22,7 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
   };
 
   const handleAddMember = async () => {
-    if (member.name.trim() && member.familyID.trim() && member.designations.length > 0) {
+    if (member.name.trim() && member.designations.length > 0) {
       let profilePicUrl = "";
       if (member.profilePic) {
         profilePicUrl = await uploadImage(member.profilePic);
@@ -95,7 +95,7 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
         {members && members.map((member, index) => (
           <li key={index} className="mb-2">
             <p>Name: {member.name}</p>
-            <p>Family ID: {member.familyID}</p>
+            <p>Family ID: {member.familyID || "N/A"}</p>
             <p>Designations: {member.designations.join(", ")}</p>
           </li>
         ))}

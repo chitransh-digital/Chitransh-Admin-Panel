@@ -307,10 +307,10 @@ const FamilyCreateForm = () => {
               onChange={handleChange("karyakarni")}
               className="border-black border-[1px] p-3 w-[40rem]"
             >
-              <option value="">Select Karyakarni</option>
+              <option value="" className="text-lg">Select Karyakarni</option>
               {karyakarni.map((k) => (
-                <option key={k.id} value={k.name}>
-                  {k.name}
+                <option key={k.id} value={k.name} className="text-lg">
+                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.city : k.city + ", " + k.state}
                 </option>
               ))}
             </select>

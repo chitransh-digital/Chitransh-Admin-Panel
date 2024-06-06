@@ -16,8 +16,10 @@ const FamilyCreateForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [occupation, setOccupation] = useState("");
+  const [education, setEducation] = useState("");
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [course, setCourse] = useState("");
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
   const loadingButton =
@@ -29,6 +31,12 @@ const FamilyCreateForm = () => {
     setFamilyHead((prev) => ({ ...prev, [input]: e.target.value }));
     if (input === "occupation") {
       setOccupation(value);
+    }
+    if (input === "education") {
+      setEducation(value);
+    }
+    if (input === "course") {
+      setCourse(value);
     }
   };
 
@@ -90,10 +98,12 @@ const FamilyCreateForm = () => {
   const occupationWithExtraFields = [
     "Govt Job",
     "Private Job",
-    "Doctor",
+    "Doctor", 
     "Lawyer",
     "Chartered Accountant",
   ];
+
+  const educationWithExtraFields = ["Bachelors", "Masters", "PhD"];
 
   return (
     <div className="w-full">
@@ -182,9 +192,9 @@ const FamilyCreateForm = () => {
           </div>
         </div>
 
-        <div>
           {occupationWithExtraFields.includes(occupation) && (
-            <div className="flex gap-[2rem]">
+            <div>
+              <div className="flex gap-[2rem]">
               <div>
                 <p className="text-xl mb-2 mt-5">Job Post</p>
                 <input
@@ -199,6 +209,8 @@ const FamilyCreateForm = () => {
                   className="border-black border-[1px] p-2 w-[19rem]"
                 ></input>
               </div>
+              </div>
+              <div className="flex gap-[2rem]">
               <div>
                 <p className="text-xl mb-2 mt-5">Job Employer</p>
                 <input
@@ -213,34 +225,37 @@ const FamilyCreateForm = () => {
                   className="border-black border-[1px] p-2 w-[19rem]"
                 ></input>
               </div>
+              </div>
             </div>
+            
           )}
           {occupation === "Business" && (
-            <div className="flex gap-[2rem]">
-              <div>
-                <p className="text-xl mb-2 mt-5">Business Name</p>
-                <input
-                  onChange={handleChange("businessName")}
-                  className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
+            <div>
+              <div className="flex gap-[2rem]">
+                <div>
+                  <p className="text-xl mb-2 mt-5">Business Name</p>
+                  <input
+                    onChange={handleChange("businessName")}
+                    className="border-black border-[1px] p-2 w-[19rem]"
+                  ></input>
+                </div>
+                <div>
+                  <p className="text-xl mb-2 mt-5">Business Type</p>
+                  <input
+                    onChange={handleChange("businessType")}
+                    className="border-black border-[1px] p-2 w-[19rem]"
+                  ></input>
+                </div>
               </div>
-              <div>
-                <p className="text-xl mb-2 mt-5">Business Type</p>
-                <input
-                  onChange={handleChange("businessType")}
-                  className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
-              </div>
-              <div>
-                <p className="text-xl mb-2 mt-5">Business Address</p>
-                <input
-                  onChange={handleChange("businessAddress")}
-                  className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
-              </div>
+                <div>
+                  <p className="text-xl mb-2 mt-5">Business Address</p>
+                  <input
+                    onChange={handleChange("businessAddress")}
+                    className="border-black border-[1px] p-2 w-[19rem]"
+                  ></input>
+                </div>
             </div>
           )}
-        </div>
 
 
         <div className="flex gap-[2rem]">
@@ -260,14 +275,110 @@ const FamilyCreateForm = () => {
             <option value="PhD">PhD</option>
           </select>
           </div>
+
+        </div>
+
+            {educationWithExtraFields.includes(education) && (
+              <div>
+                <div className="flex gap-[2rem]"> 
+                    {education === "Bachelors" && (
+                      <div>
+                      <p className="text-xl mb-2 mt-5">Course</p>
+                      <select 
+                        onChange={handleChange("course")}
+                        className="border-black border-[1px] p-3 w-[19rem]"
+                      >
+                        <option value="">Select Course</option>
+                        <option value="BTech">BTech</option>
+                        <option value="BSc">BSc</option>
+                        <option value="BCom">BCom</option>
+                        <option value="BA">BA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="BCA">BCA</option>
+                        <option value="BEd">BEd</option>
+                        <option value="BPharma">BPharma</option>
+                        <option value="BDS">BDS</option>
+                        <option value="BAMS">BAMS</option>
+                        <option value="BHMS">BHMS</option>
+                        <option value="LLB">LLB</option>
+                        <option value="BHM">BHM</option>
+                        <option value="BHMCT">BHMCT</option>
+                        <option value="Ded">Ded</option>
+                        <option value="BA/LLB">BA/LLB</option>
+                        <option value="BCom/LLB">BCom/LLB</option>
+                        <option value="CS">CS</option>
+                        <option value="other">other</option>
+                      </select>
+                    </div>
+                    )}
+                    {education === "Masters" && (
+                      <div>
+                      <p className="text-xl mb-2 mt-5">Course</p>
+                      <select 
+                        onChange={handleChange("course")}
+                        className="border-black border-[1px] p-3 w-[19rem]"
+                      >
+                        <option value="">Select Course</option>
+                        <option value="MTech">MTech</option>
+                        <option value="MSc">MSc</option>
+                        <option value="MCom">MCom</option>
+                        <option value="MA">MA</option>
+                        <option value="MBA">MBA</option>
+                        <option value="MCA">MCA</option>
+                        <option value="MPharma">MPharma</option>
+                        <option value="MDS">MDS</option>
+                        <option value="LLM">LLM</option>
+                        <option value="MA/LLM">MA/LLM</option>
+                        <option value="MCom/LLM">MCom/LLM</option>
+                        <option value="other">other</option>
+                      </select>
+                    </div>
+                    )}
+                    {course === "other" && (
+                      <div>
+                        <p className="text-xl mb-2 mt-5">Other Course</p>
+                        <input
+                          onChange={handleChange("course")}
+                          className="border-black border-[1px] p-2 w-[19rem]"
+                        ></input>
+                      </div>
+                    )} 
+                    <div>
+                    <p className="text-xl mb-2 mt-5">Field Of Study</p>
+                    <input
+                      onChange={handleChange("fieldOfStudy")}
+                      className="border-black border-[1px] p-2 w-[19rem]"
+                    ></input>
+                  </div>
+                </div>
+                <div className="flex gap-[2rem]">
+                <div>
+                  <p className="text-xl mb-2 mt-5">Institute</p>
+                  <input
+                    onChange={handleChange("institute")}
+                    className="border-black border-[1px] p-2 w-[19rem]"
+                  ></input>
+                </div>
+                <div>
+                  <p className="text-xl mb-2 mt-5">Additional Details</p>
+                  <input
+                    onChange={handleChange("additionalDetails")}
+                    className="border-black border-[1px] p-2 w-[19rem]"
+                  ></input>
+                </div>
+                </div>
+              </div>
+            )}
+       
+
           <div>
             <p className="text-xl mb-2 mt-5">Landmark</p>
             <input
               onChange={handleChange("landmark")}
-              className="border-black border-[1px] p-2 w-[19rem]"
+              className="border-black border-[1px] p-2 w-[40rem]"
             ></input>
           </div>
-        </div>
+
 
         <div className="flex gap-[2rem]">
           <div>

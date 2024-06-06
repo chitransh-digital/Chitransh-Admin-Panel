@@ -38,12 +38,17 @@ const BusinessListContent = ({ item }) => {
                     {name}
                 </p>
             </div>
-            <div className="mt-10 ml-5">
-                <p className="text-xl mb-2">Name: {name}</p>
-                <p className="text-xl mb-2">Contact: {contact}</p>
-                <p className="text-xl mb-2">Description: {desc}</p>
-                <p className="text-xl mb-2">City: {city}</p>
-                <p className="text-xl mb-2">State: {state}</p>
+            <div className="mt-10 ml-5 mr-20 flex justify-between align-center">
+                <div>
+                    <p className="text-xl mb-2">Name: {name}</p>
+                    <p className="text-xl mb-2">Contact: {contact}</p>
+                    <p className="text-xl mb-2">Description: {desc}</p>
+                    <p className="text-xl mb-2">City: {city}</p>
+                    <p className="text-xl mb-2">State: {state}</p>
+                </div>
+                <div className="w-42 h-42">
+                    {images && <img src={images} alt="" className="object-cover w-42 h-42" />}
+                </div>
             </div>
             <div className="mt-5 ml-5">
                 <button className="text-blue-500" onClick={() => setShowDetails(!showDetails)}>
@@ -57,9 +62,8 @@ const BusinessListContent = ({ item }) => {
                         <p className="text-xl mb-2">Landmark: {landmark}</p>
                         <p className="text-xl mb-2">Type: {type}</p>
                         <p className="text-xl mb-2">Link: {link}</p>
-                        <p className="text-xl mb-2">Image: {images}</p>
-                        <p className="text-xl mb-2">Attachment: {attachments}</p>
-                        <p className="text-xl mb-2">Coupen: {coupon}</p>
+                        <p className="text-xl mb-2">Attachment: <a href={attachments} target="_blank" rel="noreferrer">View</a></p>
+                        <p className="text-xl mb-2">Coupon: {coupon}</p>
                     </div>
                     <Link
                         to="/updateBusiness"

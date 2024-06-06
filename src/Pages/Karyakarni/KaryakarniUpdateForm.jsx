@@ -261,6 +261,9 @@ const KaryakarniUpdateForm = () => {
           ))}
         </ul>
 
+        <br />
+        <hr className="border-none h-[3px] bg-black my-5" />
+
         <KaryakarniMemberForm
           karyakarniId={id}
           designations={karyakarni.designations}

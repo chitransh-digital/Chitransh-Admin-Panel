@@ -64,7 +64,8 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
 
   return (
     <div className="mt-10">
-      <h3 className="text-xl mb-2">Add Member</h3>
+      <h2 className="text-3xl font-bold mb-2">Add Member</h2>
+      <br />
       <p className="text-xl mb-2">Member Name</p>
       <input
         value={member.name}

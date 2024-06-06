@@ -71,7 +71,6 @@ const BusinessListView = () => {
         </div>
         <ul className="my-5 px-12 sm:flex hidden justify-between font-medium text-[#A7A7A7]">
           <li>Details</li>
-          <li>Contact</li>
         </ul>
         {filteredBusinesses && filteredBusinesses.map((busines, idx) => (
           <BusinessListContent item={busines} reload={reload} setReload={setReload} key={idx} />

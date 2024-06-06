@@ -62,8 +62,26 @@ const BusinessUpdateForm = () => {
         }
     }, [business.state]);
 
+    const validateBusinessFields = (businesses) => {
+        const missingFields = [];
+        if(businesses.name === "") missingFields.push("Name");
+        if(businesses.ownerID === "") missingFields.push("OwnerID");
+        if(businesses.contact === "") missingFields.push("Contact");
+        if(businesses.desc === "") missingFields.push("Description");
+        if(businesses.landmark === "") missingFields.push("Landmark");
+        if(businesses.city === "") missingFields.push("City");
+        if(businesses.state === "") missingFields.push("State");
+        if(businesses.type === "") missingFields.push("Type");
+
+        return missingFields;
+    }
+
     const updateClickHandler = async () => {
-        if(window.confirm("Are you sure you want to edit this business?")) {
+        const missingFields = validateBusinessFields(business);
+        if(missingFields && missingFields.length > 0) {
+            alert(`You must enter all the required fields : ${missingFields.join(", ")}`);
+        }
+        else if(window.confirm("Are you sure you want to edit this business?")) {
             setIsLoading(true);
             if(img!==null && attach!==null) {
                 const imageUrl = await uploadImage(img);

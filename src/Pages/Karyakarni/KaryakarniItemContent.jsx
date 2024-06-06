@@ -1,7 +1,7 @@
 import React from "react";
 
 const KaryakarniItemContent = ({ item }) => {
-  const { name, state, city, landmark } = item;
+  const { name, address } = item;
   return (
     <>
       <ul className="h-[70%] sm:h-full flex flex-row justify-around visby text-[1rem] lg:text-[1.15rem] pr-[10px] transition-all ease-in-out">
@@ -16,7 +16,7 @@ const KaryakarniItemContent = ({ item }) => {
         <li className="sm:w-[35%] flex sm:block">
             <div>
                 <center>
-                    <p>{landmark +" "+ city +" "+ state}</p>
+                    <p>{address}</p>
                 </center>
             </div>
         </li>

@@ -24,7 +24,7 @@ const MemberItemContent = ({ item }) => {
         <li className="sm:w-[35%] flex sm:block">
           <div>
             <center>
-              <p>{item.contact}</p>
+              {item.contact && item.contactVisibility ? <p>{item.contact}</p> : item.contact && !item.contactVisibility ? <p>Not Visible</p> : <p>Not Available</p>}
             </center>
           </div>
         </li>

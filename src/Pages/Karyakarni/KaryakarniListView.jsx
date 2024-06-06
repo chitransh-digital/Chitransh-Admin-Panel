@@ -83,7 +83,7 @@ const KaryakarniList = () => {
           </div>
           <ul className="my-5 sm:flex hidden justify-around font-medium text-[#A7A7A7]">
             <li>Name</li>
-            <li>Location</li>
+            <li>Address</li>
           </ul>
           {filteredKaryakarni && filteredKaryakarni.map((item, idx) => (
             <div

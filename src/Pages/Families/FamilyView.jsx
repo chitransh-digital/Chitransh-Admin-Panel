@@ -35,7 +35,7 @@ const FamilyView = ({ setFamilyVariant, displayFamily }) => {
 
         <div className="flex flex-wrap pl-5 pt-5">
             <p className="font-bold">Conatct of the Head:</p>
-            <p className="ml-2">{(members.length>0 && members[0].contact) ? members[0].contact :"Not Available"}</p>
+            <p className="ml-2">{(members.length>0 && members[0].contact && members[0].contactVisibility) ? <p>{members[0].contact}</p> : (members.length>0 && members[0].contact && !members[0].contactVisibility) ? <p>Not Visible</p> : <p>Not Available</p>}</p>
         </div>
 
         <div className="flex flex-wrap pl-5 pt-5">

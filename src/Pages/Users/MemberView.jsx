@@ -44,7 +44,7 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
 
         <div className="flex flex-wrap pl-5 pt-5">
             <p className="font-bold">Contact:</p>
-            <p className="ml-2">{displayMember.contact}</p>
+            <p className="ml-2">{(displayMember.contact && displayMember.contactVisibility) ? displayMember.contact : displayMember.contact && !displayMember.contactVisibility ? "Not Visible" : "Not Available"}</p>
         </div>
 
       <div className="flex flex-wrap pl-5 pt-5">

@@ -40,8 +40,22 @@ const JobsUpdateForm = () => {
     setJob((prev) => ({ ...prev, [input]: e.target.value }));
   };
 
+  const validateJobFields = (job) => {
+    const missingFields = [];
+    if (job.jobTitle === "") missingFields.push("Job Title");
+    if (job.businessName === "") missingFields.push("Business Name");
+    if (job.contact === "") missingFields.push("Contact");
+  
+    return missingFields;
+  };
+
   const updateClickHandler = async () => {
-    if (window.confirm("Are you sure you want to edit this job?")) {
+    const missingFields = validateJobFields(job);
+    if (missingFields.length > 0) {
+      alert(`You must enter all the required fields: ${missingFields.join(", ")}`);
+      return;
+    }
+    else if (window.confirm("Are you sure you want to edit this job?")) {
       setIsLoading((prev) => true);
       await updateJob(id, job);
       navigate("/jobs");

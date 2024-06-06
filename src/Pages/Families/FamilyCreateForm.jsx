@@ -7,6 +7,16 @@ import { uploadImage } from "../../Api/feedsApi";
 
 const FamilyCreateForm = () => {
   const [familyHead, setFamilyHead] = useState({
+    name: "",
+    age: "",
+    contact: "",
+    contactVisibility: "",
+    gender: "",
+    bloodGroup: "",
+    occupation: "",
+    education: "",
+    landmark: "",
+    karyakarni: "",
     profilePic: "",
     state: "",
     city:"",
@@ -67,8 +77,29 @@ const FamilyCreateForm = () => {
     return `CH${firstThreeLetters}${lastThreeDigits}`;
   };
 
+  const validateFamilyFields = (familyHead) => {
+    const missingFields = [];
+    if (familyHead.name === "") missingFields.push("Name");
+    if (familyHead.age === "") missingFields.push("Age");
+    if (familyHead.gender === "") missingFields.push("Gender");
+    if (familyHead.contact === "") missingFields.push("Contact");
+    if (familyHead.bloodGroup === "") missingFields.push("Blood Group");
+    if (familyHead.occupation === "") missingFields.push("Occupation");
+    if (familyHead.education === "") missingFields.push("Education");
+    if (familyHead.landmark === "") missingFields.push("Landmark");
+    if (familyHead.state === "") missingFields.push("State");
+    if (familyHead.city === "") missingFields.push("City");
+    if (familyHead.karyakarni === "") missingFields.push("Karyakarni");
+
+    return missingFields;
+  }
+
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this family?")) {
+    const missingFields = validateFamilyFields(familyHead);
+    if (missingFields && missingFields.length > 0) {
+      alert(`Please fill the following fields: ${missingFields.join(", ")}`);
+    }
+    else if (window.confirm("Are you sure you want to create this family?")) {
       setIsLoading(true);
       const familyID = createFamilyId(familyHead.name, familyHead.contact);
       const headMemberData = {
@@ -150,6 +181,16 @@ const FamilyCreateForm = () => {
               onChange={handleChange("contact")}
               className="border-black border-[1px] p-2 w-[19rem]"
             ></input>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">Contact Visibility</p>
+            <select
+            onChange={handleChange("contactVisibility")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="true" defaultChecked>Show</option>
+            <option value="false">Hide</option>
+          </select>
           </div>
         </div>
 
@@ -418,10 +459,10 @@ const FamilyCreateForm = () => {
               onChange={handleChange("karyakarni")}
               className="border-black border-[1px] p-3 w-[40rem]"
             >
-              <option value="">Select Karyakarni</option>
+              <option value="" className="text-lg">Select Karyakarni</option>
               {karyakarni.map((k) => (
-                <option key={k.id} value={k.name}>
-                  {k.name}
+                <option key={k.id} value={k.name} className="text-lg">
+                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.city : k.city + ", " + k.state}
                 </option>
               ))}
             </select>

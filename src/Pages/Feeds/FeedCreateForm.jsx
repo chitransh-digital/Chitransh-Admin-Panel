@@ -24,8 +24,21 @@ const FeedCreateForm = () => {
     setFeed((prev) => ({ ...prev, [input]: e.target.value }));
   };
 
+  const validateFeedFields = (feed) => {
+    const missingFields = [];
+    if (feed.title === "") missingFields.push("Title");
+    if (feed.author === "") missingFields.push("Author");
+    if (feed.body === "") missingFields.push("Body");
+
+    return missingFields;
+  }
+
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this feed?")) {
+    const missingFields = validateFeedFields(feed);
+    if (missingFields && missingFields.length > 0) {
+      alert(`You must enter all the required fields : ${missingFields.join(", ")}`);
+    }
+    else if (window.confirm("Are you sure you want to create this feed?")) {
       setIsLoading((prev) => true);
       if (image !== null) {
         const imageUrl = await uploadImage(image);

@@ -10,6 +10,7 @@ const KaryakarniCreateForm = () => {
     landmark: "",
     city: "",
     state: "",
+    address: "",
     logo: "",
     designations: [],
     level: "India"
@@ -27,9 +28,11 @@ const KaryakarniCreateForm = () => {
   }, []);
 
   useEffect(() => {
-    if (karyakarni.state) {
+    setCities([]);
+    if (karyakarni.state && karyakarni.level === "City") {
       const indianCities = City.getCitiesOfState("IN", karyakarni.state);
       setCities(indianCities);
+      
     }
     if(karyakarni.level === "State" ) {
       const indianCities = City.getCitiesOfCountry("IN");
@@ -68,13 +71,29 @@ const KaryakarniCreateForm = () => {
     }));
   };
 
+  const validateKaryakarniFields = (karyakarni) => {
+    const missingFields = [];
+    if (karyakarni.name === "") missingFields.push("Name");
+    if (karyakarni.landmark === "") missingFields.push("Landmark");
+    if (karyakarni.address === "") missingFields.push("Address");
+    if (karyakarni.level !== "India" && karyakarni.city === "") missingFields.push("City");
+    if (karyakarni.level === "City" && karyakarni.state === "") missingFields.push("State");
+    if (karyakarni.designations.length === 0) missingFields.push("Designations");
+
+    return missingFields;
+  }
+
   const createClickHandler = async () => {
-    if (window.confirm("Are you sure you want to create this karyakarni?")) {
+    const missingFields = validateKaryakarniFields(karyakarni);
+    if (missingFields && missingFields.length > 0) {
+      alert(`You must enter all the required fields: ${missingFields.join(", ")}`);
+    }
+    else if (window.confirm("Are you sure you want to create this karyakarni?")) {
       setIsLoading(true);
-      if(karyakarni.level !== "India") {
+      if(karyakarni.level !== "City") {
         karyakarni.state = "";
       }
-      if(karyakarni.level === "City") {
+      if(karyakarni.level === "India") {
         karyakarni.city = "";
       }
       if (logo !== null) {
@@ -138,7 +157,7 @@ const KaryakarniCreateForm = () => {
           </label>
         </div>
 
-        {karyakarni.level === "India" && (
+        {karyakarni.level === "City" && (
           <>
             <p className="text-xl mb-2 mt-5">State</p>
             <select
@@ -156,14 +175,14 @@ const KaryakarniCreateForm = () => {
           </>
         )}
 
-        {karyakarni.level !== "City" && (
+        {karyakarni.level !== "India" && (
           <>
             <p className="text-xl mb-2 mt-5">City</p>
             <select
               name="city"
               onChange={handleChange}
               className="border-black border-[1px] p-2 w-[40rem]"
-              disabled={!karyakarni.state && karyakarni.level === "India"}
+              disabled={!karyakarni.state && karyakarni.level === "City"}
             >
               <option value="">Select City</option>
               {cities.map((city) => (
@@ -178,6 +197,13 @@ const KaryakarniCreateForm = () => {
         <p className="text-xl mb-2 mt-5">Head Quarters</p>
         <input
           name="landmark"
+          onChange={handleChange}
+          className="border-black border-[1px] p-2 w-[40rem]"
+        />
+
+        <p className="text-xl mb-2 mt-5">Address</p>
+        <input
+          name="address"
           onChange={handleChange}
           className="border-black border-[1px] p-2 w-[40rem]"
         />

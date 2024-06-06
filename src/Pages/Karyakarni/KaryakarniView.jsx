@@ -6,7 +6,7 @@ import { sendImageNotification } from "../../Api/notificationApi";
 
 const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
   const navigate = useNavigate();
-  const { id, name, landmark, city, state, logo, designations, members } = displayKaryakarni;
+  const { id, name, landmark, city, state, address, logo, designations, members } = displayKaryakarni;
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
@@ -54,7 +54,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
         </div>
       </div>
       <p className="pr-20 pl-5 my-5">Formed at {`${landmark} ${city} ${state}`}</p>
-
+      <p className="pr-20 pl-5 my-5">Address : {`${address}`}</p>
       <div className="flex flex-wrap pl-5">
         <p className="font-bold w-full">Members:</p>
         <div className="flex flex-wrap">
@@ -92,6 +92,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
             landmark,
             state,
             city,
+            address,
             logo,
             designations,
             members,

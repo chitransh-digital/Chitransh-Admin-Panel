@@ -21,6 +21,7 @@ const MemberUpdateForm = () => {
     age: memberData.age,
     gender: memberData.gender,
     contact: memberData.contact,
+    contactVisibility: memberData.contactVisibility,
     landmark: memberData.landmark,
     city: memberData.city,
     state: memberData.state,
@@ -72,7 +73,6 @@ const MemberUpdateForm = () => {
     if (familyMember.name === "") missingFields.push("Name");
     if (familyMember.age === "") missingFields.push("Age");
     if (familyMember.gender === "") missingFields.push("Gender");
-    if (familyMember.contact === "") missingFields.push("Contact");
     if (familyMember.bloodGroup === "") missingFields.push("Blood Group");
     if (familyMember.occupation === "") missingFields.push("Occupation");
     if (familyMember.education === "") missingFields.push("Education");
@@ -160,10 +160,21 @@ const MemberUpdateForm = () => {
             <p className="text-xl mb-2 mt-5">Contact</p>
             <input
               type="text"
-                value={member.contact}
+              value={member.contact}
               onChange={handleChange("contact")}
               className="border-black border-[1px] p-2 w-[19rem]"
             ></input>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">Contact Visibility</p>
+            <select
+            value={member.contactVisibility}
+            onChange={handleChange("contactVisibility")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="true">Show</option>
+            <option value="false">Hide</option>
+          </select>
           </div>
         </div>
 

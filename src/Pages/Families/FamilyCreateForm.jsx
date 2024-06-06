@@ -10,6 +10,7 @@ const FamilyCreateForm = () => {
     name: "",
     age: "",
     contact: "",
+    contactVisibility: "",
     gender: "",
     bloodGroup: "",
     occupation: "",
@@ -170,6 +171,16 @@ const FamilyCreateForm = () => {
               onChange={handleChange("contact")}
               className="border-black border-[1px] p-2 w-[19rem]"
             ></input>
+          </div>
+          <div>
+            <p className="text-xl mb-2 mt-5">Contact Visibility</p>
+            <select
+            onChange={handleChange("contactVisibility")}
+            className="border-black border-[1px] p-3 w-[19rem]"
+          >
+            <option value="true" defaultChecked>Show</option>
+            <option value="false">Hide</option>
+          </select>
           </div>
         </div>
 

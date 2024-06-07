@@ -23,11 +23,12 @@ const BusinessListContent = ({ item }) => {
         coupon,
     } = item;
 
-    const rejectHandler = async (ownerID, name) => {
+    const rejectHandler = async (id) => {
         if(window.confirm("Are you sure you want to remove this business?")) {
             await deleteBusiness(id);
             setReload(reload ? false : true);
         }
+        window.location.reload();
         navigate("/business")
     }
     

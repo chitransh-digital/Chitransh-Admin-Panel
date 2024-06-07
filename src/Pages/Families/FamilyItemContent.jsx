@@ -17,7 +17,7 @@ const FamilyItemContent = ({ item }) => {
         <li className="sm:w-[20%] w-full hidden sm:block">
           <div>
             <center>
-                {members.length>0 && members[0].name ? <p>{members[0].name}</p> : <p>Not Available</p>}
+                {members.length>0 && members[0].name && members[0].relation === "head" ? <p>{members[0].name}</p> : <p>Not Available</p>}
             </center>
           </div>
         </li>
@@ -25,7 +25,7 @@ const FamilyItemContent = ({ item }) => {
         <li className="sm:w-[35%] flex sm:block">
           <div>
             <center>
-              {members.length>0 && members[0].contact && members[0].contactVisibility ? <p>{members[0].contact}</p> : members.length>0 && members[0].contact && !members[0].contactVisibility ? <p>Not Visible</p> : <p>Not Available</p>}
+              {members.length>0 && members[0].contact && members[0].contactVisibility && members[0].relation === "head" ? <p>{members[0].contact}</p> : members.length>0 && members[0].contact && !members[0].contactVisibility ? <p>Not Visible</p> : <p>Not Available</p>}
             </center>
           </div>
         </li>

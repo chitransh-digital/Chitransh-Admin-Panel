@@ -25,7 +25,7 @@ const FamilyList = () => {
     fetchFamilies();
   }, []);
 
-  const filteredFamilies = family.filter((item) => {
+  const filteredFamilies = family && family.filter((item) => {
     if (filters.state && item.members.state !== filters.state) return false;
     if (filters.city && item.members.city !== filters.city) return false;
     if (filters.searchTerm) {

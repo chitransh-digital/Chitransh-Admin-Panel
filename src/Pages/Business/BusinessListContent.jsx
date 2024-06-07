@@ -25,7 +25,7 @@ const BusinessListContent = ({ item }) => {
 
     const rejectHandler = async (ownerID, name) => {
         if(window.confirm("Are you sure you want to remove this business?")) {
-            await deleteBusiness(ownerID, name);
+            await deleteBusiness(id);
             setReload(reload ? false : true);
         }
         navigate("/business")
@@ -47,7 +47,7 @@ const BusinessListContent = ({ item }) => {
                     <p className="text-xl mb-2">State: {state}</p>
                 </div>
                 <div className="w-42 h-42">
-                    {images && <img src={images} alt="" className="object-cover w-42 h-42" />}
+                    {images && <img src={images} alt="" className="object-contain w-42 h-42" />}
                 </div>
             </div>
             <div className="mt-5 ml-5">
@@ -62,7 +62,7 @@ const BusinessListContent = ({ item }) => {
                         <p className="text-xl mb-2">Landmark: {landmark}</p>
                         <p className="text-xl mb-2">Type: {type}</p>
                         <p className="text-xl mb-2">Link: {link}</p>
-                        <p className="text-xl mb-2">Attachment: <a href={attachments} target="_blank" rel="noreferrer">View</a></p>
+                        <p className="text-xl mb-2">Attachment: <a href={attachments} target="_blank" rel="noreferrer" className="my-2 py-0.5 px-2 w-[128px] h-[51px] font-bold transition-all ease-in-out border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white">View</a></p>
                         <p className="text-xl mb-2">Coupon: {coupon}</p>
                     </div>
                     <Link
@@ -88,10 +88,10 @@ const BusinessListContent = ({ item }) => {
                     </Link>
 
                     <button
-                        onClick={() => rejectHandler(ownerID, name)}
+                        onClick={() => rejectHandler(id)}
                         className="my-2 w-[128px] h-[51px] font-bold transition-all ease-in-out border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white block"
                     > 
-                        delete
+                        Delete
                     </button>
                 </div>
             )}

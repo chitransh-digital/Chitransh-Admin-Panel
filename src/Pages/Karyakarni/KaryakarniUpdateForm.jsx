@@ -45,15 +45,11 @@ const KaryakarniUpdateForm = () => {
 
   useEffect(() => {
     setCities([]);
-    if (karyakarni.state && karyakarni.level === "City") {
+    if (karyakarni.state) {
       const indianCities = City.getCitiesOfState("IN", karyakarni.state);
       setCities(indianCities);
     }
-    if(karyakarni.level === "State" ) {
-      const indianCities = City.getCitiesOfCountry("IN");
-      setCities(indianCities);
-    }
-  }, [karyakarni.state, karyakarni.level]);
+  }, [karyakarni.state]);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -87,8 +83,8 @@ const KaryakarniUpdateForm = () => {
     if (karyakarni.name === "") missingFields.push("Name");
     if (karyakarni.landmark === "") missingFields.push("Landmark");
     if (karyakarni.address === "") missingFields.push("Address");
-    if (karyakarni.level !== "India" && karyakarni.city === "") missingFields.push("City");
-    if (karyakarni.level === "City" && karyakarni.state === "") missingFields.push("State");
+    if (karyakarni.level !== "India" && karyakarni.state === "") missingFields.push("State");
+    if (karyakarni.level === "City" && karyakarni.city === "") missingFields.push("City");
     if (karyakarni.designations.length === 0) missingFields.push("Designations");
 
     return missingFields;
@@ -102,10 +98,10 @@ const KaryakarniUpdateForm = () => {
     else if (window.confirm("Are you sure you want to edit this karyakarni?")) {
       setIsLoading(true);
       if(karyakarni.level !== "City") {
-        karyakarni.state = "";
+        karyakarni.city = "";
       }
       if(karyakarni.level === "India") {
-        karyakarni.city = "";
+        karyakarni.state = "";
       }
       
       let karyakarniData = { ...karyakarni };
@@ -175,7 +171,7 @@ const KaryakarniUpdateForm = () => {
           </label>
         </div>
 
-        {karyakarni.level === "City" && (
+        {karyakarni.level !== "India" && (
           <>
             <p className="text-xl mb-2 mt-5">State</p>
             <select
@@ -194,7 +190,7 @@ const KaryakarniUpdateForm = () => {
           </>
         )}
 
-        {karyakarni.level !== "India" && (
+        {karyakarni.level === "City" && (
           <>
             <p className="text-xl mb-2 mt-5">City</p>
             <select

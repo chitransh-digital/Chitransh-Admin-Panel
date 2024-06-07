@@ -12,6 +12,7 @@ const KaryakarniList = () => {
   const [displayKaryakarni, setDisplayKaryakarni] = useState({});
   const [filteredKaryakarni, setFilteredKaryakarni] = useState([]);
   const [filters, setFilters] = useState({
+    level: "",
     state: "",
     city: "",
     searchTerm: ""
@@ -27,29 +28,33 @@ const KaryakarniList = () => {
     fetchKaryakarni();
   }, []);
 
-  const handleSearch = ({ state, city, searchTerm }) => {
+  const handleSearch = ({ level, state, city, searchTerm }) => {
     let filteredList = karyakarni;
 
+    if (level) {
+      filteredList = filteredList.filter((item) => item.level === level);
+    }
+
     if (state) {
-      filteredList = filteredList && filteredList.filter((item) => item.state === state);
+      filteredList = filteredList.filter((item) => item.state === state);
     }
 
     if (city) {
-      filteredList = filteredList && filteredList.filter((item) => item.city === city);
+      filteredList = filteredList.filter((item) => item.city === city);
     }
 
     if (searchTerm) {
-      filteredList = filteredList && filteredList.filter((item) =>
+      filteredList = filteredList.filter((item) =>
         item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     setFilteredKaryakarni(filteredList);
-    setFilters({ state, city, searchTerm });
+    setFilters({ level, state, city, searchTerm });
   };
 
   const resetFilters = () => {
-    setFilters({ state: "", city: "", searchTerm: "" });
+    setFilters({ level: "", state: "", city: "", searchTerm: "" });
     setFilteredKaryakarni(karyakarni);
   };
 
@@ -72,12 +77,22 @@ const KaryakarniList = () => {
               </button>
             </Link>
           </div>
-          <div>
-            <LocationFilter onSearch={handleSearch} searchTermLabel="Name" />
-            {(filters.state || filters.city || filters.searchTerm) && (
-              <p onClick={resetFilters} className="my-10 ml-5 flex cursor-pointer">
-              <IoArrowBackCircleOutline className="text-2xl" />
-              <span className="ml-2">Back</span>
+          <div className="flex items-center space-x-4 ">
+            <select
+              className="border border-gray-300 p-2 rounded-md w-48"
+              value={filters.level}
+              onChange={(e) => handleSearch({ ...filters, level: e.target.value })}
+            >
+              <option value="">Select Level</option>
+              <option value="India">India</option>
+              <option value="State">State</option>
+              <option value="City">City</option>
+            </select>
+            <LocationFilter onSearch={(state, city, searchTerm) => handleSearch({ ...filters, state, city, searchTerm })} searchTermLabel="Name" />
+            {(filters.level || filters.state || filters.city || filters.searchTerm) && (
+              <p onClick={resetFilters} className="flex items-center cursor-pointer text-blue-600">
+                <IoArrowBackCircleOutline className="text-2xl" />
+                <span className="ml-2">Back</span>
               </p>
             )}
           </div>
@@ -85,7 +100,7 @@ const KaryakarniList = () => {
             <li>Name</li>
             <li>Address</li>
           </ul>
-          {filteredKaryakarni && filteredKaryakarni.map((item, idx) => (
+          {filteredKaryakarni.map((item, idx) => (
             <div
               key={idx}
               onClick={() => clickHandler(item)}

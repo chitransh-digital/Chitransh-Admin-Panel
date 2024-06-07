@@ -10,7 +10,7 @@ const UserCreateForm = () => {
     name: "",
     age: "",
     contact: "",
-    contactVisibility: "",
+    contactVisibility: true,
     gender: "",
     bloodGroup: "",
     relation: "",
@@ -27,7 +27,7 @@ const UserCreateForm = () => {
   const reactLocation = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
-  const { familyID } = reactLocation.state;
+  const { id, familyID } = reactLocation.state;
   const [occupation, setOccupation] = useState("");
   const [education, setEducation] = useState("");
   const [course, setCourse] = useState([]);
@@ -99,16 +99,14 @@ const UserCreateForm = () => {
     }
     else if (window.confirm("Are you sure you want to add this member?")) {
       setIsLoading(true);
-      const fID = familyID;
       const memberData = {
         ...familyMember,
-        familyID: fID,
       };
       if (image !== null) {
         const imageUrl = await uploadImage(image);
         memberData.profilePic = imageUrl;
       }
-      const response = await addMember({ familyID, memberData: memberData });
+      const response = await addMember({ id, familyID, memberData: memberData });
       if (response.status === 201) {
         alert("Member added successfully");
       } else {
@@ -237,6 +235,7 @@ const UserCreateForm = () => {
             <option value="AB-">AB-</option>
             <option value="O+">O+</option>
             <option value="O-">O-</option>
+            <option value="Not Known">Not Known</option>
           </select>
         </div>
           <div>
@@ -486,7 +485,7 @@ const UserCreateForm = () => {
               <option value="" className="text-lg">Select Karyakarni</option>
               {karyakarni.map((k) => (
                 <option key={k.id} value={k.name} className="text-lg">
-                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.city : k.city + ", " + k.state}
+                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.state : k.city + ", " + k.state}
                 </option>
               ))}
             </select>

@@ -9,7 +9,7 @@ const MemberUpdateForm = () => {
   const navigate = useNavigate();
   const [karyakarni, setKaryakarni] = useState([]);
   const reactLocation = useLocation();
-  const { familyID, memberData } = reactLocation.state;
+  const { id, familyID, memberData } = reactLocation.state;
   const [occupation, setOccupation] = useState("");
   const [education, setEducation] = useState("");
   const [course, setCourse] = useState("");
@@ -94,6 +94,7 @@ const MemberUpdateForm = () => {
   }
 
   const createClickHandler = async () => {
+    console.log(id, memberData._id, member)
     const missingFields = validateFamilyFields(member);
     if (missingFields && missingFields.length > 0) {
       alert(`Please fill the following fields: ${missingFields.join(", ")}`);
@@ -103,9 +104,9 @@ const MemberUpdateForm = () => {
       if (image !== null) {
         const imageUrl = await uploadImage(image);
         const memberWithImage = { ...member, profilePic: imageUrl };
-        await updateMember(familyID, memberWithImage);
+        await updateMember(id, memberData._id, memberWithImage);
       } else {
-        await updateMember(familyID, member);
+        await updateMember(id, memberData._id, member);
       }
       navigate("/family",);
     }
@@ -237,6 +238,7 @@ const MemberUpdateForm = () => {
               <option value="AB-">AB-</option>
               <option value="O+">O+</option>
               <option value="O-">O-</option>
+              <option value="Not Known">Not Known</option>
             </select>
           </div>
 
@@ -493,7 +495,7 @@ const MemberUpdateForm = () => {
               <option value="" className="text-lg">Select Karyakarni</option>
               {karyakarni.map((k) => (
                 <option key={k.id} value={k.name} className="text-lg">
-                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.city : k.city + ", " + k.state}
+                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.state : k.city + ", " + k.state}
                 </option>
               ))}
             </select>

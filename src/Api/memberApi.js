@@ -13,12 +13,13 @@ export const getFamilies = async () => {
     }
 }
 
-export const addMember = async (memberData) => {
+export const addMember = async ({id, familyID, memberData}) => {
     try {
         const payload = {
-            ...memberData,
+            familyID: familyID,
+            memberData,
         };
-        const member = await fetch("http://159.89.165.67/api/member/addMember", {
+        const member = await fetch(`http://159.89.165.67/api/member/addMember/${id}`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -33,17 +34,14 @@ export const addMember = async (memberData) => {
     }
 }
 
-export const updateMember = async (familyID, memberData) => {
+export const updateMember = async (id, memberId, memberData) => {
     try {
-      const response = await fetch(`http://159.89.165.67/api/member/update/${familyID}`, {
+      const response = await fetch(`http://159.89.165.67/api/member/update/${id}/${memberId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: memberData.name,
-          memberData,
-        }),
+        body: JSON.stringify({memberData}),
       });
 
       const result = await response.json();
@@ -57,9 +55,9 @@ export const updateMember = async (familyID, memberData) => {
     }
   };
 
-  export const deleteMember = async (familyID, name) => {
+  export const deleteMember = async (id, memberId) => {
     try {
-      const response = await fetch(`http://159.89.165.67/api/member/delete/${familyID}/${name}`, {
+      const response = await fetch(`http://159.89.165.67/api/member/delete/${id}/${memberId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

@@ -50,7 +50,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
       <p className="text-3xl pl-5">{name}</p>
       <div className="m-5 flex flex-wrap">
         <div className="w-64 h-64 overflow-hidden rounded-xl mr-6">
-          <img src={logo} alt={name} className="object-cover w-full h-full" />
+          <img src={logo} alt={name} className="object-contain w-full h-full" />
         </div>
       </div>
       <p className="pr-20 pl-5 my-5">Formed at {`${landmark} ${city} ${state}`}</p>
@@ -63,7 +63,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
               key={index} 
               className="m-5 p-5 border-black  border-2 rounded hover:shadow-2xl duration-200"
             >
-              <img src={member.profilePic} alt={member.name} className="w-16 h-16 object-cover rounded-full" />
+              <img src={member.profilePic} alt={member.name} className="w-16 h-16 object-contain rounded-full" />
               <h2 className="font-bold">{member.name}</h2>
               <ul>
                 {member.designations.map((designation, i) => (

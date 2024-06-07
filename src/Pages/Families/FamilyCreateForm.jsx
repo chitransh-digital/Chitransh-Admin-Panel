@@ -10,7 +10,7 @@ const FamilyCreateForm = () => {
     name: "",
     age: "",
     contact: "",
-    contactVisibility: "",
+    contactVisibility: true,
     gender: "",
     bloodGroup: "",
     occupation: "",
@@ -105,13 +105,12 @@ const FamilyCreateForm = () => {
       const headMemberData = {
         ...familyHead,
         relation: "head",
-        familyID,
       };
       if (image !== null) {
         const imageUrl = await uploadImage(image);
         headMemberData.profilePic = imageUrl;
       }
-      const response = await addMember({ familyID, memberData: headMemberData });
+      const response = await addMember({ id: "", familyID, memberData: headMemberData });
       if (response.status === 201) {
         alert("Family created successfully");
       } else {
@@ -210,6 +209,7 @@ const FamilyCreateForm = () => {
             <option value="AB-">AB-</option>
             <option value="O+">O+</option>
             <option value="O-">O-</option>
+            <option value="Not Known">Not Known</option>
           </select>
         </div>
           <div>
@@ -462,7 +462,7 @@ const FamilyCreateForm = () => {
               <option value="" className="text-lg">Select Karyakarni</option>
               {karyakarni.map((k) => (
                 <option key={k.id} value={k.name} className="text-lg">
-                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.city : k.city + ", " + k.state}
+                  {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.state : k.city + ", " + k.state}
                 </option>
               ))}
             </select>

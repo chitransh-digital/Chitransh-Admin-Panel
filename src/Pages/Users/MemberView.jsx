@@ -3,7 +3,7 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { deleteMember } from "../../Api/memberApi";
 import { Link, useNavigate } from "react-router-dom";
 
-const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
+const MemberView = ({ setMemberVariant, displayMember, familyID, id }) => {
   const navigate = useNavigate();
 
   const clickHandler = () => {
@@ -12,10 +12,10 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
 
   const deleteHandler = async () => {
     if (window.confirm("Are you sure you want to remove this member?")) {
-      const name = displayMember.name;
-      await deleteMember(familyID, name);
+      const memberId = displayMember._id;
+      console.log(memberId);
+      await deleteMember(id, memberId);
       setMemberVariant((prev) => !prev);
-      window.location.reload();
       navigate("/family");
     }
   };
@@ -30,7 +30,7 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
       <p className="pl-5">{displayMember.gender + " "+ displayMember.age}</p>
 
       <div className="w-64 h-64 overflow-hidden rounded-xl mr-6 ml-5">
-        <img src={displayMember.profilePic} alt="" className="object-cover w-full h-full" />
+        <img src={displayMember.profilePic} alt="" className="object-contain w-full h-full" />
       </div>
 
       <div className="flex flex-wrap pl-5 pt-5">
@@ -71,6 +71,7 @@ const MemberView = ({ setMemberVariant, displayMember, familyID }) => {
         <Link
           to="/updateMember"
           state={{
+            id,
             familyID,
             memberData:displayMember,
           }}

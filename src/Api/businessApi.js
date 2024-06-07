@@ -54,15 +54,14 @@ export const updateBusiness = async (id,businessData) => {
     }
 }
 
-export const deleteBusiness = async (ownerID, name) => {
+export const deleteBusiness = async (id) => {
     try {
-        const business = await fetch(`http://159.89.165.67/api/business/deleteBusiness/${ownerID}/${name}`, {
+        const business = await fetch(`http://159.89.165.67/api/business/deleteBusiness/${id}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ownerID, name }),
         });
         return business;
     } catch (error) {

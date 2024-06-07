@@ -59,7 +59,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
         {images.map((image) => {
           return (
             <div className="w-64 h-64 overflow-hidden rounded-xl mr-6">
-              <img src={image} alt="" className="object-cover w-full h-full" />
+              <img src={image} alt="" className="object-contain w-full h-full" />
             </div>
           );
         })}

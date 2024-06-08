@@ -56,7 +56,7 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
       <p className="text-3xl pl-5">{title}</p>
       <p className="pl-5">by {author}</p>
       <div className="m-5 flex flex-wrap">
-        {images.map((image) => {
+        {images && images.map((image) => {
           return (
             <div className="w-64 h-64 overflow-hidden rounded-xl mr-6">
               <img src={image} alt="" className="object-contain w-full h-full" />

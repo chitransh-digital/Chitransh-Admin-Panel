@@ -90,7 +90,7 @@ const KaryakarniMemberForm = ({ karyakarniId, designations, members, setKaryakar
         onChange={handleDesignationsChange}
         className="border-black border-[1px] p-2 w-[40rem]"
       >
-        {designations.map((designation, index) => (
+        {designations && designations.map((designation, index) => (
           <option key={index} value={designation}>
             {designation}
           </option>

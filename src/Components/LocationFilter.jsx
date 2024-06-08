@@ -30,7 +30,7 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
   };
 
   return (
-    <div className="flex items-center space-x-4 mb-4">
+    <div className="flex items-center space-x-4">
       <input
         type="text"
         placeholder={`Search by ${searchTermLabel}`}
@@ -44,7 +44,7 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
         className="border border-gray-300 p-2 rounded-md w-48"
       >
         <option value="">Select State</option>
-        {states.map((state) => (
+        {states && states.map((state) => (
           <option key={state.isoCode} value={state.isoCode}>
             {state.name}
           </option>
@@ -57,7 +57,7 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
         disabled={!selectedState}
       >
         <option value="">Select City</option>
-        {cities.map((city) => (
+        {cities && cities.map((city) => (
           <option key={city.name} value={city.name}>
             {city.name}
           </option>

@@ -48,7 +48,7 @@ const BusinessListContent = ({ item }) => {
                     <p className="text-xl mb-2">State: {state}</p>
                 </div>
                 <div className="w-42 h-42">
-                    {images && <img src={images} alt="" className="object-contain w-42 h-42" />}
+                    {images && <img src={images} alt="" className="object-contain max-w-[24rem] h-42" />}
                 </div>
             </div>
             <div className="mt-5 ml-5">

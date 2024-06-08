@@ -143,7 +143,7 @@ const BusinessCreateForm = () => {
                 className="border-black border-[1px] p-2 w-[40rem]"
                 >
                 <option value="" onChange={handleChange("state")}>Select State</option>
-                {states.map((state) => (
+                {states && states.map((state) => (
                     <option key={state.isoCode} value={state.isoCode}>
                     {state.name}
                     </option>
@@ -157,17 +157,24 @@ const BusinessCreateForm = () => {
                 disabled={!businesses.state}
                 >
                 <option value="">Select City</option>
-                {cities.map((city) => (
+                {cities && cities.map((city) => (
                     <option key={city.name} value={city.name}>
                     {city.name}
                     </option>
                 ))}
                 </select>
                 <p className="text-xl mb-2 mt-5">Type</p>
-                <input 
-                    onChange={handleChange("type")}
-                    className="border-black border-[1px] p-2 w-[40rem]"
-                ></input>
+                <select
+                onChange={handleChange("type")}
+                className="border-black border-[1px] p-2 w-[40rem]"
+                >
+                    <option value="">Select City</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Retail Store">Retail Store</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Consulting Firm">Consulting Firm</option>
+                    <option value="Other">Other</option>
+                </select>
                 <p className="text-xl mb-2 mt-5">Link</p>
                 <input 
                     onChange={handleChange("link")}

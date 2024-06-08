@@ -30,13 +30,13 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
   };
 
   return (
-    <div className="flex items-center space-x-4 mb-4">
+    <div className="flex items-center space-x-4">
       <input
         type="text"
         placeholder={`Search by ${searchTermLabel}`}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border border-gray-300 p-2 rounded-md w-48"
+        className="border border-gray-300 py-[4.5px] px-2 rounded-md w-48"
       />
       <select
         value={selectedState}

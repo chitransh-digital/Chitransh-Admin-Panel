@@ -77,7 +77,7 @@ const JobsListContent = ({ item, reload, setReload }) => {
 
       <p className="flex flex-wrap w-[40rem]">
         Requirements:
-        {requirements.map((item, idx) => (
+        {requirements && requirements.map((item, idx) => (
           <span className="ml-3 text-md font-bold mx-1">{item+","}</span>
         ))}
       </p>

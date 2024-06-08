@@ -89,7 +89,6 @@ const FamilyCreateForm = () => {
     if (familyHead.landmark === "") missingFields.push("Landmark");
     if (familyHead.state === "") missingFields.push("State");
     if (familyHead.city === "") missingFields.push("City");
-    if (familyHead.karyakarni === "") missingFields.push("Karyakarni");
 
     return missingFields;
   }

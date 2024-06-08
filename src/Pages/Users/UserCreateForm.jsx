@@ -86,7 +86,6 @@ const UserCreateForm = () => {
     if (familyMember.landmark === "") missingFields.push("Landmark");
     if (familyMember.state === "") missingFields.push("State");
     if (familyMember.city === "") missingFields.push("City");
-    if (familyMember.karyakarni === "") missingFields.push("Karyakarni");
     if (familyMember.relation === "") missingFields.push("Relation");
 
     return missingFields;

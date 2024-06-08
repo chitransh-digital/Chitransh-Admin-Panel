@@ -178,10 +178,11 @@ const BusinessUpdateForm = () => {
 
                 <p className="text-xl mb-2 mt-5">Type</p>
                 <select
+                value={business.type}
                 onChange={handleChange("type")}
                 className="border-black border-[1px] p-2 w-[40rem]"
                 >
-                    <option value="">Select City</option>
+                    <option value="">Select Type</option>
                     <option value="Restaurant">Restaurant</option>
                     <option value="Retail Store">Retail Store</option>
                     <option value="Tech">Tech</option>

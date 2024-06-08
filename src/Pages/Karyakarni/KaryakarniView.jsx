@@ -58,7 +58,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
       <div className="flex flex-wrap pl-5">
         <p className="font-bold w-full">Members:</p>
         <div className="flex flex-wrap">
-          {selectedMembers.map((member, index) => (
+          {selectedMembers && selectedMembers.map((member, index) => (
             <div 
               key={index} 
               className="m-5 p-5 border-black  border-2 rounded hover:shadow-2xl duration-200"
@@ -66,7 +66,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
               <img src={member.profilePic} alt={member.name} className="w-16 h-16 object-contain rounded-full" />
               <h2 className="font-bold">{member.name}</h2>
               <ul>
-                {member.designations.map((designation, i) => (
+                {member.designations && member.designations.map((designation, i) => (
                   <li key={i}>{designation}</li>
                 ))}
               </ul>

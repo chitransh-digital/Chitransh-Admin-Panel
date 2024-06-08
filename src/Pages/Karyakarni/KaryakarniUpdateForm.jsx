@@ -181,7 +181,7 @@ const KaryakarniUpdateForm = () => {
               className="border-black border-[1px] p-2 w-[40rem]"
             >
               <option value="">Select State</option>
-              {states.map((state) => (
+              {states && states.map((state) => (
                 <option key={state.isoCode} value={state.isoCode}>
                   {state.name}
                 </option>
@@ -201,7 +201,7 @@ const KaryakarniUpdateForm = () => {
               disabled={!karyakarni.state && karyakarni.level === "India"}
             >
               <option value="">Select City</option>
-              {cities.map((city) => (
+              {cities && cities.map((city) => (
                 <option key={city.name} value={city.name}>
                   {city.name}
                 </option>
@@ -244,7 +244,7 @@ const KaryakarniUpdateForm = () => {
           </button>
         </div>
         <ul className="mt-2">
-          {karyakarni.designations.map((designation, index) => (
+          {karyakarni.designations && karyakarni.designations.map((designation, index) => (
             <li key={index} className="flex items-center mb-1">
               <span className="mr-2">{designation}</span>
               <button

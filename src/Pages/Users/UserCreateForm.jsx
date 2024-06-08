@@ -452,7 +452,7 @@ const UserCreateForm = () => {
               className="border-black border-[1px] p-2 w-[19rem]"
             >
               <option value="">Select State</option>
-              {states.map((state) => (
+              {states && states.map((state) => (
                 <option key={state.isoCode} value={state.isoCode}>
                   {state.name}
                 </option>
@@ -466,7 +466,7 @@ const UserCreateForm = () => {
               className="border-black border-[1px] p-2 w-[19rem]"
             >
               <option value="">Select City</option>
-              {cities.map((city) => (
+              {cities && cities.map((city) => (
                 <option key={city.name} value={city.name}>
                   {city.name}
                 </option>
@@ -483,7 +483,7 @@ const UserCreateForm = () => {
               className="border-black border-[1px] p-3 w-[40rem]"
             >
               <option value="" className="text-lg">Select Karyakarni</option>
-              {karyakarni.map((k) => (
+              {karyakarni && karyakarni.map((k) => (
                 <option key={k.id} value={k.name} className="text-lg">
                   {k.name} - {k.level === "India" ? "All India" : k.level === "State" ? k.state : k.city + ", " + k.state}
                 </option>

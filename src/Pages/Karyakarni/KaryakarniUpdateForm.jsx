@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage, updateKaryakarni } from "../../Api/karyakarniApi";
-import KaryakarniMemberForm from "./KaryakarniMemberForm";
 import { State, City } from "country-state-city";
 
 const KaryakarniUpdateForm = () => {
@@ -256,16 +255,6 @@ const KaryakarniUpdateForm = () => {
             </li>
           ))}
         </ul>
-
-        <br />
-        <hr className="border-none h-[3px] bg-black my-5" />
-
-        <KaryakarniMemberForm
-          karyakarniId={id}
-          designations={karyakarni.designations}
-          members={karyakarni.members}
-          setKaryakarni={setKaryakarni}
-        />
 
         <button
           onClick={isLoading ? () => {} : createClickHandler}

@@ -36,7 +36,7 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
         placeholder={`Search by ${searchTermLabel}`}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border border-gray-300 p-2 rounded-md w-48"
+        className="border border-gray-300 py-[4.5px] px-2 rounded-md w-48"
       />
       <select
         value={selectedState}

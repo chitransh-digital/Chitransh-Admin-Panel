@@ -50,6 +50,26 @@ export const getKaryakarnis = async () =>{
       throw error;
     }
   };
+
+  export const addKaryakarniMember = async (id,memberData) => {
+    try {
+      const payload = {
+        memberData,
+      };
+      const karyakarniMember = await fetch(`http://159.89.165.67/api/karyakarni/addMember/${id}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+      return karyakarniMember;
+    } catch (error) {
+      console.error("Error adding karyakarni member:", error);
+      throw error;
+    }
+  };
   
   export const updateKaryakarni = async (karyakarniId, newData) => {
     try {
@@ -70,10 +90,30 @@ export const getKaryakarnis = async () =>{
       throw error;
     }
   };
-  
-  export const removeKaryakarni = async (karyakarniId) => {
+
+  export const updateKaryakarniMember = async (id,memberId, newData) => {
     try {
-      const karyakarni = await fetch(`http://159.89.165.67/api/karyakarni/delete/${karyakarniId}`, {
+      const payload = {
+        newData
+      };
+      const karyakarniMember = await fetch(`http://159.89.165.67/api/karyakarni/update/${id}/${memberId}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      return karyakarniMember;
+    } catch (error) {
+      console.error("Error updating karyakarni:", error);
+      throw error;
+    }
+  };
+  
+  export const removeKaryakarni = async (id, memberId) => {
+    try {
+      const karyakarni = await fetch(`http://159.89.165.67/api/karyakarni/delete/${id}/${memberId}`, {
         method: "DELETE",
         credentials: "include",
       });

@@ -20,6 +20,9 @@ import KaryakarniUpdateForm from "./Karyakarni/KaryakarniUpdateForm";
 import KaryakarniList from "./Karyakarni/KaryakarniListView";
 import KaryakarniCreateForm from "./Karyakarni/KaryakarniCreateForm";
 import ChangePasswordForm from "./ChangePassword/ChangePasswordForm";
+import KaryakarniMemberList from "./KaryakarniMember/KaryakarniMemberListView";
+import KaryakarniMemberForm from "./KaryakarniMember/KaryakarniMemberForm";
+import KaryakarniMemberUpdateForm from "./KaryakarniMember/KaryakarniMemberUpdateForm";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
@@ -34,6 +37,9 @@ const Dashboard = () => {
   else if (pathname === "/updateKaryakarni") content = <KaryakarniUpdateForm />;
   else if (pathname === "/karyakarni") content = <KaryakarniList />;
   else if (pathname === "/createKaryakarni") content = <KaryakarniCreateForm />;
+  else if (pathname === "/karyakarniMembers") content = <KaryakarniMemberList />;
+  else if (pathname === "/addKaryakarniMember") content = <KaryakarniMemberForm />;
+  else if (pathname === "/updateKaryakarniMember") content = <KaryakarniMemberUpdateForm />;
   else if (pathname === "/updateJob") content = <JobsUpdateForm />;
   else if (pathname === "/notification") content = <NotificationView />;
   else if (pathname === "/addMember") content = <UserCreateForm />;

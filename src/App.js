@@ -130,6 +130,30 @@ function App() {
           }
         />
         <Route
+          path="/karyakarniMembers"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/addKaryakarniMember"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/updateKaryakarniMember"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/business"
           element={
             <ProtectedRoute>

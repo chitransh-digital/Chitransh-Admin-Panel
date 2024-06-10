@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import KaryakarniMemberView from "./KaryakarniMemberView";
 
 const KaryakarniMemberList = () => {
-  const { id, karyakarni, members } = useLocation().state;
+  const { id, karyakarni, designations, members } = useLocation().state;
   const [memberVariant, setMemberVariant] = useState(true);
   const [displayMember, setDisplayMember] = useState({});
 
@@ -21,7 +21,7 @@ const KaryakarniMemberList = () => {
             <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
               Members
             </p>
-            <Link to="/addKaryakarniMember" state={{id}}>
+            <Link to="/addKaryakarniMember" state={{id, karyakarni, designations}}>
               <button className="my-2 w-[128px] h-[51px] font-bold transition-all ease-in-out border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white block">
                 Add Member
               </button>
@@ -45,7 +45,7 @@ const KaryakarniMemberList = () => {
     );
   }
 
-  return <KaryakarniMemberView setMemberVariant={setMemberVariant} displayMember={displayMember} karyakarni={karyakarni} id={id} />;
+  return <KaryakarniMemberView setMemberVariant={setMemberVariant} displayMember={displayMember} designations={designations} karyakarni={karyakarni} id={id} />;
 };
 
 export default KaryakarniMemberList;

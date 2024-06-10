@@ -1,9 +1,9 @@
 import React from "react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { deleteMember } from "../../Api/memberApi";
+import {removeKaryakarni} from "../../Api/karyakarniApi";
 import { Link, useNavigate } from "react-router-dom";
 
-const KaryakarniMemberView = ({ setMemberVariant, displayMember, karyakarni, id }) => {
+const KaryakarniMemberView = ({ setMemberVariant, displayMember,designations, karyakarni, id }) => {
   const navigate = useNavigate();
 
   const clickHandler = () => {
@@ -13,7 +13,7 @@ const KaryakarniMemberView = ({ setMemberVariant, displayMember, karyakarni, id 
   const deleteHandler = async () => {
     if (window.confirm("Are you sure you want to remove this member?")) {
       const memberId = displayMember._id;
-      await deleteMember(id, memberId);
+      await removeKaryakarni(id, memberId);
       setMemberVariant((prev) => !prev);
       navigate("/karyakarni");
     }
@@ -51,6 +51,7 @@ const KaryakarniMemberView = ({ setMemberVariant, displayMember, karyakarni, id 
           to="/updateKaryakarniMember"
           state={{
             id,
+            designations,
             memberData:displayMember,
           }}
         >

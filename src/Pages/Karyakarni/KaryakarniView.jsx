@@ -19,7 +19,7 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
 
   const deleteHandler = async () => {
     if (window.confirm("Are you sure you want to remove this karyakarni?")) {
-      await removeKaryakarni(id);
+      await removeKaryakarni(id,"");
       setKaryakarniVariant((prev) => !prev);
       window.location.reload();
       navigate("/karyakarni");
@@ -51,22 +51,20 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
         <span className="font-bold">Members :</span> {selectedMembers.length}
       </p>
 
-      <div className="flex-col">
-        <div className="flex gap-1">
+      <div className="flex">
           <Link
             to="/karyakarniMembers"
             state={{
               id,
               karyakarni: name,
+              designations,
               members: selectedMembers,
             }}
           >
-            <button className="mx-1 mt-8 w-[128px] h-[51px] border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">
+            <button className="mx-1 mt-3 w-[128px] h-[51px] border-black border-2 hover:bg-black rounded-md text-black hover:text-white font-bold transition-all ease-in-out">
               Members
             </button>
         </Link>
-        </div>
-        <div className="flex gap-1">
           <Link
             to="/updateKaryakarni"
             state={{
@@ -91,7 +89,6 @@ const KaryakarniView = ({ setKaryakarniVariant, displayKaryakarni }) => {
           >
             Delete
           </button>
-        </div>
       </div>
     </div>
   );

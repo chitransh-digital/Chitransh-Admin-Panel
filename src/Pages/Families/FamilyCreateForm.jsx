@@ -30,6 +30,7 @@ const FamilyCreateForm = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [course, setCourse] = useState("");
+  const [stateCode, setStateCode] = useState("");
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
   const loadingButton =
@@ -37,8 +38,17 @@ const FamilyCreateForm = () => {
 
   const handleChange = (input) => (e) => {
     e.preventDefault();
-    const value = e.target.value;
-    setFamilyHead((prev) => ({ ...prev, [input]: e.target.value }));
+    let value = e.target.value;
+    if (input === "contactVisibility") {
+      value = value === "true";
+    }
+    if (input === "state") {
+      const selectedState = JSON.parse(value);
+      setStateCode(selectedState.isoCode);
+      setFamilyHead((prev) => ({ ...prev, [input]: selectedState.name }));
+    } else {
+      setFamilyHead((prev) => ({ ...prev, [input]: value }));
+    }
     if (input === "occupation") {
       setOccupation(value);
     }
@@ -66,10 +76,10 @@ const FamilyCreateForm = () => {
 
   useEffect(() => {
     if (familyHead.state) {
-      const indianCities = City.getCitiesOfState("IN", familyHead.state);
+      const indianCities = City.getCitiesOfState("IN", stateCode);
       setCities(indianCities);
     }
-  }, [familyHead.state]);
+  }, [familyHead.state, stateCode]);
 
   const createFamilyId = (name, contact) => {
     const firstThreeLetters = name.slice(0, 3).toUpperCase();
@@ -429,7 +439,7 @@ const FamilyCreateForm = () => {
           >
             <option value="">Select State</option>
             {states && states.map((state) => (
-              <option key={state.isoCode} value={state.isoCode}>
+              <option key={state.isoCode} value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
                 {state.name}
               </option>
             ))}

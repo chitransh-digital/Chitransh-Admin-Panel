@@ -23,6 +23,7 @@ const UserCreateForm = () => {
     city:"",
   });
   const [karyakarni, setKaryakarni] = useState([]);
+  const [stateCode, setStateCode] = useState("");
   const navigate = useNavigate();
   const reactLocation = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,8 +42,17 @@ const UserCreateForm = () => {
 
     const handleChange = (input) => (e) => {
       e.preventDefault();
-      const value = e.target.value;
-      setFamilyMember((prev) => ({ ...prev, [input]: value }));
+      let value = e.target.value;
+      if (input === "contactVisibility") {
+        value = value === "true";
+      }
+      if (input === "state") {
+        const selectedState = JSON.parse(value);
+        setStateCode(selectedState.isoCode);
+        setFamilyMember((prev) => ({ ...prev, [input]: selectedState.name }));
+      } else {
+        setFamilyMember((prev) => ({ ...prev, [input]: value }));
+      }
       if (input === "occupation") {
         setOccupation(value);
       }
@@ -70,10 +80,10 @@ const UserCreateForm = () => {
 
   useEffect(() => {
     if (familyMember.state) {
-      const indianCities = City.getCitiesOfState("IN", familyMember.state);
+      const indianCities = City.getCitiesOfState("IN", stateCode);
       setCities(indianCities);
     }
-  }, [familyMember.state]);
+  }, [stateCode, familyMember.state]);
 
   const validateFamilyFields = (familyMember) => {
     const missingFields = [];
@@ -182,8 +192,8 @@ const UserCreateForm = () => {
             onChange={handleChange("contactVisibility")}
             className="border-black border-[1px] p-3 w-[19rem]"
           >
-            <option value="true" defaultChecked>Show</option>
-            <option value="false">Hide</option>
+            <option value={"true"} defaultChecked>Show</option>
+            <option value={"false"}>Hide</option>
           </select>
           </div>
         </div>
@@ -452,7 +462,7 @@ const UserCreateForm = () => {
             >
               <option value="">Select State</option>
               {states && states.map((state) => (
-                <option key={state.isoCode} value={state.isoCode}>
+                <option key={state.isoCode} value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
                   {state.name}
                 </option>
               ))}

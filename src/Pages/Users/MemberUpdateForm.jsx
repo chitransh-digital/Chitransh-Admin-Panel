@@ -15,7 +15,7 @@ const MemberUpdateForm = () => {
   const [course, setCourse] = useState("");
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-
+  const [stateCode, setStateCode] = useState("IN");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [member, setMember] = useState({
@@ -43,8 +43,16 @@ const MemberUpdateForm = () => {
 
   const handleChange = (input) => (e) => {
     e.preventDefault();
-    const value = e.target.value;
-    setMember((prev) => ({ ...prev, [input]: e.target.value }));
+    let value = e.target.value;
+    if (input === "contactVisibility") {
+      value = value === "true";
+    }
+    if (input === "state") {
+      const selectedState = JSON.parse(value);
+      setMember((prev) => ({ ...prev, [input]: selectedState.name }));
+    } else {
+      setMember((prev) => ({ ...prev, [input]: value }));
+    }
     if (input === "occupation") {
       setOccupation(value);
     }
@@ -71,10 +79,10 @@ const MemberUpdateForm = () => {
 
   useEffect(() => {
     if (member.state) {
-      const indianCities = City.getCitiesOfState("IN", member.state);
+      const indianCities = City.getCitiesOfState("IN", stateCode);
       setCities(indianCities);
     }
-  }, [member.state]);
+  }, [member.state, stateCode]);
 
   const validateFamilyFields = (familyMember) => {
     const missingFields = [];
@@ -94,7 +102,6 @@ const MemberUpdateForm = () => {
   }
 
   const createClickHandler = async () => {
-    console.log(id, memberData._id, member)
     const missingFields = validateFamilyFields(member);
     if (missingFields && missingFields.length > 0) {
       alert(`Please fill the following fields: ${missingFields.join(", ")}`);
@@ -179,7 +186,7 @@ const MemberUpdateForm = () => {
           <div>
             <p className="text-xl mb-2 mt-5">Contact Visibility</p>
             <select
-            value={member.contactVisibility}
+            value={String(member.contactVisibility)}
             onChange={handleChange("contactVisibility")}
             className="border-black border-[1px] p-3 w-[19rem]"
           >
@@ -459,7 +466,7 @@ const MemberUpdateForm = () => {
             >
               <option value="">Select State</option>
               {states && states.map((state) => (
-                <option key={state.isoCode} value={state.isoCode}>
+                <option key={state.isoCode} value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
                   {state.name}
                 </option>
               ))}

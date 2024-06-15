@@ -21,6 +21,7 @@ const KaryakarniCreateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [stateCode, setStateCode] = useState("");
 
   useEffect(() => {
     const indianStates = State.getStatesOfCountry("IN");
@@ -30,10 +31,10 @@ const KaryakarniCreateForm = () => {
   useEffect(() => {
     setCities([]);
     if (karyakarni.state) {
-      const indianCities = City.getCitiesOfState("IN", karyakarni.state);
+      const indianCities = City.getCitiesOfState("IN", stateCode);
       setCities(indianCities);   
     }
-  }, [karyakarni.state]);
+  }, [karyakarni.state, stateCode]);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -42,7 +43,14 @@ const KaryakarniCreateForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setKaryakarni((prev) => ({ ...prev, [name]: value }));
+    if (name === "state") {
+      const selectedState = JSON.parse(value);
+      setStateCode(selectedState.isoCode);
+      setKaryakarni((prev) => ({ ...prev, [name]: selectedState.name }));
+    }
+    else {
+      setKaryakarni((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleLogoUpload = (e) => {
@@ -162,7 +170,7 @@ const KaryakarniCreateForm = () => {
             >
               <option value="">Select State</option>
               {states && states.map((state) => (
-                <option key={state.isoCode} value={state.isoCode}>
+                <option key={state.isoCode} value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
                   {state.name}
                 </option>
               ))}

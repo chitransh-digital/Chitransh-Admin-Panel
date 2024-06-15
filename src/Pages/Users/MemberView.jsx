@@ -13,7 +13,6 @@ const MemberView = ({ setMemberVariant, displayMember, familyID, id }) => {
   const deleteHandler = async () => {
     if (window.confirm("Are you sure you want to remove this member?")) {
       const memberId = displayMember._id;
-      console.log(memberId);
       await deleteMember(id, memberId);
       setMemberVariant((prev) => !prev);
       navigate("/family");

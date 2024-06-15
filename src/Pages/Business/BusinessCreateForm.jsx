@@ -27,7 +27,7 @@ const BusinessCreateForm = () => {
     const [attachment, setAttachment] = React.useState(null);
     const [states, setStates] = React.useState([]);
     const [cities, setCities] = React.useState([]);
-
+    const [stateCode, setStateCode] = React.useState("");
 
     const normalButton = 
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -37,7 +37,14 @@ const BusinessCreateForm = () => {
 
     const handleChange = (input) => (e) => {
         e.preventDefault();
-        setBusiness({ ...businesses, [input]: e.target.value });
+        const value = e.target.value;
+          if (input === "state") {
+            const selectedState = JSON.parse(value);
+            setStateCode(selectedState.isoCode);
+            setBusiness((prev) => ({ ...prev, [input]: selectedState.name }));
+          } else {
+            setBusiness((prev) => ({ ...prev, [input]: value }));
+          }
     };
 
     useEffect(() => {
@@ -47,9 +54,9 @@ const BusinessCreateForm = () => {
 
     useEffect(() => {
         if (businesses.state) {
-            setCities(City.getCitiesOfState("IN", businesses.state));
+            setCities(City.getCitiesOfState("IN", stateCode));
         }
-    }, [businesses.state]);
+    }, [businesses.state, stateCode]);
 
     const validateBusinessFields = (businesses) => {
         const missingFields = [];

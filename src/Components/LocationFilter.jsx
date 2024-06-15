@@ -4,6 +4,7 @@ import { State, City } from "country-state-city";
 const LocationFilter = ({ onSearch, searchTermLabel }) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [selectedStateCode, setSelectedStateCode] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,12 +15,18 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedState) {
-      setCities(City.getCitiesOfState("IN", selectedState));
+    if (selectedStateCode) {
+      setCities(City.getCitiesOfState("IN", selectedStateCode));
     } else {
       setCities([]);
     }
-  }, [selectedState]);
+  }, [selectedStateCode]);
+
+  const stateChangeHandler = (e) => {
+    const selectedState = JSON.parse(e.target.value);
+    setSelectedStateCode(selectedState.isoCode);
+    setSelectedState(selectedState.name);
+  }
 
   const handleSearch = () => {
     onSearch({
@@ -40,12 +47,12 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
       />
       <select
         value={selectedState}
-        onChange={(e) => setSelectedState(e.target.value)}
+        onChange={stateChangeHandler}
         className="border border-gray-300 p-2 rounded-md w-48"
       >
         <option value="">Select State</option>
         {states && states.map((state) => (
-          <option key={state.isoCode} value={state.isoCode}>
+          <option value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
             {state.name}
           </option>
         ))}

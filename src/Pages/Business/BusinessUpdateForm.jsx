@@ -36,7 +36,7 @@ const BusinessUpdateForm = () => {
     });
     const [states, setStates] = React.useState([]);
     const [cities, setCities] = React.useState([]);
-
+    const [stateCode, setStateCode] = React.useState("");
     const [img,setImage] = useState(null);
     const [attach,setAttachment] = useState(null);
 
@@ -48,7 +48,14 @@ const BusinessUpdateForm = () => {
 
     const handleChange = (input) => (e) => {
         e.preventDefault();
-        setBusiness((prev) => ({...prev, [input]: e.target.value}));
+        const value = e.target.value;
+          if (input === "state") {
+            const selectedState = JSON.parse(value);
+            setStateCode(selectedState.isoCode);
+            setBusiness((prev) => ({ ...prev, [input]: selectedState.name }));
+          } else {
+            setBusiness((prev) => ({ ...prev, [input]: value }));
+          }
     }
 
     useEffect(() => {
@@ -58,9 +65,9 @@ const BusinessUpdateForm = () => {
 
     useEffect(() => {
         if(business.state) {
-            setCities(City.getCitiesOfState("IN", business.state));
+            setCities(City.getCitiesOfState("IN", stateCode));
         }
-    }, [business.state]);
+    }, [business.state, stateCode]);
 
     const validateBusinessFields = (businesses) => {
         const missingFields = [];
@@ -156,7 +163,7 @@ const BusinessUpdateForm = () => {
                 >
                 <option value="">Select State</option>
                 {states && states.map((state) => (
-                    <option key={state.isoCode} value={state.isoCode}>
+                    <option key={state.isoCode} value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
                     {state.name}
                     </option>
                 ))}

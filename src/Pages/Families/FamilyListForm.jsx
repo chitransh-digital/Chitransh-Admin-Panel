@@ -26,8 +26,8 @@ const FamilyList = () => {
   }, []);
 
   const filteredFamilies = family && family.filter((item) => {
-    if (filters.state && item.members.state !== filters.state) return false;
-    if (filters.city && item.members.city !== filters.city) return false;
+    if (filters.state && item.members[0].state !== filters.state) return false;
+    if (filters.city && item.members[0].city !== filters.city) return false;
     if (filters.searchTerm) {
       const query = filters.searchTerm.toLowerCase();
       if (item.familyID && !item.familyID.toLowerCase().includes(query)) {

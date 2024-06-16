@@ -19,6 +19,14 @@ const MemberView = ({ setMemberVariant, displayMember, familyID, id }) => {
     }
   };
 
+  const occupationWithExtraFields = [
+    "Govt Job",
+    "Private Job",
+    "Doctor", 
+    "Lawyer",
+    "Chartered Accountant",
+  ];
+
   return (
     <div>
       <p onClick={clickHandler} className="my-10 ml-5 flex cursor-pointer">
@@ -56,10 +64,45 @@ const MemberView = ({ setMemberVariant, displayMember, familyID, id }) => {
         <p className="ml-2">{displayMember.education}</p>
       </div>
 
+      {
+        displayMember.educationDetails && (
+          <div className="flex-col flex-wrap pl-5 pt-5">
+            <p className="font-bold">Education Details:-</p>
+            <p><span className="font-semibold">Course:</span> {displayMember.educationDetails.course? displayMember.educationDetails.course : "N/A"}</p>
+            <p><span className="font-semibold">Institute:</span> {displayMember.educationDetails.institute? displayMember.educationDetails.institute : "N/A"}</p>
+            <p><span className="font-semibold">Field Of Study:</span> {displayMember.educationDetails.fieldOfStudy? displayMember.educationDetails.fieldOfStudy : "N/A"}</p>
+            <p><span className="font-semibold">Additional Details:</span> {displayMember.educationDetails.additionalDetails? displayMember.educationDetails.additionalDetails : "N/A"}</p>
+          </div>
+        )
+      }
+
       <div className="flex flex-wrap pl-5 pt-5">
         <p className="font-bold">Occupation:</p>
         <p className="ml-2">{displayMember.occupation}</p>
       </div>
+      
+      {
+        displayMember.occupationDetails && displayMember.occupation === "Business" && (
+          <div className="flex-col flex-wrap pl-5 pt-5">
+            <p className="font-bold">Business Details:-</p>
+            <p><span className="font-semibold">Business Name:</span> {displayMember.occupationDetails.businessName? displayMember.occupationDetails.businessName : "N/A"}</p>
+            <p><span className="font-semibold">Business Type:</span> {displayMember.occupationDetails.businessType? displayMember.occupationDetails.businessType : "N/A"}</p>
+            <p><span className="font-semibold">Business Address:</span> {displayMember.occupationDetails.businessAddress? displayMember.occupationDetails.businessAddress : "N/A"}</p>
+          </div>
+        )
+      }
+
+      {
+        displayMember.occupationDetails && occupationWithExtraFields.includes(displayMember.occupation) && (
+          <div className="flex-col flex-wrap pl-5 pt-5">
+            <p className="font-bold">Occupation Details:-</p>
+            <p><span className="font-semibold">Job Post:</span> {displayMember.occupationDetails.jobPost? displayMember.occupationDetails.jobPost : "N/A"}</p>
+            <p><span className="font-semibold">Job Department:</span> {displayMember.occupationDetails.jobDepartment? displayMember.occupationDetails.jobDepartment : "N/A"}</p>
+            <p><span className="font-semibold">Job Employer:</span> {displayMember.occupationDetails.jobEmployer? displayMember.occupationDetails.jobEmployer : "N/A"}</p>
+            <p><span className="font-semibold">Job Location:</span> {displayMember.occupationDetails.jobLocation? displayMember.occupationDetails.jobLocation : "N/A"}</p>
+          </div>
+        )
+      }
 
       <div className="flex flex-wrap pl-5 pt-5">
         <p className="font-bold">Karyakarni:</p>

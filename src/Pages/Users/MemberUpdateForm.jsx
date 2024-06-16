@@ -10,11 +10,9 @@ const MemberUpdateForm = () => {
   const [karyakarni, setKaryakarni] = useState([]);
   const reactLocation = useLocation();
   const { id, familyID, memberData } = reactLocation.state;
-  const [occupation, setOccupation] = useState("");
-  const [education, setEducation] = useState("");
-  const [course, setCourse] = useState("");
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [otherCourse, setOtherCourse] = useState("");
   const [stateCode, setStateCode] = useState("IN");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -29,10 +27,12 @@ const MemberUpdateForm = () => {
     state: memberData.state,
     familyID: familyID,
     occupation: memberData.occupation,
+    occupationDetails: memberData.occupationDetails,
     relation: memberData.relation,
     karyakarni: memberData.karyakarni,
     bloodGroup: memberData.bloodGroup,
     education: memberData.education,
+    educationDetails: memberData.educationDetails,
     profilePic: memberData.profilePic,
   });
 
@@ -41,28 +41,41 @@ const MemberUpdateForm = () => {
   const loadingButton =
     "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
-  const handleChange = (input) => (e) => {
-    e.preventDefault();
-    let value = e.target.value;
-    if (input === "contactVisibility") {
-      value = value === "true";
-    }
-    if (input === "state") {
-      const selectedState = JSON.parse(value);
-      setMember((prev) => ({ ...prev, [input]: selectedState.name }));
-    } else {
-      setMember((prev) => ({ ...prev, [input]: value }));
-    }
-    if (input === "occupation") {
-      setOccupation(value);
-    }
-    if (input === "education") {
-      setEducation(value);
-    }
-    if (input === "course") {
-      setCourse(value);
-    }
-  };
+    const handleChange = (input, nested) => (e) => {
+      e.preventDefault();
+      let value = e.target.value;
+      if (input === "contactVisibility") {
+        value = value === "true";
+      }
+      if (input === "state") {
+        const selectedState = JSON.parse(value);
+        setStateCode(selectedState.isoCode);
+        setMember((prev) => ({ ...prev, [input]: selectedState.name }));
+      } else if (nested) {
+        setMember((prev) => ({
+          ...prev,
+          [nested]: {
+            ...prev[nested],
+            [input]: value
+          }
+        }));
+      } else {
+        setMember((prev) => ({ ...prev, [input]: value }));
+      }
+    };
+
+    const handleOtherCourse = (e) => {
+      setOtherCourse(e.target.value);
+      setMember((prev) => ({
+        ...prev,
+        educationDetails: {
+          ...prev.educationDetails,
+          course: e.target.value?.trim() === "" ? "Other" : e.target.value
+        }
+      }));
+    };
+
+
   const fetchKaryakarni = async () => {
     const karyakarnis = await getKaryakarnis();
     setKaryakarni(karyakarnis.karyakarni);
@@ -132,6 +145,38 @@ const MemberUpdateForm = () => {
   ]
 
   const educationWithExtraFields = ["Bachelors", "Masters", "PhD"];
+
+  const degreeCourses = [
+    "BTech",
+    "BSc",
+    "BCom",
+    "BA",
+    "BBA",
+    "BCA",
+    "BEd",
+    "BPharma",
+    "BDS",
+    "BAMS",
+    "BHMS",
+    "LLB",
+    "BHM",
+    "BHMCT",
+    "Ded",
+    "BA/LLB",
+    "BCom/LLB",
+    "CS",
+    "MTech",
+    "MSc",
+    "MCom",
+    "MA",
+    "MBA",
+    "MCA",
+    "MPharma",
+    "MDS",
+    "LLM",
+    "MA/LLM",
+    "MCom/LLM",
+  ];
 
   return (
     <div className="w-full">
@@ -271,20 +316,22 @@ const MemberUpdateForm = () => {
           </div>
         </div>
 
-        {occupationWithExtraFields.includes(occupation) && (
+        {occupationWithExtraFields.includes(member.occupation) && (
             <div>
               <div className="flex gap-[2rem]">
               <div>
                 <p className="text-xl mb-2 mt-5">Job Post</p>
                 <input
-                  onChange={handleChange("jobPost")}
+                  value={member.occupationDetails.jobPost}
+                  onChange={handleChange("jobPost","occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
                 ></input>
               </div>
               <div>
                 <p className="text-xl mb-2 mt-5">Job Department</p>
                 <input
-                  onChange={handleChange("jobDepartment")}
+                  value={member.occupationDetails.jobDepartment}
+                  onChange={handleChange("jobDepartment","occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
                 ></input>
               </div>
@@ -293,14 +340,16 @@ const MemberUpdateForm = () => {
               <div>
                 <p className="text-xl mb-2 mt-5">Job Employer</p>
                 <input
-                  onChange={handleChange("jobEmployer")}
+                  value={member.occupationDetails.jobEmployer}
+                  onChange={handleChange("jobEmployer","occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
                 ></input>
               </div>
               <div>
                 <p className="text-xl mb-2 mt-5">Job Location</p>
                 <input
-                  onChange={handleChange("jobLocation")}
+                  value={member.occupationDetails.jobLocation}
+                  onChange={handleChange("jobLocation","occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
                 ></input>
               </div>
@@ -308,20 +357,22 @@ const MemberUpdateForm = () => {
             </div>
             
           )}
-          {occupation === "Business" && (
+          {member.occupation === "Business" && (
             <div>
               <div className="flex gap-[2rem]">
                 <div>
                   <p className="text-xl mb-2 mt-5">Business Name</p>
                   <input
-                    onChange={handleChange("businessName")}
+                    value={member.occupationDetails.businessName}
+                    onChange={handleChange("businessName","occupationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>
                 <div>
                   <p className="text-xl mb-2 mt-5">Business Type</p>
                   <input
-                    onChange={handleChange("businessType")}
+                    value={member.occupationDetails.businessType}
+                    onChange={handleChange("businessType","occupationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>
@@ -329,7 +380,8 @@ const MemberUpdateForm = () => {
                 <div>
                   <p className="text-xl mb-2 mt-5">Business Address</p>
                   <input
-                    onChange={handleChange("businessAddress")}
+                    value={member.occupationDetails.businessAddress}
+                    onChange={handleChange("businessAddress","occupationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>
@@ -339,6 +391,7 @@ const MemberUpdateForm = () => {
           <div>
           <p className="text-xl mb-2 mt-5">Education</p>
           <select
+            value={member.education}
             onChange={handleChange("education")}
             className="border-black border-[1px] p-3 w-[19rem]"
           >
@@ -355,14 +408,15 @@ const MemberUpdateForm = () => {
 
         </div>
 
-            {educationWithExtraFields.includes(education) && (
+            {educationWithExtraFields.includes(member.education) && (
               <div>
                 <div className="flex gap-[2rem]"> 
-                    {education === "Bachelors" && (
+                    {member.education === "Bachelors" && (
                       <div>
                       <p className="text-xl mb-2 mt-5">Course</p>
                       <select 
-                        onChange={handleChange("course")}
+                        value={degreeCourses.includes(member.educationDetails.course)? member.educationDetails.course : "Other"}
+                        onChange={handleChange("course","educationDetails")}
                         className="border-black border-[1px] p-3 w-[19rem]"
                       >
                         <option value="">Select Course</option>
@@ -384,15 +438,16 @@ const MemberUpdateForm = () => {
                         <option value="BA/LLB">BA/LLB</option>
                         <option value="BCom/LLB">BCom/LLB</option>
                         <option value="CS">CS</option>
-                        <option value="other">other</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                     )}
-                    {education === "Masters" && (
+                    {member.education === "Masters" && (
                       <div>
                       <p className="text-xl mb-2 mt-5">Course</p>
                       <select 
-                        onChange={handleChange("course")}
+                        value={degreeCourses.includes(member.educationDetails.course)? member.educationDetails.course : "Other"}
+                        onChange={handleChange("course","educationDetails")}
                         className="border-black border-[1px] p-3 w-[19rem]"
                       >
                         <option value="">Select Course</option>
@@ -407,23 +462,27 @@ const MemberUpdateForm = () => {
                         <option value="LLM">LLM</option>
                         <option value="MA/LLM">MA/LLM</option>
                         <option value="MCom/LLM">MCom/LLM</option>
-                        <option value="other">other</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                     )}
-                    {course === "other" && (
-                      <div>
-                        <p className="text-xl mb-2 mt-5">Other Course</p>
-                        <input
-                          onChange={handleChange("course")}
-                          className="border-black border-[1px] p-2 w-[19rem]"
-                        ></input>
-                      </div>
-                    )} 
+                    {
+                      member.educationDetails && (!degreeCourses.includes((member.educationDetails.course)) || otherCourse) && (
+                        <div>
+                          <p className="text-xl mb-2 mt-5">Other Course</p>
+                          <input
+                            value={!degreeCourses.includes((member.educationDetails.course)) ? member.educationDetails.course : ""}
+                            onChange={handleOtherCourse}
+                            className="border-black border-[1px] p-2 w-[19rem]"
+                          ></input>
+                        </div>
+                      )
+                    }
                     <div>
                     <p className="text-xl mb-2 mt-5">Field Of Study</p>
                     <input
-                      onChange={handleChange("fieldOfStudy")}
+                      value={member.educationDetails.fieldOfStudy}
+                      onChange={handleChange("fieldOfStudy","educationDetails")}
                       className="border-black border-[1px] p-2 w-[19rem]"
                     ></input>
                   </div>
@@ -432,14 +491,16 @@ const MemberUpdateForm = () => {
                 <div>
                   <p className="text-xl mb-2 mt-5">Institute</p>
                   <input
-                    onChange={handleChange("institute")}
+                    value={member.educationDetails.institute}
+                    onChange={handleChange("institute","educationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>
                 <div>
                   <p className="text-xl mb-2 mt-5">Additional Details</p>
                   <input
-                    onChange={handleChange("additionalDetails")}
+                    value={member.educationDetails.additionalDetails}
+                    onChange={handleChange("additionalDetails","educationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>
@@ -451,6 +512,7 @@ const MemberUpdateForm = () => {
           <div>
             <p className="text-xl mb-2 mt-5">Landmark</p>
             <input
+              value={member.landmark}
               onChange={handleChange("landmark")}
               className="border-black border-[1px] p-2 w-[40rem]"
             ></input>

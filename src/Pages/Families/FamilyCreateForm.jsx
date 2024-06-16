@@ -14,7 +14,9 @@ const FamilyCreateForm = () => {
     gender: "",
     bloodGroup: "",
     occupation: "",
+    occupationDetails: {},
     education: "",
+    educationDetails: {},
     landmark: "",
     karyakarni: "",
     profilePic: "",
@@ -22,43 +24,52 @@ const FamilyCreateForm = () => {
     city:"",
   });
   const [image, setImage] = useState(null);
+  const [otherCourse, setOtherCourse] = useState("");
   const [karyakarni, setKaryakarni] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [occupation, setOccupation] = useState("");
-  const [education, setEducation] = useState("");
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [course, setCourse] = useState("");
   const [stateCode, setStateCode] = useState("");
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
   const loadingButton =
     "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
-  const handleChange = (input) => (e) => {
-    e.preventDefault();
-    let value = e.target.value;
-    if (input === "contactVisibility") {
-      value = value === "true";
-    }
-    if (input === "state") {
-      const selectedState = JSON.parse(value);
-      setStateCode(selectedState.isoCode);
-      setFamilyHead((prev) => ({ ...prev, [input]: selectedState.name }));
-    } else {
-      setFamilyHead((prev) => ({ ...prev, [input]: value }));
-    }
-    if (input === "occupation") {
-      setOccupation(value);
-    }
-    if (input === "education") {
-      setEducation(value);
-    }
-    if (input === "course") {
-      setCourse(value);
-    }
-  };
+    const handleChange = (input, nested) => (e) => {
+      e.preventDefault();
+      let value = e.target.value;
+      if (input === "contactVisibility") {
+        value = value === "true";
+      }
+      if (input === "state") {
+        const selectedState = JSON.parse(value);
+        setStateCode(selectedState.isoCode);
+        setFamilyHead((prev) => ({ ...prev, [input]: selectedState.name }));
+      } else if (nested) {
+        setFamilyHead((prev) => ({
+          ...prev,
+          [nested]: {
+            ...prev[nested],
+            [input]: value
+          }
+        }));
+      } else {
+        setFamilyHead((prev) => ({ ...prev, [input]: value }));
+      }
+    };
+
+    const handleOtherCourse = (e) => {
+      setOtherCourse(e.target.value);
+      setFamilyHead((prev) => ({
+        ...prev,
+        educationDetails: {
+          ...prev.educationDetails,
+          course: e.target.value?.trim() === "" ? "Other" : e.target.value
+        }
+      }));
+    };
+  
 
   const fetchKaryakarni = async () => {
     const karyakarnis = await getKaryakarnis();
@@ -242,71 +253,70 @@ const FamilyCreateForm = () => {
           </div>
         </div>
 
-          {occupationWithExtraFields.includes(occupation) && (
-            <div>
-              <div className="flex gap-[2rem]">
+        {occupationWithExtraFields.includes(familyHead.occupation) && (
+          <div>
+            <div className="flex gap-[2rem]">
               <div>
                 <p className="text-xl mb-2 mt-5">Job Post</p>
                 <input
-                  onChange={handleChange("jobPost")}
+                  onChange={handleChange("jobPost", "occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
+                />
               </div>
               <div>
                 <p className="text-xl mb-2 mt-5">Job Department</p>
                 <input
-                  onChange={handleChange("jobDepartment")}
+                  onChange={handleChange("jobDepartment", "occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
+                />
               </div>
-              </div>
-              <div className="flex gap-[2rem]">
+            </div>
+            <div className="flex gap-[2rem]">
               <div>
                 <p className="text-xl mb-2 mt-5">Job Employer</p>
                 <input
-                  onChange={handleChange("jobEmployer")}
+                  onChange={handleChange("jobEmployer", "occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
+                />
               </div>
               <div>
                 <p className="text-xl mb-2 mt-5">Job Location</p>
                 <input
-                  onChange={handleChange("jobLocation")}
+                  onChange={handleChange("jobLocation", "occupationDetails")}
                   className="border-black border-[1px] p-2 w-[19rem]"
-                ></input>
-              </div>
+                />
               </div>
             </div>
-            
-          )}
-          {occupation === "Business" && (
-            <div>
-              <div className="flex gap-[2rem]">
-                <div>
-                  <p className="text-xl mb-2 mt-5">Business Name</p>
-                  <input
-                    onChange={handleChange("businessName")}
-                    className="border-black border-[1px] p-2 w-[19rem]"
-                  ></input>
-                </div>
-                <div>
-                  <p className="text-xl mb-2 mt-5">Business Type</p>
-                  <input
-                    onChange={handleChange("businessType")}
-                    className="border-black border-[1px] p-2 w-[19rem]"
-                  ></input>
-                </div>
-              </div>
-                <div>
-                  <p className="text-xl mb-2 mt-5">Business Address</p>
-                  <input
-                    onChange={handleChange("businessAddress")}
-                    className="border-black border-[1px] p-2 w-[19rem]"
-                  ></input>
-                </div>
-            </div>
-          )}
+          </div>
+        )}
 
+        {familyHead.occupation === "Business" && (
+          <div>
+            <div className="flex gap-[2rem]">
+              <div>
+                <p className="text-xl mb-2 mt-5">Business Name</p>
+                <input
+                  onChange={handleChange("businessName", "occupationDetails")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                />
+              </div>
+              <div>
+                <p className="text-xl mb-2 mt-5">Business Type</p>
+                <input
+                  onChange={handleChange("businessType", "occupationDetails")}
+                  className="border-black border-[1px] p-2 w-[19rem]"
+                />
+              </div>
+            </div>
+            <div>
+              <p className="text-xl mb-2 mt-5">Business Address</p>
+              <input
+                onChange={handleChange("businessAddress", "occupationDetails")}
+                className="border-black border-[1px] p-2 w-[40rem]"
+              />
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-[2rem]">
           <div>
@@ -328,14 +338,14 @@ const FamilyCreateForm = () => {
 
         </div>
 
-            {educationWithExtraFields.includes(education) && (
+            {educationWithExtraFields.includes(familyHead.education) && (
               <div>
                 <div className="flex gap-[2rem]"> 
-                    {education === "Bachelors" && (
+                    {familyHead.education === "Bachelors" && (
                       <div>
                       <p className="text-xl mb-2 mt-5">Course</p>
                       <select 
-                        onChange={handleChange("course")}
+                        onChange={handleChange("course", "educationDetails")}
                         className="border-black border-[1px] p-3 w-[19rem]"
                       >
                         <option value="">Select Course</option>
@@ -357,15 +367,15 @@ const FamilyCreateForm = () => {
                         <option value="BA/LLB">BA/LLB</option>
                         <option value="BCom/LLB">BCom/LLB</option>
                         <option value="CS">CS</option>
-                        <option value="other">other</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                     )}
-                    {education === "Masters" && (
+                    {familyHead.education === "Masters" && (
                       <div>
                       <p className="text-xl mb-2 mt-5">Course</p>
                       <select 
-                        onChange={handleChange("course")}
+                        onChange={handleChange("course", "educationDetails")}
                         className="border-black border-[1px] p-3 w-[19rem]"
                       >
                         <option value="">Select Course</option>
@@ -380,23 +390,25 @@ const FamilyCreateForm = () => {
                         <option value="LLM">LLM</option>
                         <option value="MA/LLM">MA/LLM</option>
                         <option value="MCom/LLM">MCom/LLM</option>
-                        <option value="other">other</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                     )}
-                    {course === "other" && (
-                      <div>
-                        <p className="text-xl mb-2 mt-5">Other Course</p>
-                        <input
-                          onChange={handleChange("course")}
-                          className="border-black border-[1px] p-2 w-[19rem]"
-                        ></input>
-                      </div>
-                    )} 
+                    {
+                      familyHead.educationDetails && (familyHead.educationDetails.course === "Other" || otherCourse) && (
+                        <div>
+                          <p className="text-xl mb-2 mt-5">Other Course</p>
+                          <input
+                            onChange={handleOtherCourse}
+                            className="border-black border-[1px] p-2 w-[19rem]"
+                          ></input>
+                        </div>
+                      )
+                    }
                     <div>
                     <p className="text-xl mb-2 mt-5">Field Of Study</p>
                     <input
-                      onChange={handleChange("fieldOfStudy")}
+                      onChange={handleChange("fieldOfStudy", "educationDetails")}
                       className="border-black border-[1px] p-2 w-[19rem]"
                     ></input>
                   </div>
@@ -405,14 +417,14 @@ const FamilyCreateForm = () => {
                 <div>
                   <p className="text-xl mb-2 mt-5">Institute</p>
                   <input
-                    onChange={handleChange("institute")}
+                    onChange={handleChange("institute", "educationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>
                 <div>
                   <p className="text-xl mb-2 mt-5">Additional Details</p>
                   <input
-                    onChange={handleChange("additionalDetails")}
+                    onChange={handleChange("additionalDetails", "educationDetails")}
                     className="border-black border-[1px] p-2 w-[19rem]"
                   ></input>
                 </div>

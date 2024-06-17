@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { addMember } from "../../Api/memberApi";
+import { createFamily } from "../../Api/memberApi";
 import { useNavigate } from "react-router-dom";
 import { getKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
-import { uploadImage } from "../../Api/feedsApi";
 
 const FamilyCreateForm = () => {
   const [familyHead, setFamilyHead] = useState({
@@ -126,11 +125,14 @@ const FamilyCreateForm = () => {
         ...familyHead,
         relation: "head",
       };
+      let response;
       if (image !== null) {
-        const imageUrl = await uploadImage(image);
-        headMemberData.profilePic = imageUrl;
+        const formData = new FormData();
+        formData.append('file', image);
+        response = await createFamily({ familyID, memberData: headMemberData, formData: formData});
+      } else {
+        response = await createFamily({ familyID, memberData: headMemberData });
       }
-      const response = await addMember({ id: "", familyID, memberData: headMemberData });
       if (response.status === 201) {
         alert("Family created successfully");
       } else {

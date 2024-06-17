@@ -13,10 +13,33 @@ export const getFamilies = async () => {
     }
 }
 
-export const addMember = async ({id, familyID, memberData}) => {
+export const createFamily = async ({familyID, memberData, formData}) => {
+    try {
+      const payload = {
+        familyID,
+        memberData,
+      };
+
+      if(formData){
+        payload.formData = formData;
+      }
+
+      const family = await fetch('http://159.89.165.67/api/member/createFamily', {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify(payload),
+      });
+
+      return family;
+    } catch (error) {
+        console.error("Error creating family:", error);
+        throw error;
+    }
+}
+
+export const addMember = async ({id, memberData}) => {
     try {
         const payload = {
-            familyID: familyID,
             memberData,
         };
         const member = await fetch(`http://159.89.165.67/api/member/addMember/${id}`, {

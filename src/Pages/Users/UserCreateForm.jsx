@@ -125,7 +125,7 @@ const UserCreateForm = () => {
         const imageUrl = await uploadImage(image);
         memberData.profilePic = imageUrl;
       }
-      const response = await addMember({ id, familyID, memberData: memberData });
+      const response = await addMember({ id, memberData: memberData });
       if (response.status === 201) {
         alert("Member added successfully");
       } else {

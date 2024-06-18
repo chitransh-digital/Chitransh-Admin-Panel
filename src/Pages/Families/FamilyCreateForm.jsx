@@ -41,7 +41,7 @@ const FamilyCreateForm = () => {
       if (input === "contactVisibility") {
         value = value === "true";
       }
-      if (input === "state") {
+      if (input === "state" && value !== "") {
         const selectedState = JSON.parse(value);
         setStateCode(selectedState.isoCode);
         setFamilyHead((prev) => ({ ...prev, [input]: selectedState.name }));
@@ -123,16 +123,15 @@ const FamilyCreateForm = () => {
       const familyID = createFamilyId(familyHead.name, familyHead.contact);
       const headMemberData = {
         ...familyHead,
-        relation: "head",
+        relation: "Head",
       };
       let response;
+      const formData = new FormData();
       if (image !== null) {
-        const formData = new FormData();
         formData.append('file', image);
-        response = await createFamily({ familyID, memberData: headMemberData, formData: formData});
-      } else {
-        response = await createFamily({ familyID, memberData: headMemberData });
       }
+      response = await createFamily({ familyID, memberData: headMemberData, formData: formData });
+  
       if (response.status === 201) {
         alert("Family created successfully");
       } else {

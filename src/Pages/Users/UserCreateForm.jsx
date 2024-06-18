@@ -46,7 +46,7 @@ const UserCreateForm = () => {
       if (input === "contactVisibility") {
         value = value === "true";
       }
-      if (input === "state") {
+      if (input === "state" && value !== "") {
         const selectedState = JSON.parse(value);
         setStateCode(selectedState.isoCode);
         setFamilyMember((prev) => ({ ...prev, [input]: selectedState.name }));

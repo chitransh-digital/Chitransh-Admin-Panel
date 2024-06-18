@@ -49,7 +49,7 @@ const BusinessUpdateForm = () => {
     const handleChange = (input) => (e) => {
         e.preventDefault();
         const value = e.target.value;
-          if (input === "state") {
+          if (input === "state" && value !== "") {
             const selectedState = JSON.parse(value);
             setStateCode(selectedState.isoCode);
             setBusiness((prev) => ({ ...prev, [input]: selectedState.name }));

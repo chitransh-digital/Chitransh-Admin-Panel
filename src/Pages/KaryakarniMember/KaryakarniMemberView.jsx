@@ -36,6 +36,11 @@ const KaryakarniMemberView = ({ setMemberVariant, displayMember,designations, ka
             <p className="ml-2">{displayMember.familyID ? displayMember.familyID : "N/A"}</p>
         </div>
 
+        <div className="flex flex-wrap pl-5 pt-5">
+            <p className="font-bold">Contact:</p>
+            <p className="ml-2">{displayMember.contact ? displayMember.contact : "N/A"}</p>
+        </div>
+
       <div className="flex flex-wrap pl-5 pt-5">
         <p className="font-bold">Designations:</p>
         <p className="ml-2">{(displayMember.designations && displayMember.designations.length>0) ? displayMember.designations.join(", ") : "None"}</p>

@@ -10,6 +10,7 @@ const KaryakarniMemberForm = () => {
   const [member, setMember] = useState({
     name: "",
     familyID: "",
+    contact: "",
     profilePic: "",
     designations: [],
     karyakarni: karyakarni,
@@ -31,6 +32,7 @@ const KaryakarniMemberForm = () => {
   const validateMemberFields = (member) => {
     const missingFields = [];
     if (!member.name.trim()) missingFields.push("Name");
+    if (!member.contact.trim()) missingFields.push("Contact");
     if (member.designations.length === 0) missingFields.push("Designations");
 
     return missingFields;
@@ -82,6 +84,13 @@ const KaryakarniMemberForm = () => {
         onChange={handleMemberChange("familyID")}
         className="border-black border-[1px] p-2 w-[40rem]"
       ></input>
+
+      <p className="text-xl mb-2 mt-5">Contact</p>
+        <input
+          type="text"
+          onChange={handleMemberChange("contact")}
+          className="border-black border-[1px] p-2 w-[40rem]"
+        ></input>
 
       <p className="text-xl mb-2 mt-5">Profile Picture</p>
       <input onChange={handleMemberImageUpload} type="file"></input>

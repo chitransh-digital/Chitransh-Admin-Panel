@@ -58,7 +58,7 @@ const KaryakarniUpdateForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "state") {
+    if (name === "state" && value !== "") {
       const selectedState = JSON.parse(value);
       setStateCode(selectedState.isoCode);
       setKaryakarni((prev) => ({ ...prev, [name]: selectedState.name }));

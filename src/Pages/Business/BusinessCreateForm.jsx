@@ -38,7 +38,7 @@ const BusinessCreateForm = () => {
     const handleChange = (input) => (e) => {
         e.preventDefault();
         const value = e.target.value;
-          if (input === "state") {
+          if (input === "state" && value !== "") {
             const selectedState = JSON.parse(value);
             setStateCode(selectedState.isoCode);
             setBusiness((prev) => ({ ...prev, [input]: selectedState.name }));
@@ -151,7 +151,7 @@ const BusinessCreateForm = () => {
                 >
                 <option value="" onChange={handleChange("state")}>Select State</option>
                 {states && states.map((state) => (
-                    <option key={state.isoCode} value={state.isoCode}>
+                    <option key={state.isoCode} value={JSON.stringify({ isoCode: state.isoCode, name: state.name })}>
                     {state.name}
                     </option>
                 ))}

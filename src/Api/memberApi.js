@@ -13,28 +13,28 @@ export const getFamilies = async () => {
     }
 }
 
-export const createFamily = async ({familyID, memberData, formData}) => {
-    try {
-      const payload = {
-        familyID,
-        memberData,
-      };
-
-      if(formData){
-        payload.formData = formData;
-      }
-
-      const family = await fetch('http://159.89.165.67/api/member/createFamily', {
-          method: 'POST',
-          credentials: 'include',
-          body: JSON.stringify(payload),
-      });
-
-      return family;
-    } catch (error) {
-        console.error("Error creating family:", error);
-        throw error;
+export const createFamily = async ({ familyID, memberData, formData }) => {
+  try {
+    if (formData) {
+      formData.append('familyID', familyID);
+      formData.append('memberData', JSON.stringify(memberData));
+    } else {
+      formData = new FormData();
+      formData.append('familyID', familyID);
+      formData.append('memberData', JSON.stringify(memberData));
     }
+
+    const response = await fetch('http://159.89.165.67/api/member/createFamily', {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Error creating family:", error);
+    throw error;
+  }
 }
 
 export const addMember = async ({id, memberData}) => {

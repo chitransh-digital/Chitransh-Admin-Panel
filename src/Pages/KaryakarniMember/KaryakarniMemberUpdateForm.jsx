@@ -17,6 +17,7 @@ const KaryakarniMemberUpdateForm = () => {
   const [karyakarniMember, setKaryakarniMember] = useState({
     name:memberData.name,
     familyID: memberData.familyID,
+    contact: memberData.contact,
     designations: [...memberData.designations],
     profilePic: memberData.profilePic,
     karyakarni: memberData.karyakarni,
@@ -28,8 +29,10 @@ const KaryakarniMemberUpdateForm = () => {
     "border-blue-600 border-2 bg-blue-600 rounded-md cursor-default";
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setKaryakarniMember((prev) => ({ ...prev, [name]: value }));
+    if(e.target) {
+      const { name, value } = e.target;
+      setKaryakarniMember((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleRemoveDesignation = (designation) => {
@@ -46,6 +49,7 @@ const KaryakarniMemberUpdateForm = () => {
   const validateKaryakarniFields = (karyakarniMember) => {
     const missingFields = [];
     if (karyakarniMember.name === "") missingFields.push("Name");
+    if (karyakarniMember.contact === "") missingFields.push("Contact");
     if (karyakarniMember.designations.length === 0) missingFields.push("Designations");
 
     return missingFields;
@@ -100,6 +104,15 @@ const KaryakarniMemberUpdateForm = () => {
           onChange={handleChange}
           className="border-black border-[1px] p-2 w-[40rem]"
         />
+
+        <p className="text-xl mb-2 mt-5">Contact</p>
+        <input
+          name="contact"
+          type="text"
+          value={karyakarniMember.contact}
+          onChange={handleChange}
+          className="border-black border-[1px] p-2 w-[40rem]"
+        ></input>
 
         <p className="text-xl mb-2 mt-5">Profile Picture</p>
         <input onChange={handleImageUpload} type="file" />

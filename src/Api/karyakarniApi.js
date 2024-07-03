@@ -1,6 +1,6 @@
-export const getKaryakarnis = async () =>{
+export const getKaryakarnis = async (page) =>{
     try {
-      const response = await fetch("http://159.89.165.67/api/karyakarni/getKaryakarnis", {
+      const response = await fetch(`http://159.89.165.67/api/karyakarni/getKaryakarnis?page=${page}`, {
         method: "GET",
         credentials: "include",
         headers: {

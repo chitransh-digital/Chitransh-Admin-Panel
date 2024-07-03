@@ -5,8 +5,11 @@ import KaryakarniView from "./KaryakarniView";
 import { Link } from "react-router-dom";
 import LocationFilter from "../../Components/LocationFilter";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { Pagination } from "flowbite-react";
 
 const KaryakarniList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [karyakarni, setKaryakarni] = useState([]);
   const [karyakarniVariant, setKaryakarniVariant] = useState(true);
   const [displayKaryakarni, setDisplayKaryakarni] = useState({});
@@ -18,15 +21,20 @@ const KaryakarniList = () => {
     searchTerm: ""
   });
 
-  const fetchKaryakarni = async () => {
-    const karyakarnis = await getKaryakarnis();
+  const fetchKaryakarni = async (currentPage) => {
+    const karyakarnis = await getKaryakarnis(currentPage);
     setKaryakarni(karyakarnis.karyakarni);
     setFilteredKaryakarni(karyakarnis.karyakarni);
+    setTotalPages(karyakarnis.totalPages);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
+
   useEffect(() => {
-    fetchKaryakarni();
-  }, []);
+    fetchKaryakarni(currentPage);
+  }, [currentPage]);
 
   const handleSearch = ({ level, state, city, searchTerm }) => {
     let filteredList = karyakarni;
@@ -109,6 +117,7 @@ const KaryakarniList = () => {
               <KaryakarniItemContent item={item} />
             </div>
           ))}
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>
     );

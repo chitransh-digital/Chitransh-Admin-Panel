@@ -3,22 +3,30 @@ import { getJobs } from "../../Api/jobsApi";
 import JobsListContent from "./JobsListContent";
 import { Link } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { Pagination } from "flowbite-react";
 
 const JobsListView = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [reload, setReload] = useState(false); 
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchJobs = async () => {
-    const jobs = await getJobs();
+  const fetchJobs = async (currentPage) => {
+    const jobs = await getJobs(currentPage);
     setJobs(jobs.jobs);
     setFilteredJobs(jobs.jobs);
+    setTotalPages(jobs.totalPages);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
+
   useEffect(() => {
-    fetchJobs();
-  }, [reload]);
+    fetchJobs(currentPage);
+  }, [reload, currentPage]);
 
   const searchByTitle = () => {
     if (searchTerm.trim() === "") {
@@ -79,6 +87,7 @@ const JobsListView = () => {
         {filteredJobs && filteredJobs.map((item, idx) => (
           <JobsListContent item={item} reload={reload} setReload={setReload} key={idx} />
         ))}
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
     </div>
   );

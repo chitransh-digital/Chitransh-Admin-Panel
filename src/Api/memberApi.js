@@ -1,6 +1,6 @@
-export const getFamilies = async () => {
+export const getFamilies = async (page) => {
     try {
-        const families = await fetch("http://159.89.165.67/api/member/viewFamilies", {
+        const families = await fetch(`http://159.89.165.67/api/member/viewFamilies?page=${page}`, {
             method: "GET",
             credentials: "include",
             headers: {

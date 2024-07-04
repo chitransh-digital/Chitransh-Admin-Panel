@@ -4,22 +4,30 @@ import BusinessListContent from "./BusinessListContent";
 import { Link } from "react-router-dom";
 import LocationFilter from "../../Components/LocationFilter";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { Pagination } from "flowbite-react";
 
 const BusinessListView = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [reload, setReload] = useState(false);
   const [business, setBusiness] = useState([]);
   const [filteredBusinesses, setFilteredBusinesses] = useState([]);
   const [filters, setFilters] = useState({ state: "", city: "", searchTerm: "" });
 
-  const fetchBusinesses = async () => {
-    const businesses = await getBusinesses();
+  const fetchBusinesses = async (currentPage) => {
+    const businesses = await getBusinesses(currentPage);
     setBusiness(businesses.businesses);
     setFilteredBusinesses(businesses.businesses);
+    setTotalPages(businesses.totalPages);
   };
 
   useEffect(() => {
-    fetchBusinesses();
-  }, [reload]);
+    fetchBusinesses(currentPage);
+  }, [reload, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
 
   const handleSearch = ({ state, city, searchTerm }) => {
     setFilters({ state, city, searchTerm });
@@ -75,6 +83,8 @@ const BusinessListView = () => {
         {filteredBusinesses && filteredBusinesses.map((busines, idx) => (
           <BusinessListContent item={busines} reload={reload} setReload={setReload} key={idx} />
         ))}
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+
       </div>
     </div>
   );

@@ -4,23 +4,31 @@ import { getFeeds } from "../../Api/feedsApi";
 import FeedView from "./FeedView";
 import { Link } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { Pagination } from "flowbite-react";
 
 const Appointments = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [feed, setFeed] = useState([]);
   const [filteredFeed, setFilteredFeed] = useState([]);
   const [feedVariant, setFeedVariant] = useState(true);
   const [displayFeed, setDisplayFeed] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchFeeds = async () => {
-    const feeds = await getFeeds();
+  const fetchFeeds = async (currentPage) => {
+    const feeds = await getFeeds(currentPage);
     setFeed(feeds.Feeds);
     setFilteredFeed(feeds.Feeds);
+    setTotalPages(feeds.totalPages);
   };
 
   useEffect(() => {
-    fetchFeeds();
-  }, []);
+    fetchFeeds(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const searchByAuthor = () => {
     if (searchTerm.trim() === "") {
@@ -97,6 +105,7 @@ const Appointments = () => {
             <FeedItemContent item={item} />
           </div>
         ))}
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
     </div>
   );

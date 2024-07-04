@@ -5,8 +5,11 @@ import FamilyView from "./FamilyView";
 import { Link } from "react-router-dom";
 import LocationFilter from "../../Components/LocationFilter";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { Pagination } from "flowbite-react";
 
 const FamilyList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [family, setFamily] = useState([]);
   const [familyVariant, setFamilyVariant] = useState(true);
   const [displayFamily, setDisplayFamily] = useState({});
@@ -17,13 +20,18 @@ const FamilyList = () => {
   });
 
   const fetchFamilies = async () => {
-    const families = await getFamilies();
+    const families = await getFamilies(currentPage);
     setFamily(families.families); 
+    setTotalPages(families.totalPages);
   };
 
   useEffect(() => {
-    fetchFamilies();
-  }, []);
+    fetchFamilies(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
 
   const filteredFamilies = family && family.filter((item) => {
     if (filters.state && item.members[0].state !== filters.state) return false;
@@ -87,6 +95,7 @@ const FamilyList = () => {
               <FamilyItemContent item={item} />
             </div>
           ))}
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>
     );

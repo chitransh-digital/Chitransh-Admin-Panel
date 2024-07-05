@@ -1,6 +1,6 @@
-export const getBusinesses = async () => {
+export const getBusinesses = async (page) => {
     try {
-        const businesses = await fetch("http://159.89.165.67/api/business/getBusinesses", {
+        const businesses = await fetch(`http://159.89.165.67/api/business/getBusinesses?page=${page}`, {
             method: "GET",
             credentials: "include",
             headers: {

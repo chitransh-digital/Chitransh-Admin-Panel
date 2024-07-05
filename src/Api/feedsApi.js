@@ -1,6 +1,6 @@
-export const getFeeds = async () =>{
+export const getFeeds = async (page) =>{
   try {
-    const response = await fetch("http://159.89.165.67/api/feeds/getFeeds ", {
+    const response = await fetch(`http://159.89.165.67/api/feeds/getFeeds?page=${page}`, {
       method: "GET",
       credentials: "include",
       headers: {

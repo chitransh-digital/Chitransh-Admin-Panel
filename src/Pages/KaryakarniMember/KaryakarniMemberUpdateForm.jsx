@@ -49,7 +49,6 @@ const KaryakarniMemberUpdateForm = () => {
   const validateKaryakarniFields = (karyakarniMember) => {
     const missingFields = [];
     if (karyakarniMember.name === "") missingFields.push("Name");
-    if (karyakarniMember.contact === "") missingFields.push("Contact");
     if (karyakarniMember.designations.length === 0) missingFields.push("Designations");
 
     return missingFields;

@@ -32,7 +32,6 @@ const KaryakarniMemberForm = () => {
   const validateMemberFields = (member) => {
     const missingFields = [];
     if (!member.name.trim()) missingFields.push("Name");
-    if (!member.contact.trim()) missingFields.push("Contact");
     if (member.designations.length === 0) missingFields.push("Designations");
 
     return missingFields;

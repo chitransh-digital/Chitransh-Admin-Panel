@@ -25,7 +25,8 @@ const KaryakarniList = () => {
     const karyakarnis = await getKaryakarnis(currentPage);
     setKaryakarni(karyakarnis.karyakarni);
     setFilteredKaryakarni(karyakarnis.karyakarni);
-    setTotalPages(karyakarnis.totalPages);
+    if (karyakarnis.totalPages) setTotalPages(karyakarnis.totalPages);
+    else setTotalPages(0);
   };
 
   const handlePageChange = (page) => {

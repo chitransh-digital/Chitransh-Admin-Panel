@@ -18,7 +18,8 @@ const BusinessListView = () => {
     const businesses = await getBusinesses(currentPage);
     setBusiness(businesses.businesses);
     setFilteredBusinesses(businesses.businesses);
-    setTotalPages(businesses.totalPages);
+    if (businesses.totalPages) setTotalPages(businesses.totalPages);
+    else setTotalPages(0);
   };
 
   useEffect(() => {

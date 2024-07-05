@@ -22,7 +22,8 @@ const FamilyList = () => {
   const fetchFamilies = async () => {
     const families = await getFamilies(currentPage);
     setFamily(families.families); 
-    setTotalPages(families.totalPages);
+    if (families.totalPages)  setTotalPages(families.totalPages);
+    else setTotalPages(0);
   };
 
   useEffect(() => {

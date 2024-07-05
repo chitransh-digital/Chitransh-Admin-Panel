@@ -1,6 +1,6 @@
-export const getJobs = async () => {
+export const getJobs = async (page) => {
   try {
-    const data = await fetch ("http://159.89.165.67/api/job/getAll", {
+    const data = await fetch (`http://159.89.165.67/api/job/getAll?page=${page}`, {
       method: "GET",
       credentials: "include",
     });

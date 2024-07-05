@@ -19,7 +19,8 @@ const Appointments = () => {
     const feeds = await getFeeds(currentPage);
     setFeed(feeds.Feeds);
     setFilteredFeed(feeds.Feeds);
-    setTotalPages(feeds.totalPages);
+    if (feeds.totalPages) setTotalPages(feeds.totalPages);
+    else setTotalPages(0);
   };
 
   useEffect(() => {

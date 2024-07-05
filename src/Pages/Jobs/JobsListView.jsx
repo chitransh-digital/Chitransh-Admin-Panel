@@ -17,7 +17,8 @@ const JobsListView = () => {
     const jobs = await getJobs(currentPage);
     setJobs(jobs.jobs);
     setFilteredJobs(jobs.jobs);
-    setTotalPages(jobs.totalPages);
+    if (jobs.totalPages) setTotalPages(jobs.totalPages);
+    else setTotalPages(0);
   };
 
   const handlePageChange = (page) => {

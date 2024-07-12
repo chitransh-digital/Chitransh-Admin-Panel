@@ -36,6 +36,7 @@ const BusinessUpdateForm = () => {
     });
     const [states, setStates] = React.useState([]);
     const [cities, setCities] = React.useState([]);
+    const [stateName, setStateName] = React.useState("");
     const [stateCode, setStateCode] = React.useState("");
     const [img,setImage] = useState(null);
     const [attach,setAttachment] = useState(null);
@@ -52,7 +53,10 @@ const BusinessUpdateForm = () => {
           if (input === "state" && value !== "") {
             const selectedState = JSON.parse(value);
             setStateCode(selectedState.isoCode);
+            setStateName(value);
             setBusiness((prev) => ({ ...prev, [input]: selectedState.name }));
+          } else if (input === "state" && value === "") {
+            setStateName(value);
           } else {
             setBusiness((prev) => ({ ...prev, [input]: value }));
           }
@@ -61,6 +65,13 @@ const BusinessUpdateForm = () => {
     useEffect(() => {
         const indianStates = State.getStatesOfCountry("IN");
         setStates(indianStates);
+        let code = indianStates.find((state) => state.name === business.state);
+        if (code !== undefined) {
+            setStateCode(code.isoCode);
+            code = code.isoCode;
+        }
+        setStateName(JSON.stringify({ isoCode: code, name: state }));
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -124,7 +135,7 @@ const BusinessUpdateForm = () => {
         <div className="w-full">
             <div className="w-full mt-10">
                 <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
-                    update Business
+                    Update Business
                 </p>
             </div>
             <div className="mt-10 ml-5">
@@ -158,6 +169,7 @@ const BusinessUpdateForm = () => {
 
                 <p className="text-xl mb-2 mt-5">State</p>
                 <select
+                value={stateName}
                 onChange={handleChange("state")}
                 className="border-black border-[1px] p-2 w-[40rem]"
                 >
@@ -171,6 +183,7 @@ const BusinessUpdateForm = () => {
 
                 <p className="text-xl mb-2 mt-5">City</p>
                 <select
+                value={business.city}
                 onChange={handleChange("city")}
                 className="border-black border-[1px] p-2 w-[40rem]"
                 disabled={!business.state}
@@ -208,14 +221,14 @@ const BusinessUpdateForm = () => {
                 <input
                     type="file"
                     onChange={handleImageUpload}
-                    className="border-black border-[1px] p-2 w-[40rem]"
+                    className="border-black border-[1px] w-[40rem]"
                 ></input>
 
                 <p className="text-xl mb-2 mt-5">Attachment</p>
                 <input
                     type="file"
                     onChange={handleAttachmentUpload}
-                    className="border-black border-[1px] p-2 w-[40rem]"
+                    className="border-black border-[1px] w-[40rem]"
                 ></input>
 
                 <button

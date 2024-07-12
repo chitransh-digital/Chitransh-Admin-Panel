@@ -69,7 +69,7 @@ const BusinessListView = () => {
             </button>
           </Link>
         </div>
-        <div className="flex justify-between items-center mb-5">
+        <div className="flex justify-start items-center mb-5">
           <LocationFilter onSearch={handleSearch} searchTermLabel="Name" />
           {(filters.state || filters.city || filters.searchTerm) && (
             <p onClick={resetSearch} className="my-10 ml-5 flex cursor-pointer">

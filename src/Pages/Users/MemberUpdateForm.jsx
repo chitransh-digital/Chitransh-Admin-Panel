@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage } from "../../Api/feedsApi";
 import { updateMember } from "../../Api/memberApi";
-import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { getAllKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
 
 const MemberUpdateForm = () => {
@@ -12,6 +12,7 @@ const MemberUpdateForm = () => {
   const { id, familyID, memberData } = reactLocation.state;
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [stateName, setStateName] = useState("");
   const [otherCourse, setOtherCourse] = useState("");
   const [stateCode, setStateCode] = useState("IN");
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +51,10 @@ const MemberUpdateForm = () => {
       if (input === "state" && value !== "") {
         const selectedState = JSON.parse(value);
         setStateCode(selectedState.isoCode);
+        setStateName(value);
         setMember((prev) => ({ ...prev, [input]: selectedState.name }));
+      } else if (input === "state" && value === "") {
+        setStateName(value);
       } else if (nested) {
         setMember((prev) => ({
           ...prev,
@@ -77,7 +81,7 @@ const MemberUpdateForm = () => {
 
 
   const fetchKaryakarni = async () => {
-    const karyakarnis = await getKaryakarnis();
+    const karyakarnis = await getAllKaryakarnis();
     setKaryakarni(karyakarnis.karyakarni);
   };
 
@@ -88,6 +92,13 @@ const MemberUpdateForm = () => {
   useEffect(() => {
     const indianStates = State.getStatesOfCountry("IN");
     setStates(indianStates);
+    let code = indianStates.find((state) => state.name === member.state);
+    if (code !== undefined) {
+      setStateCode(code.isoCode);
+      code = code.isoCode;
+    }
+    setStateName(JSON.stringify({ isoCode: code, name: memberData.state }));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -105,7 +116,6 @@ const MemberUpdateForm = () => {
     if (familyMember.bloodGroup === "") missingFields.push("Blood Group");
     if (familyMember.occupation === "") missingFields.push("Occupation");
     if (familyMember.education === "") missingFields.push("Education");
-    if (familyMember.landmark === "") missingFields.push("Landmark");
     if (familyMember.state === "") missingFields.push("State");
     if (familyMember.city === "") missingFields.push("City");
     if (familyMember.karyakarni === "") missingFields.push("Karyakarni");
@@ -522,7 +532,7 @@ const MemberUpdateForm = () => {
           <div>
             <p className="text-xl mb-2 mt-5">State</p>
             <select
-              value={member.state}
+              value={stateName}
               onChange={handleChange("state")}
               className="border-black border-[1px] p-2 w-[19rem]"
             >

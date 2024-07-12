@@ -25,6 +25,7 @@ const KaryakarniUpdateForm = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [stateCode, setStateCode] = useState("");
+  const [stateName, setStateName] = useState("");
   const [karyakarni, setKaryakarni] = useState({
     id,
     name,
@@ -41,6 +42,9 @@ const KaryakarniUpdateForm = () => {
   useEffect(() => {
     const indianStates = State.getStatesOfCountry("IN");
     setStates(indianStates);
+    const code = indianStates.find((state) => state.name === karyakarni.state).isoCode;
+    setStateName(JSON.stringify({ isoCode: code, name: state }));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -183,7 +187,7 @@ const KaryakarniUpdateForm = () => {
             <p className="text-xl mb-2 mt-5">State</p>
             <select
               name="state"
-              value={karyakarni.state}
+              value={stateName}
               onChange={handleChange}
               className="border-black border-[1px] p-2 w-[40rem]"
             >

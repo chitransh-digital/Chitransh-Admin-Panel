@@ -12,6 +12,21 @@ export const getKaryakarnis = async (page) =>{
       throw error;
     }
   }
+
+  export const getAllKaryakarnis = async () =>{
+    try {
+      const response = await fetch(`http://159.89.165.67/api/karyakarni/getAllKaryakarnis`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        }});
+      const karyakarnis = response.json();
+      return karyakarnis;
+    } catch (error) {
+      throw error;
+    }
+  }
   
   export const uploadImage = async (file) => {
     const formData = new FormData();

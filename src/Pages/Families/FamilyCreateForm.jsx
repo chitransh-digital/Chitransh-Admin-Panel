@@ -183,7 +183,7 @@ const FamilyCreateForm = () => {
             <p className="text-xl mb-2 mt-5">Gender</p>
             <select
               onChange={handleChange("gender")}
-              className="border-black border-[1px] p-3 w-[19rem]"
+              className="border-black border-[1px] p-2 w-[19rem]"
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -206,7 +206,7 @@ const FamilyCreateForm = () => {
             <p className="text-xl mb-2 mt-5">Contact Visibility</p>
             <select
             onChange={handleChange("contactVisibility")}
-            className="border-black border-[1px] p-3 w-[19rem]"
+            className="border-black border-[1px] p-2 w-[19rem]"
           >
             <option value="true" defaultChecked>Show</option>
             <option value="false">Hide</option>
@@ -219,7 +219,7 @@ const FamilyCreateForm = () => {
           <p className="text-xl mb-2 mt-5">Blood Group</p>
           <select
             onChange={handleChange("bloodGroup")}
-            className="border-black border-[1px] p-3 w-[19rem]"
+            className="border-black border-[1px] p-2 w-[19rem]"
           >
             <option value="">Select Blood Group</option>
             <option value="A+">A+</option>
@@ -237,7 +237,7 @@ const FamilyCreateForm = () => {
           <p className="text-xl mb-2 mt-5">Occupation</p>
           <select
             onChange={handleChange("occupation")}
-            className="border-black border-[1px] p-3 w-[19rem]"
+            className="border-black border-[1px] p-2 w-[19rem]"
           >
             <option value="">Select Occupation</option>
             <option value="Student">Student</option>
@@ -324,7 +324,7 @@ const FamilyCreateForm = () => {
           <p className="text-xl mb-2 mt-5">Education</p>
           <select
             onChange={handleChange("education")}
-            className="border-black border-[1px] p-3 w-[19rem]"
+            className="border-black border-[1px] p-2 w-[19rem]"
           >
             <option value="">Select Education</option>
             <option value="Junior School">Junior School</option>
@@ -347,7 +347,7 @@ const FamilyCreateForm = () => {
                       <p className="text-xl mb-2 mt-5">Course</p>
                       <select 
                         onChange={handleChange("course", "educationDetails")}
-                        className="border-black border-[1px] p-3 w-[19rem]"
+                        className="border-black border-[1px] p-2 w-[19rem]"
                       >
                         <option value="">Select Course</option>
                         <option value="BTech">BTech</option>
@@ -377,7 +377,7 @@ const FamilyCreateForm = () => {
                       <p className="text-xl mb-2 mt-5">Course</p>
                       <select 
                         onChange={handleChange("course", "educationDetails")}
-                        className="border-black border-[1px] p-3 w-[19rem]"
+                        className="border-black border-[1px] p-2 w-[19rem]"
                       >
                         <option value="">Select Course</option>
                         <option value="MTech">MTech</option>
@@ -479,7 +479,7 @@ const FamilyCreateForm = () => {
           <p className="text-xl mb-2 mt-5">Karyakarni</p>
           <select
               onChange={handleChange("karyakarni")}
-              className="border-black border-[1px] p-3 w-[40rem]"
+              className="border-black border-[1px] p-2 w-[40rem]"
             >
               <option value="" className="text-lg">Select Karyakarni</option>
               {karyakarni && karyakarni.map((k) => (

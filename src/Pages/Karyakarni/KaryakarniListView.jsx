@@ -13,7 +13,6 @@ const KaryakarniList = () => {
   const [karyakarni, setKaryakarni] = useState([]);
   const [karyakarniVariant, setKaryakarniVariant] = useState(true);
   const [displayKaryakarni, setDisplayKaryakarni] = useState({});
-  const [filteredKaryakarni, setFilteredKaryakarni] = useState([]);
   const [filters, setFilters] = useState({
     level: "",
     state: "",
@@ -24,7 +23,6 @@ const KaryakarniList = () => {
   const fetchKaryakarni = async (currentPage) => {
     const karyakarnis = await getKaryakarnis(currentPage);
     setKaryakarni(karyakarnis.karyakarni);
-    setFilteredKaryakarni(karyakarnis.karyakarni);
     if (karyakarnis.totalPages) setTotalPages(karyakarnis.totalPages);
     else setTotalPages(0);
   };
@@ -37,34 +35,25 @@ const KaryakarniList = () => {
     fetchKaryakarni(currentPage);
   }, [currentPage]);
 
-  const handleSearch = ({ level, state, city, searchTerm }) => {
-    let filteredList = karyakarni;
-
-    if (level) {
-      filteredList = filteredList && filteredList.filter((item) => item.level === level);
+  const filteredKaryakarni = karyakarni && karyakarni.filter((item) => {
+    if (filters.level && item.level !== filters.level) return false;
+    if (filters.state && item.state !== filters.state) return false;
+    if (filters.city && item.city !== filters.city) return false;
+    if (filters.searchTerm) {
+      const query = filters.searchTerm.toLowerCase();
+      if (item.name && !item.name.toLowerCase().includes(query)) {
+        return false;
+      }
     }
+    return true;
+  });
 
-    if (state) {
-      filteredList = filteredList.filter && filteredList.filter((item) => item.state === state);
-    }
-
-    if (city) {
-      filteredList = filteredList.filter && filteredList.filter((item) => item.city === city);
-    }
-
-    if (searchTerm) {
-      filteredList = filteredList.filter && filteredList.filter((item) =>
-        item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    setFilteredKaryakarni(filteredList);
-    setFilters({ level, state, city, searchTerm });
+  const handleSearch = (searchFilters) => {
+    setFilters(searchFilters);
   };
 
   const resetFilters = () => {
     setFilters({ level: "", state: "", city: "", searchTerm: "" });
-    setFilteredKaryakarni(karyakarni);
   };
 
   const clickHandler = (item) => {
@@ -97,7 +86,7 @@ const KaryakarniList = () => {
               <option value="State">State</option>
               <option value="City">City</option>
             </select>
-            <LocationFilter onSearch={(state, city, searchTerm) => handleSearch({ ...filters, state, city, searchTerm })} searchTermLabel="Name" />
+            <LocationFilter onSearch={handleSearch} searchTermLabel="Name" />
             {(filters.level || filters.state || filters.city || filters.searchTerm) && (
               <p onClick={resetFilters} className="flex items-center cursor-pointer text-blue-600">
                 <IoArrowBackCircleOutline className="text-2xl" />

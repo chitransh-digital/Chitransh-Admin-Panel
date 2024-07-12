@@ -23,14 +23,20 @@ const LocationFilter = ({ onSearch, searchTermLabel }) => {
   }, [selectedStateCode]);
 
   const stateChangeHandler = (e) => {
+    if (!e.target.value) {
+      setSelectedState("");
+      setSelectedStateCode("");
+      setCities([]);
+      return;
+    }
     const selectedState = JSON.parse(e.target.value);
     setSelectedStateCode(selectedState.isoCode);
-    setSelectedState(selectedState.name);
+    setSelectedState(JSON.stringify(selectedState));
   }
 
   const handleSearch = () => {
     onSearch({
-      state: selectedState,
+      state: selectedState.split("\"")[7],
       city: selectedCity,
       searchTerm: searchTerm,
     });

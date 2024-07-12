@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { addMember } from "../../Api/memberApi";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { getAllKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
 import { uploadImage } from "../../Api/feedsApi";
 
@@ -75,7 +75,7 @@ const UserCreateForm = () => {
     };
 
   const fetchKaryakarni = async () => {
-    const karyakarnis = await getKaryakarnis();
+    const karyakarnis = await getAllKaryakarnis();
     setKaryakarni(karyakarnis.karyakarni);
   };
   

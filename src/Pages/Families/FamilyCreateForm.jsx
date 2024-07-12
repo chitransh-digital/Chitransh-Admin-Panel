@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createFamily } from "../../Api/memberApi";
 import { useNavigate } from "react-router-dom";
-import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { getAllKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
 
 const FamilyCreateForm = () => {
@@ -71,7 +71,7 @@ const FamilyCreateForm = () => {
   
 
   const fetchKaryakarni = async () => {
-    const karyakarnis = await getKaryakarnis();
+    const karyakarnis = await getAllKaryakarnis();
     setKaryakarni(karyakarnis.karyakarni);
   };
 

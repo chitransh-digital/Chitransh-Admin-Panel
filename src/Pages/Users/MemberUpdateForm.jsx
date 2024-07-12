@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { uploadImage } from "../../Api/feedsApi";
 import { updateMember } from "../../Api/memberApi";
-import { getKaryakarnis } from "../../Api/karyakarniApi";
+import { getAllKaryakarnis } from "../../Api/karyakarniApi";
 import { State, City } from "country-state-city";
 
 const MemberUpdateForm = () => {
@@ -81,7 +81,7 @@ const MemberUpdateForm = () => {
 
 
   const fetchKaryakarni = async () => {
-    const karyakarnis = await getKaryakarnis();
+    const karyakarnis = await getAllKaryakarnis();
     setKaryakarni(karyakarnis.karyakarni);
   };
 

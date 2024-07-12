@@ -106,7 +106,6 @@ const FamilyCreateForm = () => {
     if (familyHead.bloodGroup === "") missingFields.push("Blood Group");
     if (familyHead.occupation === "") missingFields.push("Occupation");
     if (familyHead.education === "") missingFields.push("Education");
-    if (familyHead.landmark === "") missingFields.push("Landmark");
     if (familyHead.state === "") missingFields.push("State");
     if (familyHead.city === "") missingFields.push("City");
 

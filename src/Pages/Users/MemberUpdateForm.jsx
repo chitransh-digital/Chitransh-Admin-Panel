@@ -116,7 +116,6 @@ const MemberUpdateForm = () => {
     if (familyMember.bloodGroup === "") missingFields.push("Blood Group");
     if (familyMember.occupation === "") missingFields.push("Occupation");
     if (familyMember.education === "") missingFields.push("Education");
-    if (familyMember.landmark === "") missingFields.push("Landmark");
     if (familyMember.state === "") missingFields.push("State");
     if (familyMember.city === "") missingFields.push("City");
     if (familyMember.karyakarni === "") missingFields.push("Karyakarni");

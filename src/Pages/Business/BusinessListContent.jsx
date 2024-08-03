@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { deleteBusiness } from "../../Api/businessApi";
 import { Link, useNavigate } from "react-router-dom";
-// import { Carousel } from "flowbite-react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
@@ -51,7 +50,7 @@ const BusinessListContent = ({ item }) => {
                     <p className="text-xl mb-2">State: {state}</p>
                 </div>
                 <div className="w-[24rem]">
-                    <Carousel showThumbs={false}width={'24rem'}>
+                    <Carousel showThumbs={false} width={'24rem'}>
                         {
                             images && images.map((image, index) => (
                                 <div className="w-[24rem]">

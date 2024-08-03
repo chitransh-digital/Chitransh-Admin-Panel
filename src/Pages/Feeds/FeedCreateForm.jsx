@@ -12,7 +12,7 @@ const FeedCreateForm = () => {
     body: "",
     images: [],
   });
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
 
   const normalButton =
     "border-black hover:border-blue-600 border-2 hover:bg-blue-600 rounded-md text-black hover:text-white";
@@ -40,9 +40,13 @@ const FeedCreateForm = () => {
     }
     else if (window.confirm("Are you sure you want to create this feed?")) {
       setIsLoading((prev) => true);
-      if (image !== null) {
-        const imageUrl = await uploadImage(image);
-        const feedWithImage = { ...feed, images: [imageUrl] };
+      if (image.length) {
+        const imageUrls = [];
+        for (let i = 0; i < image.length; i++) {
+          const imageUrl = await uploadImage(image[i]);
+          imageUrls.push(imageUrl);
+        }
+        const feedWithImage = { ...feed, images: [...imageUrls] };
         await createFeed(feedWithImage);
       } else {
         await createFeed(feed);
@@ -52,7 +56,7 @@ const FeedCreateForm = () => {
   };
 
   const handleImageUpload = (e) => {
-    setImage((prev) => e.target.files[0]);
+    setImage(e.target.files);
   };
 
   return (
@@ -86,7 +90,7 @@ const FeedCreateForm = () => {
         ></textarea>
 
         <p className="text-xl mb-2 mt-5">Select Image</p>
-        <input onChange={handleImageUpload} type="file"></input>
+        <input onChange={handleImageUpload} type="file" multiple></input>
 
         <button
           onClick={isLoading ? () => {} : createClickHandler}

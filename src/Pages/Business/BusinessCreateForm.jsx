@@ -23,7 +23,7 @@ const BusinessCreateForm = () => {
         coupon: "",
     });
 
-    const [image, setImage] = React.useState(null);
+    const [image, setImage] = React.useState([]);
     const [attachment, setAttachment] = React.useState(null);
     const [states, setStates] = React.useState([]);
     const [cities, setCities] = React.useState([]);
@@ -80,14 +80,22 @@ const BusinessCreateForm = () => {
         }
         else if(window.confirm("Are you sure you want to create this business?")) {
             setIsLoading((prev) => true);
-            if(image!==null && attachment!==null) {
-                const imageUrl = await uploadImage(image);
+            if(image.length && attachment!==null) {
+                let imageUrls = [];
+                for (let i = 0; i < image.length; i++) {
+                    const imageUrl = await uploadImage(image[i]);
+                    imageUrls.push(imageUrl);
+                }
                 const attachmentUrl = await uploadImage(attachment);
-                const businessWithImage = {...businesses, images: [imageUrl], attachments: [attachmentUrl]};
+                const businessWithImage = {...businesses, images: [...imageUrls], attachments: [attachmentUrl]};
                 await registerBusiness(businessWithImage);
-            } else if(image!==null) {
-                const imageUrl = await uploadImage(image);
-                const businessWithImage = {...businesses, images: [imageUrl]};
+            } else if(image.length) {
+                let imageUrls = [];
+                for (let i = 0; i < image.length; i++) {
+                    const imageUrl = await uploadImage(image[i]);
+                    imageUrls.push(imageUrl);
+                }
+                const businessWithImage = {...businesses, images: [...imageUrls]};
                 await registerBusiness(businessWithImage);
             }
             else if(attachment!==null) {
@@ -104,7 +112,7 @@ const BusinessCreateForm = () => {
     }
 
     const handleImageUpload = (e) => {
-        setImage((prev) => e.target.files[0]);
+        setImage(e.target.files);
       };
 
     const handleAttachmentUpload = (e) => {
@@ -190,6 +198,7 @@ const BusinessCreateForm = () => {
                 <p className="text-xl mb-2 mt-5">Image</p>
                 <input 
                     type="file"
+                    multiple
                     onChange={handleImageUpload}
                 ></input>
                 <p className="text-xl mb-2 mt-5">Attachment</p>

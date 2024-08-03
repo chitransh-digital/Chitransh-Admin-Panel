@@ -3,6 +3,8 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { removeFeed } from "../../Api/feedsApi";
 import { Link, useNavigate } from "react-router-dom";
 import { sendImageNotification } from "../../Api/notificationApi";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
 const FeedView = ({ setFeedVariant, displayFeed }) => {
   const navigate = useNavigate();
@@ -55,14 +57,16 @@ const FeedView = ({ setFeedVariant, displayFeed }) => {
       </p>
       <p className="text-3xl pl-5">{title}</p>
       <p className="pl-5">by {author}</p>
-      <div className="m-5 flex flex-wrap">
-        {images && images.map((image) => {
-          return (
-            <div className="w-64 h-64 overflow-hidden rounded-xl mr-6">
-              <img src={image} alt="" className="object-contain w-full h-full" />
+      <div className="w-[24rem]">
+      <Carousel showThumbs={false} width={'24rem'}>
+        {
+          images && images.map((image, index) => (
+            <div className="w-[24rem]">
+                <img key={index} src={image} alt="" className="object-contain max-w-[24rem] h-42" />
             </div>
-          );
-        })}
+          ))
+        }
+      </Carousel>
       </div>
       <p className="pr-20 pl-5 my-5">{body}</p>
       <p className="pl-5">{location}</p>

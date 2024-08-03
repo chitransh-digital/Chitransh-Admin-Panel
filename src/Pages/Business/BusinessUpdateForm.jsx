@@ -38,7 +38,7 @@ const BusinessUpdateForm = () => {
     const [cities, setCities] = React.useState([]);
     const [stateName, setStateName] = React.useState("");
     const [stateCode, setStateCode] = React.useState("");
-    const [img,setImage] = useState(null);
+    const [img,setImage] = useState([]);
     const [attach,setAttachment] = useState(null);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -101,14 +101,22 @@ const BusinessUpdateForm = () => {
         }
         else if(window.confirm("Are you sure you want to edit this business?")) {
             setIsLoading(true);
-            if(img!==null && attach!==null) {
-                const imageUrl = await uploadImage(img);
+            if(img.length && attach!==null) {
+                let imageUrls = [];
+                for (let i = 0; i < img.length; i++) {
+                    const imageUrl = await uploadImage(img[i]);
+                    imageUrls.push(imageUrl);
+                }
                 const attachmentUrl = await uploadImage(attach);
-                const businessWithImage = {...business, images: [imageUrl], attachments: [attachmentUrl]};
+                const businessWithImage = {...business, images: [...imageUrls], attachments: [attachmentUrl]};
                 await updateBusiness(id, businessWithImage);
-            } else if(img!==null) {
-                const imageUrl = await uploadImage(img);
-                const businessWithImage = {...business, images: [imageUrl]};
+            } else if(img.length) {
+                let imageUrls = [];
+                for (let i = 0; i < img.length; i++) {
+                    const imageUrl = await uploadImage(img[i]);
+                    imageUrls.push(imageUrl);
+                }
+                const businessWithImage = {...business, images: [...imageUrls]};
                 await updateBusiness(id, businessWithImage);
             }
             else if(attach!==null) {
@@ -124,7 +132,7 @@ const BusinessUpdateForm = () => {
     }
 
     const handleImageUpload = (e) => {
-        setImage((prev) => e.target.files[0]);
+        setImage(e.target.files);
       };
 
     const handleAttachmentUpload = (e) => {
@@ -221,6 +229,7 @@ const BusinessUpdateForm = () => {
                 <input
                     type="file"
                     onChange={handleImageUpload}
+                    multiple
                     className="border-black border-[1px] w-[40rem]"
                 ></input>
 

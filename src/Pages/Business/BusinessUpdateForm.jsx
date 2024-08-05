@@ -37,6 +37,7 @@ const BusinessUpdateForm = () => {
     const [states, setStates] = React.useState([]);
     const [cities, setCities] = React.useState([]);
     const [stateName, setStateName] = React.useState("");
+    const [stateName, setStateName] = React.useState("");
     const [stateCode, setStateCode] = React.useState("");
     const [img,setImage] = useState([]);
     const [attach,setAttachment] = useState(null);
@@ -54,7 +55,10 @@ const BusinessUpdateForm = () => {
             const selectedState = JSON.parse(value);
             setStateCode(selectedState.isoCode);
             setStateName(value);
+            setStateName(value);
             setBusiness((prev) => ({ ...prev, [input]: selectedState.name }));
+          } else if (input === "state" && value === "") {
+            setStateName(value);
           } else if (input === "state" && value === "") {
             setStateName(value);
           } else {
@@ -65,6 +69,13 @@ const BusinessUpdateForm = () => {
     useEffect(() => {
         const indianStates = State.getStatesOfCountry("IN");
         setStates(indianStates);
+        let code = indianStates.find((state) => state.name === business.state);
+        if (code !== undefined) {
+            setStateCode(code.isoCode);
+            code = code.isoCode;
+        }
+        setStateName(JSON.stringify({ isoCode: code, name: state }));
+        // eslint-disable-next-line
         let code = indianStates.find((state) => state.name === business.state);
         if (code !== undefined) {
             setStateCode(code.isoCode);
@@ -144,6 +155,7 @@ const BusinessUpdateForm = () => {
             <div className="w-full mt-10">
                 <p className="font-bold text-[1.8rem] visby ml-5 sm:mb-0 mb-5">
                     Update Business
+                    Update Business
                 </p>
             </div>
             <div className="mt-10 ml-5">
@@ -178,6 +190,7 @@ const BusinessUpdateForm = () => {
                 <p className="text-xl mb-2 mt-5">State</p>
                 <select
                 value={stateName}
+                value={stateName}
                 onChange={handleChange("state")}
                 className="border-black border-[1px] p-2 w-[40rem]"
                 >
@@ -191,6 +204,7 @@ const BusinessUpdateForm = () => {
 
                 <p className="text-xl mb-2 mt-5">City</p>
                 <select
+                value={business.city}
                 value={business.city}
                 onChange={handleChange("city")}
                 className="border-black border-[1px] p-2 w-[40rem]"

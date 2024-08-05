@@ -117,6 +117,9 @@ const FamilyCreateForm = () => {
     if (missingFields && missingFields.length > 0) {
       alert(`Please fill the following fields: ${missingFields.join(", ")}`);
     }
+    else if (familyHead.contact.length !== 10) {
+      alert("Contact number must be of 10 digits");
+    }
     else if (window.confirm("Are you sure you want to create this family?")) {
       setIsLoading(true);
       const familyID = createFamilyId(familyHead.name, familyHead.contact);

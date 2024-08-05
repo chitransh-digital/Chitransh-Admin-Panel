@@ -42,6 +42,9 @@ const KaryakarniMemberForm = () => {
     if (missingFields && missingFields.length > 0) {
       alert(`You must enter all the required fields: ${missingFields.join(", ")}`);
     }
+    else if(member.contact && member.contact.length !== 10) {
+        alert("Contact number must be of 10 digits");
+    }
     else if (window.confirm("Are you sure you want to add this member?")) {
       setIsLoading(true);
       let profilePicUrl = "";

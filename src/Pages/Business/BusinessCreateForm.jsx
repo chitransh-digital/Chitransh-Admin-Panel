@@ -78,6 +78,9 @@ const BusinessCreateForm = () => {
         if(missingFields && missingFields.length > 0) {
             alert(`You must enter all the required fields : ${missingFields.join(", ")}`);
         }
+        else if(businesses.contact.length !== 10) {
+            alert("Contact number must be of 10 digits");
+        }
         else if(window.confirm("Are you sure you want to create this business?")) {
             setIsLoading((prev) => true);
             if(image.length && attachment!==null) {

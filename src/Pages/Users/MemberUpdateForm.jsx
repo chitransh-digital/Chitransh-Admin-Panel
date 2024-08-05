@@ -129,6 +129,9 @@ const MemberUpdateForm = () => {
     if (missingFields && missingFields.length > 0) {
       alert(`Please fill the following fields: ${missingFields.join(", ")}`);
     }
+    else if(member.contact && member.contact.length !== 10) {
+        alert("Contact number must be of 10 digits");
+    }
     else if (window.confirm("Are you sure you want to edit this member?")) {
       setIsLoading((prev) => true);
       if (image !== null) {

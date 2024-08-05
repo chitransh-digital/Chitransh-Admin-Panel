@@ -55,6 +55,9 @@ const JobsUpdateForm = () => {
       alert(`You must enter all the required fields: ${missingFields.join(", ")}`);
       return;
     }
+    else if(job.contact.length !== 10) {
+        alert("Contact number must be of 10 digits");
+    }
     else if (window.confirm("Are you sure you want to edit this job?")) {
       setIsLoading((prev) => true);
       await updateJob(id, job);

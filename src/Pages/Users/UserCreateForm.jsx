@@ -115,6 +115,9 @@ const UserCreateForm = () => {
     if (missingFields && missingFields.length > 0) {
       alert(`Please fill the following fields: ${missingFields.join(", ")}`);
     }
+    else if(familyMember.contact && familyMember.contact.length !== 10) {
+        alert("Contact number must be of 10 digits");
+    }
     else if (window.confirm("Are you sure you want to add this member?")) {
       setIsLoading(true);
       const memberData = {

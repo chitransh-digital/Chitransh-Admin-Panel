@@ -99,6 +99,9 @@ const BusinessUpdateForm = () => {
         if(missingFields && missingFields.length > 0) {
             alert(`You must enter all the required fields : ${missingFields.join(", ")}`);
         }
+        else if(business.contact.length !== 10) {
+            alert("Contact number must be of 10 digits");
+        }
         else if(window.confirm("Are you sure you want to edit this business?")) {
             setIsLoading(true);
             if(img.length && attach!==null) {
